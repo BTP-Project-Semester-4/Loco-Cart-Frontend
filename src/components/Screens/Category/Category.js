@@ -23,14 +23,14 @@ function MediaCard(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} >
       <CardActionArea>
         <CardMedia
           className={classes.media}
           image={props.image}
           title={props.title}
         />
-        <CardContent>
+        <CardContent style={{background: " #e7dbd3"}}>
           <Typography gutterBottom variant="h5" component="h2">
             {props.title}
           </Typography>
@@ -50,16 +50,16 @@ function MediaCard(props) {
 
 export function Categories(){
     return(
-        <div className="All">
+        <div className="All" >
         <div style={{height:"60px", textAlign: "center"}}><h1>Various Categories</h1></div>
 
         <div className="displaycategory">
-            <div className="subcategory"> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory"> <MediaCard {... homeObjtwo}/> </div>
-            <div className="subcategory"> <MediaCard {... homeObjthree}/> </div>
-            <div className="subcategory"> <MediaCard {... homeObjfour}/> </div>
-            <div className="subcategory"> <MediaCard {... homeObjfive}/> </div>
-            <div className="subcategory"> <MediaCard {... homeObjsix}/> </div>
+            <div className="subcategory" ><a href="/Category/Stationery"> <MediaCard {... homeObjone}/> </a> </div> 
+            <div className="subcategory"><a href="/Category/Grocery"> <MediaCard {... homeObjtwo}/> </a> </div>
+            <div className="subcategory"><a href="/Category/Electronics"> <MediaCard {... homeObjthree}/> </a> </div>
+            <div className="subcategory"><a href="/Category/Footwear"> <MediaCard {... homeObjfour}/> </a> </div>
+            <div className="subcategory"><a href="/Category/Sports"> <MediaCard {... homeObjfive}/> </a> </div>
+            <div className="subcategory"><a href="/Category/Books"> <MediaCard {... homeObjsix}/> </a> </div>
         </div>
         </div>
     )
