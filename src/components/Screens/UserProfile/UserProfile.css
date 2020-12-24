@@ -1,0 +1,90 @@
+.page-heading{
+    font-size: 2rem;
+    text-align: left;
+}
+
+.intro{
+    background-color: white;
+    border-radius: 25px;
+    margin-top: 50px;
+}
+
+.userImage{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.userDetail{
+    text-align: left;
+    border-radius: 50px;
+}
+
+.name{
+    color: #17252A;
+    font-weight: 800;
+    font-size: 3.5rem;
+}
+
+.location{
+    color: #1f5857;
+    font-size: 1.5rem;
+}
+
+.interest{
+    color: #1f5857;
+    font-size: 1.5rem; 
+}
+
+.section-heading{
+    margin-top: 10px;
+    margin-left: 15px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+
+.extra-data{
+    text-align: left;
+    overflow: hidden;
+}
+
+.extra-info{
+    vertical-align:top;
+}
+
+.allExtra{
+    background-color: white;
+    border-radius: 25px;
+    padding: 15px;
+}
+
+.review{
+    background-color: white;
+    border-radius: 25px;
+    margin-top: 10px;
+}
+
+.seller-img{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    margin-top: 15px;
+}
+
+.seller-name{
+    color: #1f5857;
+    font-size: 1.5rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.seller-rating{
+    color: #1f5857;
+    font-size: 1.5rem;
+    display: inline;
+}
