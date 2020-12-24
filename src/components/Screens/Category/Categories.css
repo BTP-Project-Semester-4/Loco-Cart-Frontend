@@ -1,0 +1,10 @@
+.All {
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+}
+
+.subcategory {
+   float: left;
+   margin: 40px;
+}
