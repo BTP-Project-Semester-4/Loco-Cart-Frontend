@@ -1,0 +1,47 @@
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+    background-size: cover;
+}
+
+.navli {
+    float: left;
+}
+.navbar {
+    display: block;
+    color: white;
+    width: fit-content;
+    text-align: center;
+    font-family: Comic Sans MS;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar:hover{
+    background: none;
+    color: #0082e6;
+}
+.active:hover{
+    background-color:#0082e6;
+}
+.active {
+    background-color:#0082e6;
+}
+ .result {
+    color: yellow;
+    font-family: Comic Sans MS;
+    font-size: 35px;
+    line-height: 45px;
+    padding: 0 100px;
+    font-weight: bold;
+}
+
+.navdiv{
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-left: 0px;
+}
