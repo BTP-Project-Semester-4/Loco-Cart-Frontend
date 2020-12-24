@@ -1,11 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Categories } from './components/Screens/Category/Category';
+ 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello world</h1>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/all_categories" exact component={Categories}/>
+      </Switch>
+    </Router>
   );
 }
 
