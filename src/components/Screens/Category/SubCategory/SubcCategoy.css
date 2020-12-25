@@ -1,19 +1,19 @@
 .All {
-    margin: auto;
-    padding: 10px;
-    background: rgb(223, 228, 228);
+  margin: auto;
+  padding: 10px;
+  /* background: rgb(223, 228, 228); */
 }
 
-a, u {
-    text-decoration: none;
+a,
+u {
+  text-decoration: none;
 }
 
-
-body {
+/* body {
     background-color: rgb(223, 228, 228);
-}
+} */
 
 .subcategory {
-   float: left;
-   margin: 40px;
+  float: left;
+  margin: 40px;
 }
