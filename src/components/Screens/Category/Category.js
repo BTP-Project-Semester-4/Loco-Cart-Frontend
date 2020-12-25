@@ -23,24 +23,24 @@ function MediaCard(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root} >
+    <Card className={classes.root} style={{borderRadius: "50px"}}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
           image={props.image}
           title={props.title}
         />
-        <CardContent style={{background: " #e7dbd3"}}>
+        <CardContent style={{background: "#212e74",textAlign: "center",color: "#fff"}}>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.title}
+           <b> {props.title}</b>
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="#fff" component="p">
             {props.description}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
+      <CardActions style={{position: "relative", margin: "auto",textAlign: "center"}}>
+        <Button size="small" color="primary" style={{position: "absolute", right: "35%"}}>
             EXPAND ALL
         </Button>
       </CardActions>
@@ -51,7 +51,7 @@ function MediaCard(props) {
 export function Categories(){
     return(
         <div className="All" >
-        <div style={{height:"60px", textAlign: "center"}}><h1>Various Categories</h1></div>
+        <div style={{height:"60px", textAlign: "center",marginBottom: "20px", color: "#000"}}><h1><b>Various Categories</b></h1></div>
 
         <div className="displaycategory">
             <div className="subcategory" ><a href="/Category/Stationery"> <MediaCard {... homeObjone}/> </a> </div> 
