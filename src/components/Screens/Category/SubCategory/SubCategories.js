@@ -38,25 +38,26 @@ function MediaCard(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{borderRadius: "50px"}}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
           image={props.image}
           title={props.title}
         />
-        <CardContent style={{background: " #e7dbd3"}}>
+        <CardContent style={{background: "#212e74",textAlign: "center",color: "#fff"}}>
           <Typography gutterBottom variant="h5" component="h2" style = {{textAlign: "center"}}>
-            {props.title}
+            <b>{props.title}</b>
             { /*Should not be grater than 15 characters */}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="#fff" component="p">
             {/* {props.description} */}
+            { "₹ 1000/-"}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
+      <CardActions >
+        <Button size="small" color="primary" >
             -
         </Button>
         {"Item"}
@@ -89,14 +90,16 @@ function ModalMediaCard(props) {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary" >
+        <CardActions style={{display: "flex"}}>
+        
+          <Button size="small" color="primary" style={{left: "20%"}}>
               <b>-</b>
           </Button> 
-          {"Item"}
-          <Button size="small" color="primary" style={{float: "right"}}>
+          <Button style={{left: "10%"}}>{"Item"}</Button>
+          <Button size="small" color="primary" style={{}}>
               <b>+</b>
           </Button>
+        
         </CardActions>
       </Card>
     );
@@ -118,22 +121,28 @@ export function SubCategories(props){
     if(category === 'Stationery' || category === 'Grocery' || category === 'Electronics'
     || category === 'Footwear' || category === 'Sports' || category === 'Books')
     return(<>
-        <div className="All" style={{ width: "90%" }}>
-        <div style={{height:"60px", textAlign: "center"}}><h1>Various {props.match.params.id}</h1></div>
+        <div className="All" style={{ width: "95%" }}>
+        <div style={{height:"60px", textAlign: "center",marginBottom: "30px"}}><h1><b>Various {props.match.params.id}</b></h1></div>
 
         <div className="displaycategory">
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
-            <div className="subcategory" onClick={openModal}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+            <div className="subcategory" onClick={openModal} style={{margin: "8px"}}> <MediaCard {... homeObjone}/> </div> 
+           
+            
 
         </div>
         </div>
