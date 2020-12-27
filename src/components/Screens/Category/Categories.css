@@ -1,10 +1,23 @@
 .All {
-    margin: auto;
-    width: 80%;
-    padding: 10px;
+  margin: auto;
+  width: 80%;
+  padding: 10px;
+  /* background: rgb(223, 228, 228); */
 }
 
+a,
+u {
+  text-decoration: none;
+}
+/* 
+body {
+   background-color: rgb(223, 228, 228); 
+} */
+
 .subcategory {
-   float: left;
-   margin: 40px;
+  float: left;
+  margin-right: 40px;
+  margin-left: 40px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }

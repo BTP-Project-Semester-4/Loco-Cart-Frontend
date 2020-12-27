@@ -1,0 +1,17 @@
+.All {
+  margin: auto;
+  padding: 10px;
+  /* background: rgb(223, 228, 228); */
+}
+
+a,
+u {
+  text-decoration: none;
+}
+
+/* body {
+    background-color: rgb(223, 228, 228);
+} */
+
+.subcategory {
+}
