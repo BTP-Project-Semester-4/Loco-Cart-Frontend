@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Link, Route } from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import SellerSigninScreen from "./components/Screens/SellerSignIn/SellerSigninScreen";
 import SellerRegisterScreen from "./components/Screens/SellerSignUp/SellerRegisterScreen";
 import CustomerSigninScreen from "./components/Screens/SignIn/CustomerSigninScreen";
