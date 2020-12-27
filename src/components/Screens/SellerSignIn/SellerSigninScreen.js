@@ -13,8 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import GoogleLogin from "react-google-login";
-import Google from "../images/google.png";
-import styles from "./GoogleButton.module.css";
+import Google from "../../../images/google.png";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: "url(/images/signin.PNG)",
+    backgroundImage: "url(/images/sellersignin.jpg)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -61,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerRegisterScreen() {
+export default function SellerSigninScreen() {
   const classes = useStyles();
   const responseGoogle = (response) => {
     console.log(response);
@@ -76,35 +75,9 @@ export default function CustomerRegisterScreen() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign Up
+            Seller Sign in
           </Typography>
           <form className={classes.form} noValidate>
-            <Grid container>
-              <Grid item xs>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  name="firstName"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoFocus
-                />
-              </Grid>
-            </Grid>
             <TextField
               variant="outlined"
               margin="normal"
@@ -127,16 +100,6 @@ export default function CustomerRegisterScreen() {
               id="password"
               autoComplete="current-password"
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="confirmpassword"
-              label="Confirm Password"
-              type="password"
-              id="confirmpassword"
-            />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -148,7 +111,7 @@ export default function CustomerRegisterScreen() {
               color="primary"
               className={classes.submit}
             >
-              SIGN UP
+              Sign In
             </Button>
             <GoogleLogin
               clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
@@ -166,13 +129,14 @@ export default function CustomerRegisterScreen() {
                       marginBottom: "2px",
                     }}
                   />
-                  SIGN UP WITH GOOGLE
+                  SIGN IN WITH GOOGLE
                 </Button>
               )}
               buttonText="Login"
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
             />
+            {/* <div id="my-signin2"></div> */}
             <Box mt={3} />
             <Grid container>
               <Grid item xs>
@@ -181,8 +145,8 @@ export default function CustomerRegisterScreen() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signin" variant="body2">
-                  {"Already have an account? Sign In"}
+                <Link href="/sellersignup" variant="body2">
+                  {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
