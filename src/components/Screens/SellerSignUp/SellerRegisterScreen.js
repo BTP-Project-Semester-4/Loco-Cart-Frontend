@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import GoogleLogin from "react-google-login";
-import Google from "../images/google.png";
+import Google from "../../../images/google.png";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SellerSigninScreen() {
+export default function SellerRegisterScreen() {
   const classes = useStyles();
   const responseGoogle = (response) => {
     console.log(response);
@@ -75,9 +75,35 @@ export default function SellerSigninScreen() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Seller Sign in
+            Seller Sign Up
           </Typography>
           <form className={classes.form} noValidate>
+            <Grid container>
+              <Grid item xs>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  name="firstName"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoFocus
+                />
+              </Grid>
+            </Grid>
             <TextField
               variant="outlined"
               margin="normal"
@@ -100,6 +126,16 @@ export default function SellerSigninScreen() {
               id="password"
               autoComplete="current-password"
             />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="confirmpassword"
+              label="Confirm Password"
+              type="password"
+              id="confirmpassword"
+            />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -111,7 +147,7 @@ export default function SellerSigninScreen() {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              SiGN UP
             </Button>
             <GoogleLogin
               clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
@@ -129,14 +165,13 @@ export default function SellerSigninScreen() {
                       marginBottom: "2px",
                     }}
                   />
-                  SIGN IN WITH GOOGLE
+                  SIGN UP WITH GOOGLE
                 </Button>
               )}
               buttonText="Login"
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
             />
-            {/* <div id="my-signin2"></div> */}
             <Box mt={3} />
             <Grid container>
               <Grid item xs>
@@ -145,8 +180,8 @@ export default function SellerSigninScreen() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/sellersignup" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link href="/sellersignin" variant="body2">
+                  {"Already have an account? Sign In"}
                 </Link>
               </Grid>
             </Grid>
