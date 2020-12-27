@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import GoogleLogin from "react-google-login";
-import Google from "../images/google.png";
+import Google from "../../../images/google.png";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
