@@ -8,21 +8,12 @@ import { Categories } from "./components/Screens/Category/Category";
 import { SubCategories } from "./components/Screens/Category/SubCategory/SubCategories";
 import SellerProfile from "./components/Screens/SellerProfile/SellerProfile";
 import UserProfile from "./components/Screens/UserProfile/UserProfile";
+import NotFound from "./components/NotFound/NotFound";
 function App() {
   return (
     <BrowserRouter>
       <div className="grid-container">
-        {/* <header className="row">
-          <div>
-            <Link className="brand" to="/">
-              LocoShop
-            </Link>
-          </div>
-          <div>
-            <Link to="/sellersignin">Seller</Link>
-          </div>
-        </header> */}
-        <main>
+        <Switch>
           <Route path="/" component={SellerSigninScreen} exact />
           <Route path="/sellersignin" component={SellerSigninScreen} />
           <Route path="/sellersignup" component={SellerRegisterScreen} />
@@ -32,8 +23,8 @@ function App() {
           <Route path="/category/:id" component={SubCategories} />
           <Route path="/sellerprofile" component={SellerProfile} />
           <Route path="/userprofile" component={UserProfile} />
-        </main>
-        {/* <footer className="row center">All right reserved</footer> */}
+          <Route component={NotFound} />
+        </Switch>
       </div>
     </BrowserRouter>
   );
