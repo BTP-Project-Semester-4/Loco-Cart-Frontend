@@ -1,10 +1,9 @@
 import "./App.css";
-import SellerSignin from "./screens/SellerSigninScreen";
-import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
-import SellerSigninScreen from "./screens/SellerSigninScreen";
-import SellerRegisterScreen from "./screens/SellerRegisterScreen";
-import CustomerSigninScreen from "./screens/CustomerSigninScreen";
-import CustomerRegisterScreen from "./screens/CustomerRegisterScreen";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import SellerSigninScreen from "./components/Screens/SellerSignIn/SellerSigninScreen";
+import SellerRegisterScreen from "./components/Screens/SellerSignUp/SellerRegisterScreen";
+import CustomerSigninScreen from "./components/Screens/SignIn/CustomerSigninScreen";
+import CustomerRegisterScreen from "./components/Screens/SignUp/CustomerRegisterScreen";
 import { Categories } from "./components/Screens/Category/Category";
 import { SubCategories } from "./components/Screens/Category/SubCategory/SubCategories";
 import SellerProfile from "./components/Screens/SellerProfile/SellerProfile";
