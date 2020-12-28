@@ -13,8 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import GoogleLogin from "react-google-login";
-import Google from "../images/google.png";
-import styles from "./GoogleButton.module.css";
+import Google from "../../../images/google.png";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: "url(/images/sellersignin.jpg)",
+    backgroundImage: "url(/images/signin.PNG)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -61,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SellerRegisterScreen() {
+export default function CustomerRegisterScreen() {
   const classes = useStyles();
   const responseGoogle = (response) => {
     console.log(response);
@@ -76,7 +75,7 @@ export default function SellerRegisterScreen() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Seller Sign Up
+            Sign Up
           </Typography>
           <form className={classes.form} noValidate>
             <Grid container>
@@ -148,7 +147,7 @@ export default function SellerRegisterScreen() {
               color="primary"
               className={classes.submit}
             >
-              SiGN UP
+              SIGN UP
             </Button>
             <GoogleLogin
               clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
@@ -181,7 +180,7 @@ export default function SellerRegisterScreen() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/sellersignin" variant="body2">
+                <Link href="/signin" variant="body2">
                   {"Already have an account? Sign In"}
                 </Link>
               </Grid>

@@ -73,9 +73,12 @@
 
 .product-img{
     height: 200px;
-    width: 80%;
-    border-radius: 25px;
-    margin-top: 15px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: table-cell;
+    border-radius: 25px 25px 0px 0px;
+    margin-top: 10px;
 }
 
 .product-name{
