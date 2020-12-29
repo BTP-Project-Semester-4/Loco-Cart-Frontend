@@ -12,6 +12,7 @@ import CustomerOTP from "./components/Screens/CustomerOTP/CustomerOTP";
 import SellerOTP from "./components/Screens/SellerOTP/SellerOTP";
 import NotFound from "./components/NotFound/NotFound";
 import otherSellerDetails from "./components/Screens/SellerSignUp/otherSellerDetails/otherSellerDetails";
+import otherDetails from "./components/Screens/SignUp/otherDetails/otherDetails";
 function App() {
   return (
     <BrowserRouter>
@@ -19,13 +20,14 @@ function App() {
         <Switch>
           <Route path="/" component={SellerSigninScreen} exact />
           <Route path="/sellersignin" component={SellerSigninScreen} />
-          <Route path="/sellersignup" component={SellerRegisterScreen} />
+          <Route path="/sellersignup" component={SellerRegisterScreen} exact />
           <Route path="/signin" component={CustomerSigninScreen} />
           <Route path="/signup" component={CustomerRegisterScreen} exact />
           <Route
-            path="/signup/othersellerdetails"
+            path="/sellersignup/othersellerdetails"
             component={otherSellerDetails}
           />
+          <Route path="/signup/otherdetails" component={otherDetails} />
           <Route path="/category" exact component={Categories} />
           <Route path="/category/:id" component={SubCategories} />
           <Route path="/sellerprofile" component={SellerProfile} />
