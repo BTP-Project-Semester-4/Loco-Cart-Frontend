@@ -1,4 +1,5 @@
-import React from "react";
+import {React, useState} from "react";
+import {useHistory } from 'react-router-dom';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -62,9 +63,42 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CustomerSigninScreen() {
   const classes = useStyles();
-  const responseGoogle = (response) => {
-    console.log(response);
-  };
+  // const responseGoogle = (response) => {
+  //   console.log(response);
+  // };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+  const PostData = ()=>{
+    fetch('http://localhost:3001/api/customer/signin',{
+      method:"post",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        email:email,
+        password:password
+      })
+    }).then(res=>res.json())
+    .then(result=>{
+      console.log(result)
+      if(result.message==="Success"){
+        const user = {
+          _id: result._id,
+          name: result.name,
+          email: result.email,
+          isAuthenticated: result.isAuthenticated
+        }
+        localStorage.setItem('user',JSON.stringify(user));
+        if(user.isAuthenticated){
+          history.push('/category');
+        }else{
+          history.push("/customerotp");
+        }
+      }
+    })
+  }
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -88,6 +122,7 @@ export default function CustomerSigninScreen() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange = {(e)=>setEmail(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -99,17 +134,18 @@ export default function CustomerSigninScreen() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange = {(e)=>setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={()=>PostData()}
             >
               Sign In
             </Button>
@@ -133,8 +169,8 @@ export default function CustomerSigninScreen() {
                 </Button>
               )}
               buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
+              // onSuccess={responseGoogle}
+              // onFailure={responseGoogle}
             />
             {/* <div id="my-signin2"></div> */}
             <Box mt={3} />
