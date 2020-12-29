@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Link, Route } from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import SellerSigninScreen from "./components/Screens/SellerSignIn/SellerSigninScreen";
 import SellerRegisterScreen from "./components/Screens/SellerSignUp/SellerRegisterScreen";
 import CustomerSigninScreen from "./components/Screens/SignIn/CustomerSigninScreen";
@@ -8,6 +8,8 @@ import { Categories } from "./components/Screens/Category/Category";
 import { SubCategories } from "./components/Screens/Category/SubCategory/SubCategories";
 import SellerProfile from "./components/Screens/SellerProfile/SellerProfile";
 import UserProfile from "./components/Screens/UserProfile/UserProfile";
+import CustomerOTP from './components/Screens/CustomerOTP/CustomerOTP';
+import SellerOTP from './components/Screens/SellerOTP/SellerOTP';
 import NotFound from "./components/NotFound/NotFound";
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="/category/:id" component={SubCategories} />
           <Route path="/sellerprofile" component={SellerProfile} />
           <Route path="/userprofile" component={UserProfile} />
+          <Route path='/customerotp' component={CustomerOTP} />
+          <Route path="/sellerotp" component={SellerOTP} />
           <Route component={NotFound} />
         </Switch>
       </div>
