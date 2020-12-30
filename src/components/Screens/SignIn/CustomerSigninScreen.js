@@ -3,7 +3,7 @@ import {useHistory } from 'react-router-dom';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
+// import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
@@ -112,7 +112,7 @@ export default function CustomerSigninScreen() {
             Sign in
           </Typography>
           <form className={classes.form} noValidate>
-            <TextField
+            {/* <TextField
               variant="outlined"
               margin="normal"
               required
@@ -134,8 +134,37 @@ export default function CustomerSigninScreen() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange = {(e)=>setPassword(e.target.value)}
-            />
+            /> */}
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="email" 
+                type="email" 
+                class="validate" 
+                onChange={(e)=>{
+                  setEmail(e.target.value);
+                }}
+                />
+                <label for="email">Email</label>
+                <span
+                  class="helper-text"
+                  data-error="wrong"
+                  data-success="right"
+                >
+                  Helper text
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password"
+                type="password"
+                class="validate"
+                onChange={(e)=>{
+                  setPassword(e.target.value);
+                }}/>
+                <label for="password">Password</label>
+              </div>
+            </div>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -160,9 +189,10 @@ export default function CustomerSigninScreen() {
                   <img
                     src={Google}
                     style={{
-                      height: "30px",
-                      width: "30px",
+                      height: "20px",
+                      width: "20px",
                       marginBottom: "2px",
+                      marginRight: "2px",
                     }}
                   />
                   SIGN IN WITH GOOGLE
