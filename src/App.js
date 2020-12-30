@@ -11,7 +11,7 @@ import UserProfile from "./components/Screens/UserProfile/UserProfile";
 import CustomerOTP from "./components/Screens/CustomerOTP/CustomerOTP";
 import SellerOTP from "./components/Screens/SellerOTP/SellerOTP";
 import NotFound from "./components/NotFound/NotFound";
-import otherSellerDetails from "./components/Screens/SellerSignUp/otherSellerDetails/otherSellerDetails";
+import OtherSellerDetails from "./components/Screens/SellerSignUp/otherSellerDetails/otherSellerDetails";
 import otherDetails from "./components/Screens/SignUp/otherDetails/otherDetails";
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
           <Route path="/signup" component={CustomerRegisterScreen} exact />
           <Route
             path="/sellersignup/othersellerdetails"
-            component={otherSellerDetails}
+            component={OtherSellerDetails}
           />
           <Route path="/signup/otherdetails" component={otherDetails} />
           <Route path="/category" exact component={Categories} />
