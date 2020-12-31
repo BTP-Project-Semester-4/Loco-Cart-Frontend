@@ -2,9 +2,9 @@ import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+// import TextField from "@material-ui/core/TextField";
+// import FormControlLabel from "@material-ui/core/FormControlLabel";
+// import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center",
   },
   paper: {
-    margin: theme.spacing(8, 4),
+    margin: theme.spacing(1, 4),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(1, 0, 2),
   },
 }));
 
@@ -78,7 +78,7 @@ export default function CustomerRegisterScreen() {
             Sign Up
           </Typography>
           <form className={classes.form} noValidate>
-            <Grid container>
+            {/* <Grid container>
               <Grid item xs>
                 <TextField
                   variant="outlined"
@@ -135,11 +135,39 @@ export default function CustomerRegisterScreen() {
               label="Confirm Password"
               type="password"
               id="confirmpassword"
-            />
-            <FormControlLabel
+            /> */}
+            <div class="row">
+              <div class="input-field col s6">
+                <input id="first_name" type="text" class="validate" />
+                <label for="first_name">First Name</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="last_name" type="text" class="validate" />
+                <label for="last_name">Last Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="email" type="email" class="validate" />
+                <label for="email">Email</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password" type="password" class="validate" />
+                <label for="password">Password</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="confirmPassword" type="password" class="validate" />
+                <label for="password">Confirm Password</label>
+              </div>
+            </div>
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -156,13 +184,15 @@ export default function CustomerRegisterScreen() {
                   onClick={renderProps.onClick}
                   fullWidth
                   variant="contained"
+                  // style={{ color: "#ffffff" }}
                 >
                   <img
                     src={Google}
                     style={{
-                      height: "30px",
-                      width: "30px",
+                      height: "20px",
+                      width: "20px",
                       marginBottom: "2px",
+                      marginRight: "2px",
                     }}
                   />
                   SIGN UP WITH GOOGLE

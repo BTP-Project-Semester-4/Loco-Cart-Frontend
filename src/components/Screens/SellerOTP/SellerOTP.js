@@ -2,9 +2,7 @@ import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-// import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
@@ -12,8 +10,6 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import GoogleLogin from "react-google-login";
-import Google from "../../../images/google.png";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -60,11 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SellerSigninScreen() {
+export default function SellerOTP() {
   const classes = useStyles();
-  const responseGoogle = (response) => {
-    console.log(response);
-  };
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -75,53 +68,19 @@ export default function SellerSigninScreen() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Seller Sign in
+            Seller OTP
           </Typography>
           <form className={classes.form} noValidate>
-            {/* <TextField
+            <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="otp"
+              label="Enter the 6 digit OTP sent to your email id"
+              name="otp"
+              autoComplete="otp"
               autoFocus
-            /> */}
-            {/* <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            /> */}
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="email" type="email" class="validate" />
-                <label for="email">Email</label>
-                <span
-                  class="helper-text"
-                  data-error="wrong"
-                  data-success="right"
-                >
-                  Helper text
-                </span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="password" type="password" class="validate" />
-                <label for="password">Password</label>
-              </div>
-            </div>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
             />
             <Button
               type="submit"
@@ -130,38 +89,14 @@ export default function SellerSigninScreen() {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              Submit OTP
             </Button>
-            <GoogleLogin
-              clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-              render={(renderProps) => (
-                <Button
-                  onClick={renderProps.onClick}
-                  fullWidth
-                  variant="contained"
-                >
-                  <img
-                    src={Google}
-                    style={{
-                      height: "20px",
-                      width: "20px",
-                      marginBottom: "2px",
-                      marginRight: "2px",
-                    }}
-                  />
-                  SIGN IN WITH GOOGLE
-                </Button>
-              )}
-              buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-            />
             {/* <div id="my-signin2"></div> */}
             <Box mt={3} />
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  Resend OTP
                 </Link>
               </Grid>
               <Grid item>

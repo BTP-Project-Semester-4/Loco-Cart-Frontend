@@ -4,13 +4,23 @@ body {
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-image: linear-gradient(to bottom right, #538df6, #79a5f7, #c0d1f1); */
-  background-color: #c0d1f1;
+  background-image: linear-gradient(to bottom right, #c0d1f1, #dee9fd, #ffffff);
+  /* background-color: #c0d1f1; */
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
-
+@media only screen and (max-width: 500px) {
+  body {
+    background-image: linear-gradient(
+      to bottom right,
+      #538df6,
+      #79a5f7,
+      #c0d1f1
+    );
+    font-family: "Brush Script MT", cursive;
+  }
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
