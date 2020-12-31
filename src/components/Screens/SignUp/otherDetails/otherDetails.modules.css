@@ -1,0 +1,42 @@
+@media only screen and (max-width: 500px) {
+  .otherDetailsContainer {
+    max-width: 100% !important;
+    min-width: 90% !important;
+  }
+}
+.otherDetailsH3 {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  font-size: 2rem;
+}
+
+.otherDetailsDiv {
+  margin-bottom: 1px !important;
+}
+.otherDetailsContainer {
+  max-width: 50% !important;
+  min-width: 40% !important;
+  margin-bottom: 2rem !important;
+  margin-top: 2rem !important;
+  background-color: #ffffff;
+  border-radius: 1rem !important;
+  padding: 1rem !important;
+}
+
+.otherDetailsButton {
+  margin: 0;
+  padding-top: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: #0b1b83;
+  color: #ffffff;
+}
+.otherDetailsButton:hover {
+  background-color: #538df6;
+}
+.otherDetailsSubmit {
+  margin-top: 2rem;
+}
