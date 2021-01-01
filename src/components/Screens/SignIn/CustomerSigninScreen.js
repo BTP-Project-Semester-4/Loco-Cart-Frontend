@@ -1,5 +1,6 @@
 import {React, useState} from "react";
 import {useHistory } from 'react-router-dom';
+import {jwt} from 'jsonwebtoken';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -82,15 +83,9 @@ export default function CustomerSigninScreen() {
     }).then(res=>res.json())
     .then(result=>{
       console.log(result)
-      if(result.message==="Success"){
-        const user = {
-          _id: result._id,
-          name: result.name,
-          email: result.email,
-          isAuthenticated: result.isAuthenticated
-        }
-        localStorage.setItem('user',JSON.stringify(user));
-        if(user.isAuthenticated){
+      if(result.message === "Success"){
+        localStorage.setItem("jwt",result.token);
+        if(result.isAuthenticated){
           history.push('/category');
         }else{
           history.push("/customerotp");
