@@ -5,20 +5,22 @@ import "./otherSellerDetails.modules.css";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 
 const UseStyles = makeStyles((theme) => ({}));
 
-export default function otherSellerDetails() {
+export default function OtherSellerDetails() {
   const classes = UseStyles();
 
-  // const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("");
   return (
-    <div>
-      <Container className="container z-depth-5">
+    <div style={{ width: "100%" }}>
+      <Container
+        className="container z-depth-5 otherSellerDetailsContainer"
+        style={{ width: "100%" }}
+      >
         <form style={{ width: "100%" }}>
           <div class="row">
-            <h3>
+            <h3 className="otherSellerDetailsH3">
               <center>Other Details</center>
             </h3>
           </div>
@@ -70,8 +72,12 @@ export default function otherSellerDetails() {
               </Select>
             </div>
           </div>
-          <div class="row submitButton">
-            <Button variant="contained" color="primary">
+          <div className="row">
+            <Button
+              variant="contained"
+              color="primary"
+              className="otherSellerDetailsSubmit otherSellerDetailsButton"
+            >
               Submit
             </Button>
           </div>

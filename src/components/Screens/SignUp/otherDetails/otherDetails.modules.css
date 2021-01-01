@@ -1,34 +1,19 @@
 @media only screen and (max-width: 500px) {
-  .container {
-    max-width: 90% !important;
-  }
-  body {
-    background-image: linear-gradient(
-      to bottom right,
-      #538df6,
-      #79a5f7,
-      #c0d1f1
-    );
-    font-family: "Brush Script MT", cursive;
+  .otherDetailsContainer {
+    max-width: 100% !important;
+    min-width: 90% !important;
   }
 }
-h3 {
+.otherDetailsH3 {
   margin-top: 1rem;
   padding-top: 1rem;
   font-size: 2rem;
 }
-body {
-  font-family: "Trebuchet MS";
-}
-input {
-  /* margin-bottom: 1px !important;
-  height: 1.9rem !important; */
-  font-family: "Trebuchet MS";
-}
-div .row {
+
+.otherDetailsDiv {
   margin-bottom: 1px !important;
 }
-.container {
+.otherDetailsContainer {
   max-width: 50% !important;
   min-width: 40% !important;
   margin-bottom: 2rem !important;
@@ -37,14 +22,8 @@ div .row {
   border-radius: 1rem !important;
   padding: 1rem !important;
 }
-input {
-  /* font-size: 10px !important; */
-  height: auto;
-}
-input .valid {
-  margin-bottom: 1px !important;
-}
-button {
+
+.otherDetailsButton {
   margin: 0;
   padding-top: 1rem;
   position: absolute;
@@ -55,9 +34,9 @@ button {
   background-color: #0b1b83;
   color: #ffffff;
 }
-button:hover {
+.otherDetailsButton:hover {
   background-color: #538df6;
 }
-.submitButton {
+.otherDetailsSubmit {
   margin-top: 2rem;
 }
