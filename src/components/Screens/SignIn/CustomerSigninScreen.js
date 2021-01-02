@@ -4,9 +4,6 @@ import {jwt} from 'jsonwebtoken';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-// import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
@@ -14,8 +11,8 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import GoogleLogin from "react-google-login";
-import Google from "../../../images/google.png";
+import axios from "axios";
+import { useState } from "react";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -63,10 +60,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CustomerSigninScreen() {
-  const classes = useStyles();
-  // const responseGoogle = (response) => {
-  //   console.log(response);
-  // };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -94,6 +87,20 @@ export default function CustomerSigninScreen() {
     })
   }
 
+  const classes = useStyles();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const data = {
+      email: email,
+      password: password,
+    };
+    const { resdata } = axios.post(
+      `http://localhost:3001/api/customer/signin`,
+      data
+    );
+    console.log(resdata);
+  };
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -106,38 +113,15 @@ export default function CustomerSigninScreen() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
-            {/* <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange = {(e)=>setEmail(e.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            /> */}
+          <form className={classes.form} noValidate onSubmit={submitHandler}>
             <div class="row">
               <div class="input-field col s12">
-                <input id="email" 
-                type="email" 
-                class="validate" 
-                onChange={(e)=>{
-                  setEmail(e.target.value);
-                }}
+                <input
+                  id="email"
+                  type="email"
+                  class="validate"
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <label for="email">Email</label>
                 <span
@@ -151,53 +135,25 @@ export default function CustomerSigninScreen() {
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="password"
-                type="password"
-                class="validate"
-                onChange={(e)=>{
-                  setPassword(e.target.value);
-                }}/>
+                <input
+                  id="password"
+                  type="password"
+                  class="validate"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
                 <label for="password">Password</label>
               </div>
             </div>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={()=>PostData()}
             >
               Sign In
             </Button>
-            <GoogleLogin
-              clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-              render={(renderProps) => (
-                <Button
-                  onClick={renderProps.onClick}
-                  fullWidth
-                  variant="contained"
-                >
-                  <img
-                    src={Google}
-                    style={{
-                      height: "20px",
-                      width: "20px",
-                      marginBottom: "2px",
-                      marginRight: "2px",
-                    }}
-                  />
-                  SIGN IN WITH GOOGLE
-                </Button>
-              )}
-              buttonText="Login"
-              // onSuccess={responseGoogle}
-              // onFailure={responseGoogle}
-            />
-            {/* <div id="my-signin2"></div> */}
             <Box mt={3} />
             <Grid container>
               <Grid item xs>
