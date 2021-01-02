@@ -1,4 +1,6 @@
-import React from "react";
+import {React, useState} from "react";
+import {useHistory } from 'react-router-dom';
+import {jwt} from 'jsonwebtoken';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -60,6 +62,30 @@ const useStyles = makeStyles((theme) => ({
 export default function CustomerSigninScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
+  const PostData = ()=>{
+    fetch('http://localhost:3001/api/customer/signin',{
+      method:"post",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        email:email,
+        password:password
+      })
+    }).then(res=>res.json())
+    .then(result=>{
+      console.log(result)
+      if(result.message === "Success"){
+        localStorage.setItem("jwt",result.token);
+        if(result.isAuthenticated){
+          history.push('/category');
+        }else{
+          history.push("/customerotp");
+        }
+      }
+    })
+  }
 
   const classes = useStyles();
 
