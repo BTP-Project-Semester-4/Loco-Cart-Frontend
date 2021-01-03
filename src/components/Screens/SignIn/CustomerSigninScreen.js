@@ -85,6 +85,7 @@ export default function CustomerSigninScreen() {
       console.log(result)
       if(result.message === "Success"){
         localStorage.setItem("jwt",result.token);
+        localStorage.setItem("customer",JSON.stringify(result.customer));
         if(result.isAuthenticated){
           history.push('/category');
         }else{
