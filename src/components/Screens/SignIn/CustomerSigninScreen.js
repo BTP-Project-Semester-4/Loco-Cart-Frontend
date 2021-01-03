@@ -1,6 +1,5 @@
 import {React, useState} from "react";
 import {useHistory } from 'react-router-dom';
-import {jwt} from 'jsonwebtoken';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,7 +11,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import { useState } from "react";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -78,6 +76,7 @@ export default function CustomerSigninScreen() {
       console.log(result)
       if(result.message === "Success"){
         localStorage.setItem("jwt",result.token);
+        localStorage.setItem("customer",JSON.stringify(result.customer));
         if(result.isAuthenticated){
           history.push('/category');
         }else{
@@ -89,18 +88,18 @@ export default function CustomerSigninScreen() {
 
   const classes = useStyles();
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const data = {
-      email: email,
-      password: password,
-    };
-    const { resdata } = axios.post(
-      `http://localhost:3001/api/customer/signin`,
-      data
-    );
-    console.log(resdata);
-  };
+  // const submitHandler = (e) => {
+  //   e.preventDefault();
+  //   const data = {
+  //     email: email,
+  //     password: password,
+  //   };
+  //   const { resdata } = axios.post(
+  //     `http://localhost:3001/api/customer/signin`,
+  //     data
+  //   );
+  //   console.log(resdata);
+  // };
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -113,7 +112,7 @@ export default function CustomerSigninScreen() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate onSubmit={submitHandler}>
+          <form className={classes.form} noValidate>
             <div class="row">
               <div class="input-field col s12">
                 <input
@@ -146,11 +145,11 @@ export default function CustomerSigninScreen() {
               </div>
             </div>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={PostData}
             >
               Sign In
             </Button>
