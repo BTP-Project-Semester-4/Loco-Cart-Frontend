@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,7 +12,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
 import { Container } from "@material-ui/core";
-import Snackbar from "@material-ui/core/Snackbar";
 import "./otherDetails/otherDetails.modules.css";
 import axios from "axios";
 function Copyright() {
@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CustomerRegisterScreen() {
   const classes = useStyles();
+  const history = useHistory();
 
   const [otherDetails, setOtherDetails] = useState(false);
 
@@ -89,22 +90,49 @@ export default function CustomerRegisterScreen() {
     e.preventDefault();
 
     if (password.length > 8 && password === confirmPassword) {
-      const data = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        contactNo: contactNo,
-        country: country,
-        state: state,
-        city: city,
-        address: address,
-      };
-      const { resdata } = axios.post(
-        `http://localhost:3001/api/customer/register`,
-        data
-      );
-      console.log(resdata);
+      // const data = {
+      // firstName: firstName,
+      // lastName: lastName,
+      // email: email,
+      // password: password,
+      // contactNo: contactNo,
+      // country: country,
+      // state: state,
+      // city: city,
+      // address: address,
+      // };
+      // const { resdata } = axios.post(
+      //   `http://localhost:3001/api/customer/register`,
+      //   data
+      // );
+      // console.log(resdata);
+
+      fetch("http://localhost:3001/api/customer/register", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+          contactNo: contactNo,
+          country: country,
+          state: state,
+          city: city,
+          address: address,
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+          if (result.message === "Success") {
+            history.push("/signin");
+          } else {
+            history.push("/signup");
+          }
+        });
     }
   };
 
@@ -223,8 +251,11 @@ export default function CustomerRegisterScreen() {
         </div>
       ) : (
         <div>
-          <Container className="container z-depth-5 otherDetailsContainer">
-            <form onSubmit={submitHandler}>
+          <Container
+            className="container z-depth-5 otherDetailsContainer"
+            style={{ padding: "10px" }}
+          >
+            <form onSubmit={submitHandler} style={{ padding: "10px" }}>
               <div className="row otherDetailsDiv">
                 <h3 className="otherDetailsH3">
                   <center>Other Details</center>
