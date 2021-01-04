@@ -11,6 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -89,6 +90,7 @@ export default function CustomerSigninScreen() {
         }
       });
   };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -101,7 +103,7 @@ export default function CustomerSigninScreen() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate onSubmit={submitHandler}>
+          <form className={classes.form} noValidate>
             <div class="row">
               <div class="input-field col s12">
                 <input
@@ -134,11 +136,11 @@ export default function CustomerSigninScreen() {
               </div>
             </div>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={PostData}
             >
               Sign In
             </Button>
