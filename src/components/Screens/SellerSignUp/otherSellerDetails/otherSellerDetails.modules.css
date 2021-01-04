@@ -2,6 +2,7 @@
   .otherSellerDetailsContainer {
     max-width: 100% !important;
     min-width: 90% !important;
+    padding: 5px !important;
   }
 }
 .otherSellerDetailsH3 {
