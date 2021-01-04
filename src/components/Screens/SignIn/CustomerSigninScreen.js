@@ -1,6 +1,6 @@
-import {React, useState} from "react";
-import {useHistory } from 'react-router-dom';
-import {jwt} from 'jsonwebtoken';
+import { React, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { jwt } from "jsonwebtoken";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,8 +11,6 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import { useState } from "react";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -63,43 +61,33 @@ export default function CustomerSigninScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-  const PostData = ()=>{
-    fetch('http://localhost:3001/api/customer/signin',{
-      method:"post",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        email:email,
-        password:password
-      })
-    }).then(res=>res.json())
-    .then(result=>{
-      console.log(result)
-      if(result.message === "Success"){
-        localStorage.setItem("jwt",result.token);
-        if(result.isAuthenticated){
-          history.push('/category');
-        }else{
-          history.push("/customerotp");
-        }
-      }
-    })
-  }
 
   const classes = useStyles();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const data = {
-      email: email,
-      password: password,
-    };
-    const { resdata } = axios.post(
-      `http://localhost:3001/api/customer/signin`,
-      data
-    );
-    console.log(resdata);
+    fetch("http://localhost:3001/api/customer/signin", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        if (result.message === "Success") {
+          localStorage.setItem("jwt", result.token);
+          if (result.isAuthenticated) {
+            history.push("/category");
+          } else {
+            history.push("/customerotp");
+          }
+        }
+      });
   };
   return (
     <Grid container component="main" className={classes.root}>
