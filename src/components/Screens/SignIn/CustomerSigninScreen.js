@@ -103,7 +103,7 @@ export default function CustomerSigninScreen() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={submitHandler}>
             <div class="row">
               <div class="input-field col s12">
                 <input
@@ -140,7 +140,6 @@ export default function CustomerSigninScreen() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={PostData}
             >
               Sign In
             </Button>
