@@ -11,31 +11,40 @@ import UserProfile from "./components/Screens/UserProfile/UserProfile";
 import CustomerOTP from "./components/Screens/CustomerOTP/CustomerOTP";
 import SellerOTP from "./components/Screens/SellerOTP/SellerOTP";
 import NotFound from "./components/NotFound/NotFound";
-import OtherSellerDetails from "./components/Screens/SellerSignUp/otherSellerDetails/otherSellerDetails";
-import otherDetails from "./components/Screens/SignUp/otherDetails/otherDetails";
+import Nav from "./components/Navbars/navbar";
+import Footer from "./components/Footers/footer";
 import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
 function App() {
   return (
     <BrowserRouter>
       <div className="grid-container">
-        <Switch>
-          <Route path="/" component={HomeScreen} exact />
-          <Route path="/sellersignin" component={SellerSigninScreen} />
-          <Route path="/sellersignup" component={SellerRegisterScreen} exact />
-          <Route path="/signin" component={CustomerSigninScreen} />
-          <Route path="/signup" component={CustomerRegisterScreen} exact />
-          <Route
-            path="/sellersignup/othersellerdetails"
-            component={OtherSellerDetails}
-          />
-          <Route path="/category" exact component={Categories} />
-          <Route path="/category/:id" component={SubCategories} />
-          <Route path="/sellerprofile" component={SellerProfile} />
-          <Route path="/userprofile" component={UserProfile} />
-          <Route path="/customerotp" component={CustomerOTP} />
-          <Route path="/sellerotp" component={SellerOTP} />
-          <Route component={NotFound} />
-        </Switch>
+        <header>
+          <Nav />
+        </header>
+        <main>
+          <Switch>
+            <Route path="/" component={HomeScreen} exact />
+            <Route path="/sellersignin" component={SellerSigninScreen} />
+            <Route
+              path="/sellersignup"
+              component={SellerRegisterScreen}
+              exact
+            />
+            <Route path="/signin" component={CustomerSigninScreen} />
+            <Route path="/signup" component={CustomerRegisterScreen} exact />
+
+            <Route path="/category" exact component={Categories} />
+            <Route path="/category/:id" component={SubCategories} />
+            <Route path="/sellerprofile" component={SellerProfile} />
+            <Route path="/userprofile" component={UserProfile} />
+            <Route path="/customerotp" component={CustomerOTP} />
+            <Route path="/sellerotp" component={SellerOTP} />
+            <Route component={NotFound} />
+          </Switch>
+        </main>
+        <footer>
+          <Footer />
+        </footer>
       </div>
     </BrowserRouter>
   );
