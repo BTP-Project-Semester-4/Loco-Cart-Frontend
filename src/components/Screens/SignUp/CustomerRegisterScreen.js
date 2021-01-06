@@ -11,9 +11,13 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
-import { Container } from "@material-ui/core";
+import { Container, TextField } from "@material-ui/core";
 import "./otherDetails/otherDetails.modules.css";
-import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -86,53 +90,107 @@ export default function CustomerRegisterScreen() {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
 
+  function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+
+  const otherDetailsHandler = (e) => {
+    e.preventDefault();
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      email === "" ||
+      password === "" ||
+      password === ""
+    ) {
+      toast.error("Please fill all fields !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } else {
+      if (password !== confirmPassword) {
+        toast.error("password and confirm password dont match", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        if (password.length < 8) {
+          toast.warning(
+            "password is too weak (Mininmum length of 8 charecters)",
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
+        } else {
+          toast.success("Sweet !", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1500,
+          });
+          sleep(2000).then(() => {
+            setOtherDetails(true);
+          });
+        }
+      }
+    }
+  };
   const submitHandler = (e) => {
     e.preventDefault();
-
-    if (password.length > 8 && password === confirmPassword) {
-      // const data = {
-      // firstName: firstName,
-      // lastName: lastName,
-      // email: email,
-      // password: password,
-      // contactNo: contactNo,
-      // country: country,
-      // state: state,
-      // city: city,
-      // address: address,
-      // };
-      // const { resdata } = axios.post(
-      //   `http://localhost:3001/api/customer/register`,
-      //   data
-      // );
-      // console.log(resdata);
-
-      fetch("http://localhost:3001/api/customer/register", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-          contactNo: contactNo,
-          country: country,
-          state: state,
-          city: city,
-          address: address,
-        }),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          console.log(result);
-          if (result.message === "Success") {
-            history.push("/signin");
-          } else {
-            history.push("/signup");
-          }
+    if (
+      contactNo === "" ||
+      country === "" ||
+      state === "" ||
+      city === "" ||
+      address === ""
+    ) {
+      toast.error("Please fill all fields !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } else {
+      if (contactNo.length != 10) {
+        toast.error("Please enter correct contact number !", {
+          position: toast.POSITION.TOP_CENTER,
         });
+      } else {
+        if (password.length > 8 && password === confirmPassword) {
+          fetch("http://localhost:3001/api/customer/register", {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              password: password,
+              contactNo: contactNo,
+              country: country,
+              state: state,
+              city: city,
+              address: address,
+            }),
+          })
+            .then((res) => res.json())
+            .then((result) => {
+              console.log(result);
+              if (result.message === "Success") {
+                toast.success("Sweet !", {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 1500,
+                });
+                sleep(2000).then(() => {
+                  history.push("/signin");
+                });
+              } else {
+                toast.error(`${result.message}`, {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 2000,
+                });
+                sleep(2300).then(() => {
+                  window.location.reload(false);
+                  history.push("/signup");
+                });
+              }
+            });
+        }
+      }
     }
   };
 
@@ -159,72 +217,78 @@ export default function CustomerRegisterScreen() {
                 <Typography component="h1" variant="h5">
                   Sign Up
                 </Typography>
-                <form className={classes.form} noValidate>
-                  <div class="row">
-                    <div class="input-field col s6">
-                      <input
-                        id="first_name"
-                        type="text"
-                        class="validate"
+                <form
+                  className={classes.form}
+                  noValidate
+                  onSubmit={otherDetailsHandler}
+                >
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        name="firstName"
+                        variant="outlined"
                         required
+                        fullWidth
+                        id="firstName"
+                        label="First Name"
+                        autoFocus
                         onChange={(e) => setFirstName(e.target.value)}
                       />
-                      <label for="first_name">First Name</label>
-                    </div>
-                    <div class="input-field col s6">
-                      <input
-                        id="last_name"
-                        type="text"
-                        class="validate"
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        variant="outlined"
                         required
+                        fullWidth
+                        id="lastName"
+                        label="Last Name"
+                        name="lastName"
                         onChange={(e) => setLastName(e.target.value)}
                       />
-                      <label for="last_name">Last Name</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <input
-                        id="email"
-                        type="email"
-                        class="validate"
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        variant="outlined"
                         required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
                         onChange={(e) => setEmail(e.target.value)}
                       />
-                      <label for="email">Email</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <input
-                        id="password"
-                        type="password"
-                        class="validate"
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        variant="outlined"
                         required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
                         onChange={(e) => setPassword(e.target.value)}
                       />
-                      <label for="password">Password</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <input
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        variant="outlined"
+                        required
+                        fullWidth
+                        name="confirmPassword"
+                        label="Confirm Password"
                         id="confirmPassword"
                         type="password"
-                        class="validate"
-                        required
                         onChange={(e) => setConfirmPassword(e.target.value)}
                       />
-                      <label for="password">Confirm Password</label>
-                    </div>
-                  </div>
+                    </Grid>
+                  </Grid>
+
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
                     color="primary"
                     className={classes.submit}
-                    onClick={() => setOtherDetails(true)}
                   >
                     SIGN UP
                   </Button>
@@ -252,85 +316,83 @@ export default function CustomerRegisterScreen() {
       ) : (
         <div>
           <Container
-            className="container z-depth-5 otherDetailsContainer"
+            className="container z-depth-5 otherSellerDetailsContainer"
             style={{ padding: "10px" }}
           >
             <form onSubmit={submitHandler} style={{ padding: "10px" }}>
-              <div className="row otherDetailsDiv">
-                <h3 className="otherDetailsH3">
-                  <center>Other Details</center>
-                </h3>
-              </div>
-              <div className="row otherDetailsDiv">
-                <div class="input-field col s12">
-                  <input
-                    id="contactNo"
-                    type="number"
-                    class="validate"
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography component="h1" variant="h5" align="center">
+                    Other Details
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
                     required
+                    fullWidth
+                    id="contactNumber"
+                    label="Contact Number"
+                    type="number"
+                    name="contactNumber"
                     onChange={(e) => setContactNo(e.target.value)}
                   />
-                  <label for="contactNo">Contact Number</label>
-                </div>
-              </div>
-              <div className="row otherDetailsDiv">
-                <div class="input-field col s12">
-                  <input
-                    id="country"
-                    type="text"
-                    class="validate"
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
                     required
+                    fullWidth
+                    id="countery"
+                    label="Country"
+                    name="country"
                     onChange={(e) => setCountry(e.target.value)}
                   />
-                  <label for="country">Country</label>
-                </div>
-              </div>
-              <div className="row otherDetailsDiv">
-                <div class="input-field col s12">
-                  <input
-                    id="state"
-                    type="text"
-                    class="validate"
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
                     required
+                    fullWidth
+                    id="state"
+                    label="State"
+                    name="state"
                     onChange={(e) => setState(e.target.value)}
                   />
-                  <label for="state">State</label>
-                </div>
-              </div>
-              <div className="row otherDetailsDiv">
-                <div class="input-field col s12">
-                  <input
-                    id="city"
-                    type="text"
-                    class="validate"
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
                     required
+                    fullWidth
+                    name="city"
+                    label="City"
+                    id="city"
                     onChange={(e) => setCity(e.target.value)}
                   />
-                  <label for="city">City</label>
-                </div>
-              </div>
-              <div className="row otherDetailsDiv">
-                <div class="input-field col s12">
-                  <input
-                    id="address"
-                    type="text"
-                    class="validate"
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
                     required
+                    fullWidth
+                    name="address"
+                    label="Address"
+                    id="address"
                     onChange={(e) => setAddress(e.target.value)}
                   />
-                  <label for="address">Address</label>
-                </div>
-              </div>
-              <div class="row otherDetailsSubmit">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="otherDetailsButton"
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              </div>
+                </Grid>
+              </Grid>
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                SUBMIT
+              </Button>
             </form>
           </Container>
         </div>

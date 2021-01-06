@@ -12,6 +12,7 @@
 header {
   grid-area: header;
   background-color: #072a40;
+  width: auto;
   /* fixing navbar */
   position: fixed;
   width: 100%;
@@ -19,6 +20,7 @@ header {
 
 main {
   grid-area: main;
+  position: relative;
 }
 
 footer {
