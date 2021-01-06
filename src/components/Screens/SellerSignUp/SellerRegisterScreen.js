@@ -14,8 +14,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import { Container } from "@material-ui/core";
+import { Container, TextField } from "@material-ui/core";
 import "./otherSellerDetails/otherSellerDetails.modules.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -79,39 +83,155 @@ export default function CustomerRegisterScreen() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
-  const submitHandler = (e) => {
-    e.preventDefault();
 
-    if (password.length > 8 && password === confirmPassword) {
-      fetch("http://localhost:3001/api/seller/register", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          category: category,
-          password: password,
-          contactNo: contactNo,
-          country: country,
-          state: state,
-          city: city,
-          address: address,
-        }),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          console.log(result);
-          if (result.message === "Success") {
-            history.push("/sellersignin");
-          } else {
-            history.push("/sellersignup");
-          }
+  function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+
+  const otherDetailsHandler = (e) => {
+    e.preventDefault();
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      email === "" ||
+      password === "" ||
+      password === ""
+    ) {
+      toast.error("Please fill all fields !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } else {
+      if (password !== confirmPassword) {
+        toast.error("password and confirm password dont match", {
+          position: toast.POSITION.TOP_CENTER,
         });
+      } else {
+        if (password.length < 8) {
+          toast.warning(
+            "password is too weak (Mininmum length of 8 charecters)",
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
+        } else {
+          toast.success("Sweet !", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1500,
+          });
+          sleep(2000).then(() => {
+            setOtherDetails(true);
+          });
+        }
+      }
     }
   };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (
+      contactNo === "" ||
+      country === "" ||
+      state === "" ||
+      city === "" ||
+      address === "" ||
+      category === ""
+    ) {
+      toast.error("Please fill all fields !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } else {
+      if (contactNo.length != 10) {
+        toast.error("Please enter correct contact number !", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else if (
+        category !== "Stationery" &&
+        category !== "Grocery" &&
+        category !== "Electronics" &&
+        category !== "Footwear" &&
+        category !== "Sports" &&
+        category !== "Books"
+      ) {
+        toast.error("Please select a valid category !", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else if (password.length > 8 && password === confirmPassword) {
+        fetch("http://localhost:3001/api/seller/register", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            category: category,
+            password: password,
+            contactNo: contactNo,
+            country: country,
+            state: state,
+            city: city,
+            address: address,
+          }),
+        })
+          .then((res) => res.json())
+          .then((result) => {
+            console.log(result);
+            if (result.message === "Success") {
+              toast.success("Sweet !", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1500,
+              });
+              sleep(2000).then(() => {
+                history.push("/sellersignin");
+              });
+            } else {
+              toast.error(`${result.message}`, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000,
+              });
+              sleep(2300).then(() => {
+                window.location.reload(false);
+                history.push("/sellersignup");
+              });
+            }
+          });
+      }
+    }
+  };
+  // const submitHandler = (e) => {
+  //   e.preventDefault();
+
+  //   if (password.length > 8 && password === confirmPassword) {
+  //     fetch("http://localhost:3001/api/seller/register", {
+  //       method: "post",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         firstName: firstName,
+  //         lastName: lastName,
+  //         email: email,
+  //         category: category,
+  //         password: password,
+  //         contactNo: contactNo,
+  //         country: country,
+  //         state: state,
+  //         city: city,
+  //         address: address,
+  //       }),
+  //     })
+  //       .then((res) => res.json())
+  //       .then((result) => {
+  //         console.log(result);
+  //         if (result.message === "Success") {
+  //           history.push("/sellersignin");
+  //         } else {
+  //           history.push("/sellersignup");
+  //         }
+  //       });
+  //   }
+  // };
   return (
     <div>
       {!otherDetails ? (
@@ -134,67 +254,78 @@ export default function CustomerRegisterScreen() {
               <Typography component="h1" variant="h5">
                 Seller Sign Up
               </Typography>
-              <form className={classes.form} noValidate>
-                <div class="row">
-                  <div class="input-field col s6">
-                    <input
-                      id="first_name"
-                      type="text"
-                      class="validate"
+              <form
+                className={classes.form}
+                noValidate
+                onSubmit={otherDetailsHandler}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="firstName"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="firstName"
+                      label="First Name"
+                      autoFocus
                       onChange={(e) => setFirstName(e.target.value)}
                     />
-                    <label for="first_name">First Name</label>
-                  </div>
-                  <div class="input-field col s6">
-                    <input
-                      id="last_name"
-                      type="text"
-                      class="validate"
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="lastName"
+                      label="Last Name"
+                      name="lastName"
                       onChange={(e) => setLastName(e.target.value)}
                     />
-                    <label for="last_name">Last Name</label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
                       id="email"
-                      type="email"
-                      class="validate"
+                      label="Email Address"
+                      name="email"
                       onChange={(e) => setEmail(e.target.value)}
                     />
-                    <label for="email">Email</label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input
-                      id="password"
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
                       type="password"
-                      class="validate"
+                      id="password"
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <label for="password">Password</label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12">
-                    <input
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      name="confirmPassword"
+                      label="Confirm Password"
                       id="confirmPassword"
                       type="password"
-                      class="validate"
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    <label for="password">Confirm Password</label>
-                  </div>
-                </div>
+                  </Grid>
+                </Grid>
+
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick={() => setOtherDetails(true)}
                 >
                   SIGN UP
                 </Button>
@@ -225,77 +356,70 @@ export default function CustomerRegisterScreen() {
             style={{ padding: "10px" }}
           >
             <form onSubmit={submitHandler} style={{ padding: "10px" }}>
-              <div class="row">
-                <h3
-                  className="otherSellerDetailsH3"
-                  style={{ alignContent: "center" }}
-                >
-                  Other Details
-                </h3>
-              </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <input
-                    id="contactNo"
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography component="h1" variant="h5" align="center">
+                    Other Details
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="contactNumber"
+                    label="Contact Number"
                     type="number"
-                    class="validate"
+                    name="contactNumber"
                     onChange={(e) => setContactNo(e.target.value)}
-                    required
                   />
-                  <label for="contactNo">Contact Number</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <input
-                    id="country"
-                    type="text"
-                    class="validate"
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="countery"
+                    label="Country"
+                    name="country"
                     onChange={(e) => setCountry(e.target.value)}
-                    required
                   />
-                  <label for="country">Country</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <input
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
                     id="state"
-                    type="text"
-                    class="validate"
+                    label="State"
+                    name="state"
                     onChange={(e) => setState(e.target.value)}
-                    required
                   />
-                  <label for="state">State</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <input
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="city"
+                    label="City"
                     id="city"
-                    type="text"
-                    class="validate"
                     onChange={(e) => setCity(e.target.value)}
-                    required
                   />
-                  <label for="city">City</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <input
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="address"
+                    label="Address"
                     id="address"
-                    type="text"
-                    class="validate"
                     onChange={(e) => setAddress(e.target.value)}
-                    required
                   />
-                  <label for="address">Address</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s12">
-                  <InputLabel id="categoryLabel">category</InputLabel>
+                </Grid>
+                <Grid item xs={12}>
+                  <InputLabel id="categoryLabel">Category *</InputLabel>
                   <Select
                     labelId="categoryLabel"
                     id="category"
@@ -309,18 +433,18 @@ export default function CustomerRegisterScreen() {
                     <MenuItem value={"Sports"}>Sports</MenuItem>
                     <MenuItem value={"Books"}>Books</MenuItem>
                   </Select>
-                </div>
-              </div>
-              <div className="row otherSellerDetailsSubmit">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="otherSellerDetailsButton"
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              </div>
+                </Grid>
+              </Grid>
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                SUBMIT
+              </Button>
             </form>
           </Container>
         </div>
