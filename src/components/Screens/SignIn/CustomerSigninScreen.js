@@ -10,7 +10,16 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
+
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
 
 function Copyright() {
   return (
@@ -67,28 +76,51 @@ export default function CustomerSigninScreen() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3001/api/customer/signin", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        if (result.message === "Success") {
-          localStorage.setItem("jwt", result.token);
-          if (result.isAuthenticated) {
-            history.push("/category");
-          } else {
-            history.push("/customerotp");
-          }
-        }
+
+    if (email === "" || password === "") {
+      toast.error("Please fill all fields !", {
+        position: toast.POSITION.TOP_CENTER,
       });
+    } else {
+      fetch("http://localhost:3001/api/customer/signin", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+          if (result.message === "Success") {
+            localStorage.setItem("jwt", result.token);
+            if (result.isAuthenticated) {
+              toast.success("Sweet !", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1500,
+              });
+              sleep(2000).then(() => {
+                history.push("/category");
+              });
+            } else {
+              toast.warning("Please Authorize yourself", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000,
+              });
+              sleep(2300).then(() => {
+                history.push("/customerotp");
+              });
+            }
+          } else {
+            toast.error(`${result.message}`, {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
+        });
+    }
   };
 
   return (
@@ -101,41 +133,34 @@ export default function CustomerSigninScreen() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Seller Sign in
           </Typography>
           <form className={classes.form} noValidate onSubmit={submitHandler}>
-            <div class="row">
-              <div class="input-field col s12">
-                <input
-                  id="email"
-                  type="email"
-                  class="validate"
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <label for="email">Email</label>
-                <span
-                  class="helper-text"
-                  data-error="wrong"
-                  data-success="right"
-                >
-                  Helper text
-                </span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input
-                  id="password"
-                  type="password"
-                  class="validate"
-                  required
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <label for="password">Password</label>
-              </div>
-            </div>
+            <Grid item xs={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
             <Button
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"
@@ -151,7 +176,7 @@ export default function CustomerSigninScreen() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="/sellersignup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
