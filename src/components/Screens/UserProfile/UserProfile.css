@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+.all_content{
+    font-family: 'Montserrat','sans-serif';
+}
+
 .page-heading{
     font-size: 2rem;
     text-align: left;
@@ -6,13 +11,16 @@
 .intro{
     background-color: white;
     border-radius: 25px;
-    margin-top: 50px;
+    margin-top: 20px!important;
+    margin-left: 15px!important;
+    margin-right: 15px!important;
 }
 
 .userImage{
     width: 200px;
     height: 200px;
     border-radius: 50%;
+    padding-left: 10px;
     margin-left: auto;
     margin-right: auto;
     display: table-cell;
@@ -23,6 +31,8 @@
 .userDetail{
     text-align: left;
     border-radius: 50px;
+    padding-left: 25px;
+    padding-right: 15px;
 }
 
 .name{
@@ -34,14 +44,17 @@
 .location{
     color: #1f5857;
     font-size: 1.5rem;
+    margin-top: 10px;
 }
 
 .interest{
     color: #1f5857;
     font-size: 1.5rem; 
+    margin-top: 10px;
 }
 
 .section-heading{
+    font-size: 1rem;
     margin-top: 10px;
     margin-left: 15px;
     text-align: center;
@@ -56,18 +69,27 @@
 
 .extra-info{
     vertical-align:top;
+    margin-left: 15px;
 }
 
 .allExtra{
     background-color: white;
     border-radius: 25px;
     padding: 15px;
+    margin-left: 15px!important;
+    margin-right: 15px!important;
+}
+
+.all-reviews{
+    padding-left: 15px!important;
+    padding-right: 15px!important;
 }
 
 .review{
     background-color: white;
     border-radius: 25px;
     margin-top: 10px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -92,4 +114,8 @@
     margin-right: auto;
     display: table-cell;
     display: inline;
+}
+
+.review-text{
+    padding:10px;
 }

@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+.all_content{
+    font-family: 'Montserrat','sans-serif';
+}
+
 .page-heading{
     font-size: 2rem;
     text-align: left;
@@ -64,11 +69,16 @@
     padding: 15px;
 }
 
+.products{
+    padding-left: 15px!important;
+}
+
 .product{
     background-color: white;
     border-radius: 25px;
-    margin-top: 10px;
-    margin-left: 5px!important;
+    margin-bottom: 10px!important;
+    margin-right: 15px!important;
+    padding: 10px;
 }
 
 .product-img{
