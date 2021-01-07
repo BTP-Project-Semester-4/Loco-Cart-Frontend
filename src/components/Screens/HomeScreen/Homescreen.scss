@@ -12,7 +12,7 @@
 
 .carousel-open:checked + .carousel-item {
   position: static;
-  opacity: 100;
+  opacity: 1;
 }
 
 .carousel-item {
@@ -24,7 +24,8 @@
 
 .carousel-item img {
   display: block;
-  height: auto;
+  height: 400px;
+  width: 100%;
   max-width: 100%;
 }
 
@@ -45,7 +46,6 @@
   transform: translate(0, -50%);
   text-align: center;
   width: 40px;
-  z-index: 10;
 }
 
 .carousel-control.prev {
@@ -76,7 +76,6 @@
   left: 0;
   right: 0;
   text-align: center;
-  z-index: 10;
 }
 
 .carousel-indicators li {
