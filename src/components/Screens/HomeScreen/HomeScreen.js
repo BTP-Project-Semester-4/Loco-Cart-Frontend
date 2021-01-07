@@ -1,53 +1,93 @@
 import React from "react";
-import "./HomeScreen.modules.css";
-import {
-  MDBCarousel,
-  MDBCarouselInner,
-  MDBCarouselItem,
-  MDBView,
-  MDBContainer,
-} from "mdbreact";
-import { Carousel } from "react-bootstrap";
+import "./Homescreen.scss";
+
+const Corousal = () => {
+  return (
+    <>
+      {" "}
+      <div style={{ height: "500px" }}>
+        <div class="carousel">
+          <div class="carousel-inner">
+            <input
+              class="carousel-open"
+              type="radio"
+              id="carousel-1"
+              name="carousel"
+              aria-hidden="true"
+              hidden=""
+              checked="checked"
+            />
+            <div class="carousel-item">
+              <img src="http://fakeimg.pl/2000x800/0079D8/fff/?text=Without" />
+            </div>
+            <input
+              class="carousel-open"
+              type="radio"
+              id="carousel-2"
+              name="carousel"
+              aria-hidden="true"
+              hidden=""
+            />
+            <div class="carousel-item">
+              <img src="http://fakeimg.pl/2000x800/DA5930/fff/?text=JavaScript" />
+            </div>
+            <input
+              class="carousel-open"
+              type="radio"
+              id="carousel-3"
+              name="carousel"
+              aria-hidden="true"
+              hidden=""
+            />
+            <div class="carousel-item">
+              <img src="http://fakeimg.pl/2000x800/F90/fff/?text=Carousel" />
+            </div>
+            <label for="carousel-3" class="carousel-control prev control-1">
+              ‹
+            </label>
+            <label for="carousel-2" class="carousel-control next control-1">
+              ›
+            </label>
+            <label for="carousel-1" class="carousel-control prev control-2">
+              ‹
+            </label>
+            <label for="carousel-3" class="carousel-control next control-2">
+              ›
+            </label>
+            <label for="carousel-2" class="carousel-control prev control-3">
+              ‹
+            </label>
+            <label for="carousel-1" class="carousel-control next control-3">
+              ›
+            </label>
+            <ol class="carousel-indicators">
+              <li>
+                <label for="carousel-1" class="carousel-bullet">
+                  •
+                </label>
+              </li>
+              <li>
+                <label for="carousel-2" class="carousel-bullet">
+                  •
+                </label>
+              </li>
+              <li>
+                <label for="carousel-3" class="carousel-bullet">
+                  •
+                </label>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
 export default function HomeScreen() {
   return (
-    <Carousel>
-      <Carousel.Item style={{ visibility: "visible" }}>
-        <img
-          className="d-block w-100"
-          src="https://logos-download.com/wp-content/uploads/2016/09/React_logo_wordmark.png"
-          alt="First slide"
-        />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src="https://logos-download.com/wp-content/uploads/2016/09/React_logo_wordmark.png"
-          alt="Third slide"
-        />
-
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src="https://logos-download.com/wp-content/uploads/2016/09/React_logo_wordmark.png"
-          alt="Third slide"
-        />
-
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel>
+    <>
+      <Corousal />
+    </>
   );
 }
