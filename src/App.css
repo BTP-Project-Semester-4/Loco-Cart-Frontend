@@ -16,6 +16,7 @@ header {
   /* fixing navbar */
   position: fixed;
   width: 100%;
+  z-index: 1000;
 }
 
 main {
@@ -27,4 +28,5 @@ footer {
   grid-area: footer;
   background-color: #072a40;
   color: #f9f7f0;
+  z-index: 1000;
 }
