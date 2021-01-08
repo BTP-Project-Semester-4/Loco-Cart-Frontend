@@ -1,134 +1,91 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
+import { Media } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Modal from "react-modal";
-import { homeObjone } from "../Data";
-import "./SubcCategoy.css";
-import { FaWindowClose } from "react-icons/fa";
+import "./subcategory.scss";
 
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 400,
-  },
-  media: {
-    height: 140,
-  },
-});
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    height: "400px",
-  },
-};
-
-function MediaCard(props) {
-  const classes = useStyles();
-
+function MediaCard() {
   return (
-    <Card className={classes.root} style={{ borderRadius: "50px" }}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={props.image}
-          title={props.title}
+    <>
+      <div class="box-wrapper" style={{ margin: "10px" }}>
+        <img
+          src="https://th.bing.com/th/id/OIP.iC4LckUp_x_Rg4Tp-SRf-QHaEo?w=305&h=190&c=7&o=5&dpr=1.25&pid=1.7"
+          alt="rhcp"
+          style={{ cursor: "pointer" }}
+          width="450px"
+          height="200px"
         />
-        <CardContent
-          style={{ background: "#212e74", textAlign: "center", color: "#fff" }}
+        <div class="box-content">
+          <a class="buy">
+            <span>
+              <img
+                style={{
+                  marginTop: "10px",
+                  cursor: "pointer",
+                  height: "50px",
+                  width: "50px",
+                }}
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png"
+              />
+            </span>
+          </a>
+          <div class="title">Chili Papers</div>
+          <div class="desc">Lorem ipsum dolor sit amet.</div>
+          <span class="price">₹ 5.67</span>
+          <div class="ssfooter">
+            <ul>
+              <li class="fa fa-star">
+                <img
+                  src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                  style={{ height: "2rem" }}
+                />
+              </li>
+              <li class="fa fa-star">
+                <img
+                  src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                  style={{ height: "2rem" }}
+                />
+              </li>
+              <li class="fa fa-star">
+                <img
+                  src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                  style={{ height: "2rem" }}
+                />
+              </li>
+              <li class="fa fa-star">
+                <img
+                  src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                  style={{ height: "2rem" }}
+                />
+              </li>
+              <li class="fa fa-star-o">
+                <img
+                  src="https://img.icons8.com/fluent/48/000000/star-half-empty.png"
+                  style={{ height: "2rem" }}
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="success"></div>
+        <Button
+          variant="contained"
+          color="primary"
+          className="addtocart"
+          disableElevation
+          style={{ height: "40px", width: "90%", marginBottom: "8px" }}
         >
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="h2"
-            style={{ textAlign: "center" }}
-          >
-            <b>{props.title}</b>
-            {/*Should not be grater than 15 characters */}
-          </Typography>
-          <Typography variant="body2" color="#fff" component="p">
-            {/* {props.description} */}
-            {"₹ 1000/-"}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          -
+          <p style={{ fontSize: "1.2rem" }}>🛒 Add to Cart 🛒</p>
         </Button>
-        {"Item"}
-        <Button size="small" color="primary">
-          +
-        </Button>
-      </CardActions>
-    </Card>
+      </div>
+    </>
   );
 }
 
-function ModalMediaCard(props) {
-  const classes = useStyles();
-
-  return (
-    <Card
-      className={classes.root}
-      style={{ margin: "auto", textAlign: "center" }}
-    >
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={props.image}
-          title={props.title}
-        />
-        <CardContent style={{ background: " #e7dbd3" }}>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="h2"
-            style={{ textAlign: "center" }}
-          >
-            {props.title}
-            {/*Should not be grater than 15 characters */}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions style={{ display: "flex" }}>
-        <Button size="small" color="primary" style={{ left: "20%" }}>
-          <b>-</b>
-        </Button>
-        <Button style={{ left: "10%" }}>{"Item"}</Button>
-        <Button size="small" color="primary" style={{}}>
-          <b>+</b>
-        </Button>
-      </CardActions>
-    </Card>
-  );
+function ModalMediaCard() {
+  return <></>;
 }
 
 export function SubCategories(props) {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-  function openModal() {
-    setIsOpen(true);
-  }
-  function afterOpenModal() {
-    subtitle.style.color = "#f00";
-  }
-  function closeModal() {
-    setIsOpen(false);
-  }
-  var subtitle;
   const category = props.match.params.id;
   if (
     category === "Stationery" ||
@@ -140,164 +97,27 @@ export function SubCategories(props) {
   )
     return (
       <>
-        <div className="All" style={{ width: "95%" }}>
-          <div
-            style={{
-              height: "60px",
-              textAlign: "center",
-              marginBottom: "30px",
-            }}
-          >
-            <h1>
-              <b>Various {props.match.params.id}</b>
-            </h1>
-          </div>
-
-          <div className="displaycategory">
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-            <div
-              className="subcategory"
-              onClick={openModal}
-              style={{ margin: "8px" }}
-            >
-              {" "}
-              <MediaCard {...homeObjone} />{" "}
-            </div>
-          </div>
-        </div>
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
+        <div
+          style={{
+            height: "60px",
+            textAlign: "center",
+            marginBottom: "20px",
+            color: "#000",
+          }}
         >
-          <h2 ref={(_subtitle) => (subtitle = _subtitle)}> </h2>
-          <div style={{ right: 0, top: 0, margin: "20px", position: "fixed" }}>
-            <FaWindowClose onClick={closeModal} />
-          </div>
-          <h1>Product Description</h1>
-          <ModalMediaCard {...homeObjone} />
-        </Modal>
+          <h1>
+            <b>Explore {category}</b>
+          </h1>
+        </div>
+        <div style={{ margin: "auto", width: "90%" }}>
+          <MediaCard />
+          <MediaCard />
+          <MediaCard />
+          <MediaCard />
+          <MediaCard />
+          <MediaCard />
+          <MediaCard />
+        </div>
       </>
     );
   else {
