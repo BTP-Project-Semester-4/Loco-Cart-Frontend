@@ -81,10 +81,6 @@ function MediaCard() {
   );
 }
 
-function ModalMediaCard() {
-  return <></>;
-}
-
 export function SubCategories(props) {
   const category = props.match.params.id;
   if (
@@ -103,10 +99,15 @@ export function SubCategories(props) {
             textAlign: "center",
             marginBottom: "20px",
             color: "#000",
+            zIndex: "100",
           }}
         >
-          <h1>
-            <b>Explore {category}</b>
+          <h1 style={{ margin: "10px" }}>
+            <b>Explore {category} : </b>
+            <Button variant="contained" color="primary">
+              Filter
+            </Button>
+            <br />
           </h1>
         </div>
         <div style={{ margin: "auto", width: "90%" }}>
