@@ -133,7 +133,7 @@ export default function CustomerSigninScreen() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Seller Sign in
+            Customer Sign in
           </Typography>
           <form className={classes.form} noValidate onSubmit={submitHandler}>
             <Grid item xs={12} style={{ marginBottom: "20px" }}>
