@@ -14,6 +14,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import { Dropdown } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -236,14 +237,58 @@ export default function PrimarySearchAppBar() {
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {
+                  <>
+                    <Dropdown.Item>
+                      <div
+                        classes={{
+                          root: classes.inputRoot,
+                          input: classes.inputInput,
+                        }}
+                        inputProps={{ "aria-label": "search" }}
+                        style={{
+                          background: "white",
+                          width: "25ch",
+                          marginLeft: "20px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {"Product 1"}
+                      </div>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <div
+                        classes={{
+                          root: classes.inputRoot,
+                          input: classes.inputInput,
+                        }}
+                        inputProps={{ "aria-label": "search" }}
+                        style={{
+                          background: "white",
+                          width: "25ch",
+                          marginLeft: "20px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {"Product 2"}
+                      </div>
+                    </Dropdown.Item>
+                  </>
+                }
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

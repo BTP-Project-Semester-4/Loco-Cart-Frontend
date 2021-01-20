@@ -1,10 +1,10 @@
 import React from "react";
 import { Media } from "react-bootstrap";
-import Button from "@material-ui/core/Button";
-import "./subcategory.scss";
+import "../Category/SubCategory/subcategory.scss";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
+import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
@@ -101,8 +101,8 @@ function MediaCard() {
   );
 }
 
-export function SubCategories(props) {
-  const category = props.match.params.id;
+export function SearchProduct(props) {
+  const search = props.match.params.id;
 
   const classes = useStyles();
   const [state, setState] = React.useState({
@@ -185,64 +185,51 @@ export function SubCategories(props) {
     </div>
   );
 
-  if (
-    category === "Stationery" ||
-    category === "Grocery" ||
-    category === "Electronics" ||
-    category === "Footwear" ||
-    category === "Sports" ||
-    category === "Books"
-  )
-    return (
-      <>
-        <div
-          style={{
-            height: "60px",
-            textAlign: "center",
-            marginBottom: "20px",
-            color: "#000",
-            zIndex: "100",
-          }}
-        >
-          <h1 style={{ margin: "10px" }}>
-            <b>Explore {category} : </b>
-            {["left"].map((anchor) => (
-              <React.Fragment key={anchor}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={toggleDrawer(anchor, true)}
-                >
-                  Filter
-                </Button>
-                <Drawer
-                  anchor={anchor}
-                  open={state[anchor]}
-                  onClose={toggleDrawer(anchor, false)}
-                >
-                  {list(anchor)}
-                </Drawer>
-              </React.Fragment>
-            ))}
-            <br />
-          </h1>
-        </div>
-        <div style={{ margin: "auto", width: "90%" }}>
-          <MediaCard />
-          <MediaCard />
-          <MediaCard />
-          <MediaCard />
-          <MediaCard />
-          <MediaCard />
-          <MediaCard />
-        </div>
-      </>
-    );
-  else {
-    return (
-      <>
-        <h1>Page Not Found</h1>
-      </>
-    );
-  }
+  return (
+    <>
+      <div
+        style={{
+          height: "60px",
+          textAlign: "center",
+          marginBottom: "20px",
+          color: "#000",
+          zIndex: "100",
+        }}
+      >
+        <h1 style={{ margin: "10px" }}>
+          <b>Search Result For "{search}" : </b>
+
+          {["left"].map((anchor) => (
+            <React.Fragment key={anchor}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={toggleDrawer(anchor, true)}
+              >
+                Filter
+              </Button>
+              <Drawer
+                anchor={anchor}
+                open={state[anchor]}
+                onClose={toggleDrawer(anchor, false)}
+              >
+                {list(anchor)}
+              </Drawer>
+            </React.Fragment>
+          ))}
+
+          <br />
+        </h1>
+      </div>
+      <div style={{ margin: "auto", width: "90%" }}>
+        <MediaCard />
+        <MediaCard />
+        <MediaCard />
+        <MediaCard />
+        <MediaCard />
+        <MediaCard />
+        <MediaCard />
+      </div>
+    </>
+  );
 }
