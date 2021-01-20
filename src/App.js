@@ -6,6 +6,7 @@ import CustomerSigninScreen from "./components/Screens/SignIn/CustomerSigninScre
 import CustomerRegisterScreen from "./components/Screens/SignUp/CustomerRegisterScreen";
 import { Categories } from "./components/Screens/Category/Category";
 import { SubCategories } from "./components/Screens/Category/SubCategory/SubCategories";
+import { SearchProduct } from "./components/Screens/SearchProduct/SearchProduct";
 import SellerProfile from "./components/Screens/SellerProfile/SellerProfile";
 import UserProfile from "./components/Screens/UserProfile/UserProfile";
 import CustomerOTP from "./components/Screens/CustomerOTP/CustomerOTP";
@@ -14,6 +15,7 @@ import NotFound from "./components/NotFound/NotFound";
 import Nav from "./components/Navbars/navbar";
 import Footer from "./components/Footers/footer";
 import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
+
 function App() {
   return (
     <BrowserRouter>
@@ -39,6 +41,7 @@ function App() {
             <Route path="/userprofile" component={UserProfile} />
             <Route path="/customerotp" component={CustomerOTP} />
             <Route path="/sellerotp" component={SellerOTP} />
+            <Route path="/search/:id" component={SearchProduct} />
             <Route component={NotFound} />
           </Switch>
         </main>
