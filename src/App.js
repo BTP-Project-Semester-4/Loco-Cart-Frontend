@@ -14,6 +14,7 @@ import NotFound from "./components/NotFound/NotFound";
 import Nav from "./components/Navbars/navbar";
 import Footer from "./components/Footers/footer";
 import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
+import PlaceOrder from './components/Screens/PlaceOrder/PlaceOrder';
 function App() {
   return (
     <BrowserRouter>
@@ -39,6 +40,7 @@ function App() {
             <Route path="/userprofile" component={UserProfile} />
             <Route path="/customerotp" component={CustomerOTP} />
             <Route path="/sellerotp" component={SellerOTP} />
+            <Route path="/placeorder" component={PlaceOrder} />
             <Route component={NotFound} />
           </Switch>
         </main>
