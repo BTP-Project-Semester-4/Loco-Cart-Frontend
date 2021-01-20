@@ -2,6 +2,26 @@ import React from "react";
 import { Media } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import "./subcategory.scss";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
+import Input from "@material-ui/core/Input";
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: "auto",
+  },
+});
 
 function MediaCard() {
   return (
@@ -83,6 +103,88 @@ function MediaCard() {
 
 export function SubCategories(props) {
   const category = props.match.params.id;
+
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+  const [minPrice, setminPrice] = React.useState(0);
+  const [maxPrice, setmaxPrice] = React.useState(1000000000);
+
+  const list = (anchor) => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: anchor === "top" || anchor === "bottom",
+      })}
+      role="presentation"
+      onClick={toggleDrawer(anchor, true)}
+      onKeyDown={toggleDrawer(anchor, true)}
+    >
+      <List>
+        {[
+          "Relevence",
+          "Popularity",
+          "Price -- Low to High",
+          "Price -- High to Low",
+        ].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {["Price Range"].map((text, index) => (
+          <>
+            <ListItem key={text}>
+              <ListItemText primary={text + " : "} />
+            </ListItem>
+            <ListItem>
+              <Input
+                type="Number"
+                placeholder="Min Price"
+                onChange={(e) => setminPrice(e.target.value)}
+              />
+              <Input
+                type="Number"
+                placeholder="Max Price"
+                onChange={(e) => setmaxPrice(e.target.value)}
+              />
+            </ListItem>
+            <ListItem>
+              {
+                <Button variant="contained" color="primary">
+                  {parseInt(minPrice, 10) > 0 &&
+                    parseInt(maxPrice, 10) < 100000 &&
+                    parseInt(minPrice, 10) < parseInt(maxPrice, 10) &&
+                    "Check"}
+                </Button>
+              }
+            </ListItem>
+          </>
+        ))}
+      </List>
+    </div>
+  );
+
   if (
     category === "Stationery" ||
     category === "Grocery" ||
@@ -104,9 +206,24 @@ export function SubCategories(props) {
         >
           <h1 style={{ margin: "10px" }}>
             <b>Explore {category} : </b>
-            <Button variant="contained" color="primary">
-              Filter
-            </Button>
+            {["left"].map((anchor) => (
+              <React.Fragment key={anchor}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={toggleDrawer(anchor, true)}
+                >
+                  Filter
+                </Button>
+                <Drawer
+                  anchor={anchor}
+                  open={state[anchor]}
+                  onClose={toggleDrawer(anchor, false)}
+                >
+                  {list(anchor)}
+                </Drawer>
+              </React.Fragment>
+            ))}
             <br />
           </h1>
         </div>
