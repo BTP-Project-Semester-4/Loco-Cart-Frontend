@@ -17,6 +17,7 @@ import Footer from "./components/Footers/footer";
 import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
 import CartScreen from "./components/Screens/Cart/CartScreen";
 import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
+// import Productdesc from "./components/Screens/productdescription/productsdescription";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
         <header>
           <Nav />
         </header>
-        <main>
+        <main style={{}}>
           <Switch>
             <Route path="/" component={HomeScreen} exact />
             <Route path="/sellersignin" component={SellerSigninScreen} />
@@ -45,6 +46,7 @@ function App() {
             <Route path="/sellerotp" component={SellerOTP} />
             <Route path="/placeorder" component={PlaceOrder} />
             <Route path="/search/:id" component={SearchProduct} />
+            {/* <Route path="/productdescription" component={Productdesc} /> */}
             <Route component={NotFound} />
           </Switch>
         </main>

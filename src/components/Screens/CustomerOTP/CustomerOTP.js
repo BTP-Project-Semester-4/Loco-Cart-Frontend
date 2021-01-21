@@ -1,5 +1,5 @@
-import React,{useState, useEffect} from "react";
-import {useHistory} from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,8 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import jwt from "jsonwebtoken";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -61,54 +63,53 @@ export default function CustomerOTP() {
   const classes = useStyles();
   const [otp, setOtp] = useState("");
   const history = useHistory();
-  useEffect(()=>{
-    if(localStorage.getItem("jwt") === null){
-      history.push('/signin');
-    }else{
-      fetch('http://localhost:3001/api/customer/customerotp',{
-      method:"get",
-      headers:{
-        "authorization":"Bearer "+localStorage.getItem("jwt")
-      }
-      })
-      .then(res=>res.json())
-      .then(result=>{
-        console.log(result)
-        if(result.error){
-          if(result.error === "Authorization required")
-          history.push('/signin');
-          else if(result.error === "Already authenticated")
-          history.push('/category');
-        }
-      })
-    }
-    
-  },[])
-
-  const submitHandler = ()=>{
-    if(otp === ""){
-      console.log("Please enter otp")
-    }else{
-      fetch('http://localhost:3001/api/customer/customerotp',{
-        method:'post',
-        headers:{
-          "Content-Type":"application/json",
-          "authorization":"Bearer "+localStorage.getItem("jwt")
+  useEffect(() => {
+    if (localStorage.getItem("jwt") === null) {
+      history.push("/signin");
+    } else {
+      fetch("http://localhost:3001/api/customer/customerotp", {
+        method: "get",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("jwt"),
         },
-        body:JSON.stringify({
-          otp:otp,
-          timestamp:Date.now()
-        })
-      }
-      ).then(res=>res.json())
-      .then(result=>{
-        console.log(result);
-        if(result.message === "Valid OTP...User Authenticated"){
-          history.push('/category');
-        }
       })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+          if (result.error) {
+            if (result.error === "Authorization required")
+              history.push("/signin");
+            else if (result.error === "Already authenticated")
+              history.push("/category");
+          }
+        });
     }
-  }
+  }, []);
+
+  const submitHandler = () => {
+    if (otp === "") {
+      console.log("Please enter otp");
+    } else {
+      fetch("http://localhost:3001/api/customer/customerotp", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({
+          otp: otp,
+          timestamp: Date.now(),
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+          if (result.message === "Valid OTP...User Authenticated") {
+            history.push("/category");
+          }
+        });
+    }
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -133,8 +134,8 @@ export default function CustomerOTP() {
               name="otp"
               autoComplete="otp"
               autoFocus
-              onChange={(e)=>{
-                setOtp(e.target.value)
+              onChange={(e) => {
+                setOtp(e.target.value);
               }}
             />
             <Button
@@ -142,7 +143,7 @@ export default function CustomerOTP() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick = {submitHandler}
+              onClick={submitHandler}
             >
               Submit OTP
             </Button>
