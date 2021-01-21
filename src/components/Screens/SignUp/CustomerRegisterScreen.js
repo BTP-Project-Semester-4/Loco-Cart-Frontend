@@ -144,7 +144,7 @@ export default function CustomerRegisterScreen() {
         position: toast.POSITION.TOP_CENTER,
       });
     } else {
-      if (contactNo.length != 10) {
+      if (contactNo.length !== 10) {
         toast.error("Please enter correct contact number !", {
           position: toast.POSITION.TOP_CENTER,
         });

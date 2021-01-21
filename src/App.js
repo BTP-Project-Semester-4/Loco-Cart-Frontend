@@ -15,7 +15,7 @@ import NotFound from "./components/NotFound/NotFound";
 import Nav from "./components/Navbars/navbar";
 import Footer from "./components/Footers/footer";
 import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
-
+import CartScreen from "./components/Screens/Cart/CartScreen";
 function App() {
   return (
     <BrowserRouter>
@@ -34,7 +34,7 @@ function App() {
             />
             <Route path="/signin" component={CustomerSigninScreen} />
             <Route path="/signup" component={CustomerRegisterScreen} exact />
-
+            <Route path="/cart" component={CartScreen} />
             <Route path="/category" exact component={Categories} />
             <Route path="/category/:id" component={SubCategories} />
             <Route path="/sellerprofile" component={SellerProfile} />
