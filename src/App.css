@@ -5,7 +5,7 @@
     "main"
     "footer";
   grid-template-columns: 1fr;
-  grid-template-rows: 4rem 1fr 5rem;
+  grid-template-rows: 3.25678897555rem 1fr 5rem;
   height: 100%;
 }
 
@@ -22,6 +22,7 @@ header {
 main {
   grid-area: main;
   position: relative;
+  min-height: 70vh;
 }
 
 footer {
@@ -29,4 +30,5 @@ footer {
   background-color: #072a40;
   color: #f9f7f0;
   z-index: 1000;
+  /* transform: translate(0%, -3.75976543%); */
 }
