@@ -13,6 +13,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import Input from "@material-ui/core/Input";
+import Axios from "axios";
+import { useEffect } from "react";
 
 const useStyles = makeStyles({
   list: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-function MediaCard() {
+function MediaCard(props) {
   return (
     <>
       <div class="box-wrapper" style={{ margin: "10px" }}>
@@ -48,7 +50,7 @@ function MediaCard() {
               />
             </span>
           </a>
-          <div class="title">Chili Papers</div>
+          <div class="title">{props.Name}</div>
           <div class="desc">Lorem ipsum dolor sit amet.</div>
           <span class="price">₹ 5.67</span>
           <div class="ssfooter">
@@ -102,7 +104,23 @@ function MediaCard() {
 }
 
 export function SearchProduct(props) {
+  window.onload = function () {
+    if (!window.location.hash) {
+      window.location = window.location + "#?=Serched";
+      window.location.reload();
+    }
+  };
   const search = props.match.params.id;
+
+  const [Products, setProducts] = React.useState([]);
+  const address = "http://localhost:3001/api/product/search";
+
+  useEffect(() => {
+    Axios.post(address, { name: search }).then((result) => {
+      console.log(result);
+      setProducts(result.data.products);
+    });
+  }, []);
 
   const classes = useStyles();
   const [state, setState] = React.useState({
@@ -222,13 +240,13 @@ export function SearchProduct(props) {
         </h1>
       </div>
       <div style={{ margin: "auto", width: "90%" }}>
-        <MediaCard />
-        <MediaCard />
-        <MediaCard />
-        <MediaCard />
-        <MediaCard />
-        <MediaCard />
-        <MediaCard />
+        {Products.map((item) => {
+          return (
+            <>
+              <MediaCard {...item} />
+            </>
+          );
+        })}
       </div>
     </>
   );
