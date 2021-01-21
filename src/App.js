@@ -15,7 +15,8 @@ import NotFound from "./components/NotFound/NotFound";
 import Nav from "./components/Navbars/navbar";
 import Footer from "./components/Footers/footer";
 import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
-import PlaceOrder from './components/Screens/PlaceOrder/PlaceOrder';
+import CartScreen from "./components/Screens/Cart/CartScreen";
+import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
             />
             <Route path="/signin" component={CustomerSigninScreen} />
             <Route path="/signup" component={CustomerRegisterScreen} exact />
-
+            <Route path="/cart" component={CartScreen} />
             <Route path="/category" exact component={Categories} />
             <Route path="/category/:id" component={SubCategories} />
             <Route path="/sellerprofile" component={SellerProfile} />
