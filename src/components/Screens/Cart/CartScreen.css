@@ -1,0 +1,24 @@
+/* .CartScreenContainer {
+  min-width: 100%;
+  min-height: 100vh;
+  margin: auto;
+  display: flex;
+}
+.CartItemImage {
+  height: 100px;
+  width: 100px;
+}
+.CartScreenProductList {
+  margin-top: 70px;
+  margin-left: 10px;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #ffffff;
+}
+.CartItemProductName {
+  font-family: Arial, sans-serif;
+}
+.CartItemDescription {
+  font-family: Arial, sans-serif;
+  color: #b9a8a8;
+} */
