@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -15,6 +15,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Dropdown } from "react-bootstrap";
+import Axios from "axios";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -131,6 +133,18 @@ export default function PrimarySearchAppBar() {
   const mobileMenuId = "primary-search-account-menu-mobile";
   const mobileMenuIds = "primary-search-account-menu-mobiles";
 
+  const [productSearch, setProductSearch] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  function searchProduct(e) {
+    setSearchKeyword(e.target.value);
+    Axios.post("http://localhost:3001/api/product/search", {
+      name: searchKeyword,
+    }).then((result) => {
+      setProductSearch(result.data.products);
+    });
+  }
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -210,6 +224,7 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
+  const history = useHistory();
 
   return (
     <div className={classes.grow}>
@@ -246,45 +261,56 @@ export default function PrimarySearchAppBar() {
                     input: classes.inputInput,
                   }}
                   inputProps={{ "aria-label": "search" }}
+                  onChange={searchProduct}
                 />
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {
                   <>
-                    <Dropdown.Item>
-                      <div
-                        classes={{
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                        }}
-                        inputProps={{ "aria-label": "search" }}
-                        style={{
-                          background: "white",
-                          width: "25ch",
-                          marginLeft: "20px",
-                          textAlign: "center",
-                        }}
-                      >
-                        {"Product 1"}
-                      </div>
-                    </Dropdown.Item>
-                    <Dropdown.Item>
-                      <div
-                        classes={{
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                        }}
-                        inputProps={{ "aria-label": "search" }}
-                        style={{
-                          background: "white",
-                          width: "25ch",
-                          marginLeft: "20px",
-                          textAlign: "center",
-                        }}
-                      >
-                        {"Product 2"}
-                      </div>
-                    </Dropdown.Item>
+                    {productSearch.slice(0, 8).map((item) => {
+                      return (
+                        <Dropdown.Item>
+                          <div
+                            classes={{
+                              root: classes.inputRoot,
+                              input: classes.inputInput,
+                            }}
+                            inputProps={{ "aria-label": "search" }}
+                            style={{
+                              background: "white",
+                              width: "25ch",
+                              marginLeft: "20px",
+                              textAlign: "center",
+                            }}
+                          >
+                            <Link to={"/search/" + item.Name}>
+                              {" "}
+                              {item.Name}{" "}
+                            </Link>
+                          </div>
+                        </Dropdown.Item>
+                      );
+                    })}
+                    {productSearch.length == 0 && (
+                      <Dropdown.Item>
+                        <div
+                          classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput,
+                          }}
+                          inputProps={{ "aria-label": "search" }}
+                          style={{
+                            background: "white",
+                            width: "25ch",
+                            marginLeft: "20px",
+                            textAlign: "center",
+                            cursor: "wait",
+                          }}
+                        >
+                          {"No Product Found"}
+                        </div>
+                      </Dropdown.Item>
+                    )}
                   </>
                 }
               </Dropdown.Menu>
