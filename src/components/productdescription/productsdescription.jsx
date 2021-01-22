@@ -1,20 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./product.css";
+import "./productdescription.css";
 import p2 from './p3.png';
 
 const Productdesc=()=>{
 return (
 <>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <section>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/> 
   <div className="container-fluid">
     <div className="row">
       <div className="col-sm-5">
         <div className="thumbnail">
-          <img src={p2} className="img-responsive" alt=""/>
+        
+          <img src={p2} className="img-responsive" alt="" />
           <div className="caption">
             <div className="row buttons">
               <button className="btn  col-sm-4 col-sm-offset-2 btn-lg" style={{backgroundColor: '#ff9f00', color: '#fff', fontSize: '1em'}}><span className="glyphicon glyphicon-shopping-cart" />&nbsp;ADD TO CART</button>
@@ -25,13 +25,7 @@ return (
       </div>
       <div className="col-sm-7 desc">
         <div>
-          <ol className="breadcrumb col-sm-12" style={{backgroundColor: 'transparent'}}>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Electronics</a></li>
-            <li><a href>Mobiles</a></li>
-            <li><a href>iPhone</a></li>
-            <li className="active">iPhone X</li>
-          </ol>
+           
           <h4>Apple iPhone X (Silver 64GB)</h4>
           <div className="row">
           </div>
@@ -64,6 +58,7 @@ return (
               <button class="button button1">SELLER PROFILE</button>
             </ul>
           </div>
+          
         </div>
         <br /><br />
         <div className="container col-xs-12" style={{marginTop: 50}}>
