@@ -17,13 +17,14 @@ import Footer from "./components/Footers/footer";
 import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
 import CartScreen from "./components/Screens/Cart/CartScreen";
 import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
-
+import Header from "./components/Header/Header";
 function App() {
   return (
     <BrowserRouter>
       <div className="grid-container">
         <header>
-          <Nav />
+          {/* <Nav /> */}
+          <Header />
         </header>
         <main>
           <Switch>
