@@ -30,6 +30,9 @@ import Button from "@material-ui/core/Button";
 import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
+const jwt = require("jsonwebtoken");
+const env = require("dotenv");
+env.config();
 
 const drawerWidth = 240;
 
@@ -134,6 +137,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
+
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -146,8 +151,17 @@ export default function Header() {
       setLococart(true);
     }
   };
+  const [userId, setUserId] = useState("");
   React.useEffect(() => {
     showLococart();
+    try {
+      const jwtToken = localStorage.getItem("jwt");
+      const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+
+      setUserId(user._id);
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
   window.addEventListener("resize", showLococart);
 
@@ -162,12 +176,17 @@ export default function Header() {
       setProductSearch(result.data.products);
     });
   }
-  const history = useHistory();
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("jwt");
+    window.location.reload(false);
+    history.push("/");
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -264,10 +283,23 @@ export default function Header() {
               </div>
             </ListItem>
           </Typography>
-
-          <Button color="inherit" style={{ marginLeft: "auto" }}>
-            Login
-          </Button>
+          {userId === "" ? (
+            <Button
+              color="inherit"
+              style={{ marginLeft: "auto" }}
+              href="/signin"
+            >
+              Login
+            </Button>
+          ) : (
+            <Button
+              color="inherit"
+              style={{ marginLeft: "auto" }}
+              onClick={logoutHandler}
+            >
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -288,58 +320,64 @@ export default function Header() {
             )}
           </IconButton>
         </div>
-        <Divider />
-        <List>
-          <Link to="/userprofile">
-            <ListItem button key="Profile">
-              <ListItemIcon>
-                <AccountCircleRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile" style={{ color: "#000000" }} />
-            </ListItem>
-          </Link>
-          <Link to="/bidscreen">
-            <ListItem button key="Bid Products">
-              <ListItemIcon>
-                <GavelIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Bid Products"
-                style={{ color: "#000000" }}
-              />
-            </ListItem>
-          </Link>
-          <Link to="/cart">
-            <ListItem button key="Cart">
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Cart" style={{ color: "#000000" }} />
-            </ListItem>
-          </Link>
-          <Link to="/orderhistory">
-            <ListItem button key="Order History">
-              <ListItemIcon>
-                <HistoryIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Order History"
-                style={{ color: "#000000" }}
-              />
-            </ListItem>
-          </Link>
-          <Link to="/customerotp">
-            <ListItem button key="Verify Account">
-              <ListItemIcon>
-                <VerifiedUserIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Verify Account"
-                style={{ color: "#000000" }}
-              />
-            </ListItem>
-          </Link>
-        </List>
+
+        {userId === "" ? (
+          <List></List>
+        ) : (
+          <List>
+            <Divider />
+            <Link to="/userprofile">
+              <ListItem button key="Profile">
+                <ListItemIcon>
+                  <AccountCircleRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Profile" style={{ color: "#000000" }} />
+              </ListItem>
+            </Link>
+            <Link to="/bidscreen">
+              <ListItem button key="Bid Products">
+                <ListItemIcon>
+                  <GavelIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Bid Products"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+            <Link to="/cart">
+              <ListItem button key="Cart">
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Cart" style={{ color: "#000000" }} />
+              </ListItem>
+            </Link>
+            <Link to="/orderhistory">
+              <ListItem button key="Order History">
+                <ListItemIcon>
+                  <HistoryIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Order History"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+            <Link to="/customerotp">
+              <ListItem button key="Verify Account">
+                <ListItemIcon>
+                  <VerifiedUserIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Verify Account"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+          </List>
+        )}
+
         <Divider />
         <List>
           <Link to="/">
