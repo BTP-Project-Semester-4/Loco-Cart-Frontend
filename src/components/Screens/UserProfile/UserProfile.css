@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 .all_content{
     font-family: 'Montserrat','sans-serif';
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .page-heading{
@@ -14,6 +17,7 @@
     margin-top: 20px!important;
     margin-left: 15px!important;
     margin-right: 15px!important;
+    box-shadow: 3px 3px 3px #d4d3d3;
 }
 
 .userImage{
@@ -78,6 +82,7 @@
     padding: 15px;
     margin-left: 15px!important;
     margin-right: 15px!important;
+    box-shadow: 3px 3px 3px #d4d3d3;
 }
 
 .all-reviews{
@@ -91,6 +96,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
+    box-shadow: 3px 3px 3px #d4d3d3;
 }
 
 .seller-img{
@@ -118,4 +124,5 @@
 
 .review-text{
     padding:10px;
+    text-align: left;
 }
