@@ -20,7 +20,7 @@ const Footer = () => {
               <h4>Get to Know Us</h4>
               <ul>
                 <li>
-                  <a href="/aboutus.html">About Us</a>
+                  <a href="/aboutus">About Us</a>
                 </li>
               </ul>
             </div>
@@ -71,13 +71,13 @@ const Footer = () => {
               <h4>Get Help</h4>
               <ul>
                 <li>
-                  <a href="my account">Your Account</a>
+                  <a href="/userprofile">Your Account</a>
                 </li>
                 <li>
-                  <a href="login"> Customer Login</a>
+                  <a href="/signin"> Customer Login</a>
                 </li>
                 <li>
-                  <a href="signup">Sign Up</a>
+                  <a href="/signin">Sign Up</a>
                 </li>
               </ul>
             </div>
@@ -88,7 +88,7 @@ const Footer = () => {
                   <a href="selling">Sell Anything</a>
                 </li>
                 <li>
-                  <a href="sellerlogin">Seller Login</a>
+                  <a href="sellersignin">Seller Login</a>
                 </li>
               </ul>
             </div>
