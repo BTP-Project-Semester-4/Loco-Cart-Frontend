@@ -41,8 +41,8 @@ function App() {
             <Route path="/cart" component={CartScreen} />
             <Route path="/category" exact component={Categories} />
             <Route path="/category/:id" component={SubCategories} />
-            <Route path="/sellerprofile" component={SellerProfile} />
-            <Route path="/userprofile" component={UserProfile} />
+            <Route path="/sellerprofile/:id" component={SellerProfile} />
+            <Route path="/userprofile/:id" component={UserProfile} />
             <Route path="/customerotp" component={CustomerOTP} />
             <Route path="/sellerotp" component={SellerOTP} />
             <Route path="/placeorder" component={PlaceOrder} />
