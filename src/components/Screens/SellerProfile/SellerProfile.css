@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 .all_content{
     font-family: 'Montserrat','sans-serif';
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .page-heading{
@@ -12,6 +15,7 @@
     background-color: white;
     border-radius: 25px;
     margin-top: 50px;
+    box-shadow: 3px 3px 3px #d4d3d3;
 }
 
 .userImage{
@@ -67,6 +71,7 @@
     background-color: white;
     border-radius: 25px;
     padding: 15px;
+    box-shadow: 3px 3px 3px #d4d3d3;
 }
 
 .products{
@@ -79,6 +84,7 @@
     margin-bottom: 10px!important;
     margin-right: 15px!important;
     padding: 10px;
+    box-shadow: 3px 3px 3px #d4d3d3;
 }
 
 .product-img{
@@ -88,7 +94,7 @@
     margin-right: auto;
     display: table-cell;
     border-radius: 25px 25px 0px 0px;
-    margin-top: 10px;
+    margin-top: 2px;
 }
 
 .product-name{
