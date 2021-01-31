@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import './UserProfile.css';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -7,16 +8,51 @@ import StarIcon from '@material-ui/icons/Star';
 import Grid from '@material-ui/core/Grid';
 
 const UserProfile = (props)=>{
+    const history = useHistory();
+    const [firstName, setFirstName] = useState("Loading...");
+    const [lastName, setLastName] = useState("Loading...");
+    const [email, setEmail] = useState("Loading...");
+    const [pic, setPic] = useState("Loading...");
+    const [city, setCity] = useState("Loading...");
+    const [state, setState] = useState("Loading...");
+    const [country, setCountry] = useState("Loading...");
+    const [phoneNo, setPhoneNo] = useState("Loading...");
+    useEffect(()=>{
+        fetch(
+            `http://localhost:3001/api/customer/${props.location.pathname.substring(13)}`
+            ,{
+                method:"get",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        )
+        .then(res=>res.json())
+        .then(result=>{
+            if(result.message === "Success"){
+                setFirstName(result.customer.firstName);
+                setLastName(result.customer.lastName);
+                setEmail(result.customer.email);
+                setPic(result.customer.profilePictureUrl);
+                setPhoneNo(result.customer.contactNo);
+                setCity(result.customer.city);
+                setState(result.customer.state);
+                setCountry(result.customer.country);
+            }else{
+                history.push('/error')
+            }
+        })
+    },[]);
     return(
         <Grid container className="all_content">
             <Grid item xs={12} sm={12} md={12} lg={12} className="intro">
             <Grid container>
                 <Grid item xs={12} sm={12} md={4} lg={4}>
-                <img className="userImage" src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Elon_Musk_Royal_Society.jpg"/>
+                <img className="userImage" src={pic}/>
                 </Grid>
                 <Grid item xs={12} sm={12} md={8} lg={8} className="userDetail">
-                    <h1 className="name">ELON MUSK</h1>
-                    <h3 className="location">Pune, India</h3>
+                    <h1 className="name">{firstName + " " + lastName}</h1>
+                    <h3 className="location">{city + ", " + state + ", " + country}</h3>
                     <p className="interest">Interests: Fashion & Clothing, Electronics, Books</p>
                 </Grid>
                 </Grid>
@@ -26,9 +62,9 @@ const UserProfile = (props)=>{
                     <Grid item xs={12} sm={12} md={4} lg={4}>
                         <h6 className="section-heading">Other Details</h6>
                         <div className="allExtra" >
-                        <EmailIcon color="primary"/> <span className="extra-info">email@email.com</span>
+                        <EmailIcon color="primary"/> <span className="extra-info">{email}</span>
                          <br></br>
-                         <PhoneIcon color="primary"/><span className="extra-info">+91 9999999999</span>
+                         <PhoneIcon color="primary"/><span className="extra-info">{phoneNo}</span>
                          <br></br>
                          <AssignmentTurnedInIcon color="primary"/><span className="extra-info">12 Orders till now</span>
                          <br></br>
