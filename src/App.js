@@ -18,6 +18,7 @@ import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
 import CartScreen from "./components/Screens/Cart/CartScreen";
 import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
 import Header from "./components/Header/Header";
+import Productdesc from "./components/Screens/ProductDescription/productsdescription";
 function App() {
   return (
     <BrowserRouter>
@@ -46,6 +47,7 @@ function App() {
             <Route path="/sellerotp" component={SellerOTP} />
             <Route path="/placeorder" component={PlaceOrder} />
             <Route path="/search/:id" component={SearchProduct} />
+            <Route path="/product/:id" component={Productdesc} />
             <Route component={NotFound} />
           </Switch>
         </main>
