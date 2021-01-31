@@ -6,28 +6,38 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios from "axios";
 
+const jwt = require("jsonwebtoken");
+const env = require("dotenv");
+
+env.config();
 toast.configure();
 
 export default function CartScreen() {
   const history = useHistory();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  var userId = "";
   var totalQuantity = 0;
-  // const jwt = JSON.parse(localStorage.getItem('jwt'));
 
   useEffect(() => {
-    const userId = "5fe839e626c5a8161c7760fb";
+    try {
+      const jwtToken = localStorage.getItem("jwt");
+      const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      userId = user._id;
+    } catch (e) {
+      console.log(e);
+    }
+
     if (userId === "") {
       toast.error("Please sign in to continue !!!", {
         position: toast.POSITION.TOP_CENTER,
       });
       history.push("/signin");
     } else {
-      // userId = "http://localhost:3001/api/customer/getcart/" + userId;
       Axios.get(`http://localhost:3001/api/customer/getcart/${userId}`, {
         id: userId,
       }).then((result) => {
-        console.log(result);
+        // console.log(result);
         if (result.data.message === "Success") {
           setCartItems(result.data.itemList);
           setTotalPrice(result.data.totalPrice);
