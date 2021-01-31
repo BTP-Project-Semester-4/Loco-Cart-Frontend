@@ -103,6 +103,7 @@ export default function CustomerSigninScreen() {
                 autoClose: 1500,
               });
               sleep(2000).then(() => {
+                window.location.reload(false);
                 history.push("/category");
               });
             } else {
@@ -111,6 +112,7 @@ export default function CustomerSigninScreen() {
                 autoClose: 2000,
               });
               sleep(2300).then(() => {
+                window.location.reload(false);
                 history.push("/customerotp");
               });
             }
