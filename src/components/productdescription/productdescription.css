@@ -1,19 +1,11 @@
-.body{
-    /* padding:0px; */
-    /* margin:0px; */
-    box-sizing:border-box;
-    /* background-color:white; */
-    
-    
-  }
+
   .button1
   {
     border: none;
     color:white;
     background-color:#ff9f00;
-    font-size: 1em;;
+    font: size 1em;;
     padding: 15px 32px;
-    transition: all 0.5s;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -23,7 +15,7 @@
   }
   
   
-  form{
+   form{
     position:relative;
     top:10px;
   }
@@ -34,12 +26,12 @@
   section{
     position:relative;
     top:4.5em;
-  }
-  section .container-fluid .thumbnail .caption .buttons{
+  } 
+   section .container-fluid .thumbnail .caption .buttons{
     margin:1px;
   }
   
-  /* section .desc h5 .glyphicon{
+  section .desc h5 .glyphicon{
     color:#5cb85c;
   }
   section .desc .breadcrumb{
@@ -50,6 +42,9 @@
     background-color:#fff;
     border:1px solid #2874f0;
     color:#2874f0;
-  } */
+  } 
+  
  
   
+
+ 
