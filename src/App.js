@@ -27,7 +27,7 @@ function App() {
           {/* <Nav /> */}
           <Header />
         </header>
-        <main>
+        <main style={{}}>
           <Switch>
             <Route path="/" component={HomeScreen} exact />
             <Route path="/sellersignin" component={SellerSigninScreen} />
