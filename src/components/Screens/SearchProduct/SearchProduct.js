@@ -26,13 +26,11 @@ const useStyles = makeStyles({
 });
 
 function MediaCard(props) {
-  // console.log(typeof props.Sellers);
   const [miniPrice, setminiPrice] = React.useState(100000000);
   const [discription, setdiscription] = React.useState("Product");
   const [image, setimage] = React.useState("HII");
   for (var key in props.Sellers) {
     var obj = props.Sellers[key];
-    // console.log(obj);
     if (parseInt(miniPrice, 10) > parseInt(obj.SellerPrice, 10)) {
       setminiPrice(obj.SellerPrice);
       setdiscription(obj.Description);
@@ -40,10 +38,6 @@ function MediaCard(props) {
       console.log(obj.Image);
     }
   }
-
-  // props.Sellers.map((item) => {
-  //   console.log(item);
-  // });
 
   return (
     <>

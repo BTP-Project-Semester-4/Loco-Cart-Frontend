@@ -146,7 +146,6 @@ export default function PrimarySearchAppBar() {
   }
 
   function searchProductPage(item) {
-    window.location.reload(false);
     history.push("/search/" + item.Name);
   }
 
