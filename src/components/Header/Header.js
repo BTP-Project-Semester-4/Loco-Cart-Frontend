@@ -156,6 +156,7 @@ export default function Header() {
     showLococart();
     try {
       const jwtToken = localStorage.getItem("jwt");
+      console.log(jwt);
       const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
 
       setUserId(user._id);

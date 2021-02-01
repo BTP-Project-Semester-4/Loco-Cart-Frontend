@@ -110,7 +110,7 @@ export default function CustomerOTP() {
         });
     }
   };
-
+  console.log("Customer otp page");
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
