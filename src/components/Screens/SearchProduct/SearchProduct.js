@@ -26,16 +26,36 @@ const useStyles = makeStyles({
 });
 
 function MediaCard(props) {
+  // console.log(typeof props.Sellers);
+  const [miniPrice, setminiPrice] = React.useState(100000000);
+  const [discription, setdiscription] = React.useState("Product");
+  const [image, setimage] = React.useState("HII");
+  for (var key in props.Sellers) {
+    var obj = props.Sellers[key];
+    // console.log(obj);
+    if (parseInt(miniPrice, 10) > parseInt(obj.SellerPrice, 10)) {
+      setminiPrice(obj.SellerPrice);
+      setdiscription(obj.Description);
+      setimage(obj.Image);
+      console.log(obj.Image);
+    }
+  }
+
+  // props.Sellers.map((item) => {
+  //   console.log(item);
+  // });
+
   return (
     <>
       <div class="box-wrapper" style={{ margin: "10px" }}>
         <img
-          src="https://th.bing.com/th/id/OIP.iC4LckUp_x_Rg4Tp-SRf-QHaEo?w=305&h=190&c=7&o=5&dpr=1.25&pid=1.7"
+          src={image}
           alt="rhcp"
           style={{ cursor: "pointer" }}
           width="450px"
           height="200px"
         />
+
         <div class="box-content">
           <a class="buy">
             <span>
@@ -51,8 +71,10 @@ function MediaCard(props) {
             </span>
           </a>
           <div class="title">{props.Name}</div>
-          <div class="desc">Lorem ipsum dolor sit amet.</div>
-          <span class="price">₹ 5.67</span>
+          <div class="desc">
+            <b>{props.Category}</b> : {discription}
+          </div>
+          <span class="price">₹ {miniPrice}</span>
           <div class="ssfooter">
             <ul>
               <li class="fa fa-star">
@@ -106,11 +128,13 @@ function MediaCard(props) {
 export function SearchProduct(props) {
   window.onload = function () {
     if (!window.location.hash) {
-      window.location = window.location + "#?=Serched";
+      window.location = window.location + "#?=Searched";
       window.location.reload();
     }
   };
   const search = props.match.params.id;
+  const [lastsearched, setlastsearched] = React.useState(props.match.params.id);
+  localStorage.setItem("LastSearched", props.match.params.id);
 
   const [Products, setProducts] = React.useState([]);
   const address = "http://localhost:3001/api/product/search";
@@ -205,6 +229,8 @@ export function SearchProduct(props) {
 
   return (
     <>
+      {lastsearched != localStorage.getItem("LastSearched") &&
+        window.location.reload(false)}
       <div
         style={{
           height: "60px",
