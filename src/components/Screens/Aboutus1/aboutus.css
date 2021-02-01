@@ -117,12 +117,13 @@
 .w
 {
     /* color:yellowgreen; */
-    background-color: white;
+    background-color:#3f51b5;
     border:2px solid black;
     border-radius: 10px;
     padding-left:10px;
     padding-bottom: 10px;
     padding-top:10px;
+    color: #fff;
     font-family:'Trebuchet MS';
 }
 .whyus
