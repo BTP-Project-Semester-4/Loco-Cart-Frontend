@@ -18,12 +18,12 @@ const About=()=>{
   return(
       <div>
      {/* <Nav/> */}
-<h2 style={{fontFamily: 'Comic Sans MS'}}><center><b><u>Contact Us</u></b></center></h2>
+<h2 style={{fontFamily: 'Comic Sans MS',marginTop:'10px'}}><center><b><u>Contact Us</u></b></center></h2>
 
 <div class="row">
     <div class="column drift">
         <div class="card">
-            <img src={nalin} alt="Nalin" style={{width:'80%'}}/>
+            <img className="aboutusimage" src={nalin} alt="Nalin" style={{width:'80%'}}/>
             <h3>NALIN AGRAWAL</h3>
             <p class="title">Computer Science and Engineering</p>
             <p><h2 style={{fontFamily: 'Arial'}}> IIIT PUNE</h2></p>
@@ -48,7 +48,7 @@ const About=()=>{
 
     <div class="column">
         <div class="card">
-            <img src={prerit} alt="Prerit" style={{width:'80%'}}/>
+            <img className="aboutusimage" src={prerit} alt="Prerit" style={{width:'80%'}}/>
             <h3>PRERIT KUMAR JHA</h3>
             <p class="title">Computer Science and Engineering</p>
             <p><h2 style={{fontFamily: 'Arial'}}>IIIT PUNE</h2></p>
@@ -73,7 +73,7 @@ const About=()=>{
 
     <div class="column">
         <div class="card">
-        <img src={amit} alt="Amit" style={{width:'80%'}}/>
+        <img className="aboutusimage" src={amit} alt="Amit" style={{width:'80%'}}/>
             <h3>AMIT KUMAR UPDHYAY</h3>
             <p class="title">Computer Science and Engineering</p>
             <p> <h2 style={{fontFamily: 'Arial'}}>IIIT PUNE</h2></p>
@@ -98,7 +98,7 @@ const About=()=>{
 
     <div class="column">
         <div class="card">
-            <img src={vijay} alt="Vijay" style={{width:'80%'}}/>
+            <img className="aboutusimage" src={vijay} alt="Vijay" style={{width:'80%'}}/>
             <h3>VIJAY JOSHI</h3>
             <p class="title">Computer Science and Engineering</p>
             <p><h2 style={{fontFamily: 'Arial'}}>IIIT PUNE</h2></p>
