@@ -12,14 +12,13 @@ import UserProfile from "./components/Screens/UserProfile/UserProfile";
 import CustomerOTP from "./components/Screens/CustomerOTP/CustomerOTP";
 import SellerOTP from "./components/Screens/SellerOTP/SellerOTP";
 import NotFound from "./components/NotFound/NotFound";
-import Nav from "./components/Navbars/navbar";
-import AboutUs from './components/Screens/AboutUs/AboutUs';
 import Footer from "./components/Footers/footer";
 import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
 import CartScreen from "./components/Screens/Cart/CartScreen";
 import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
 import Header from "./components/Header/Header";
 import Productdesc from "./components/Screens/ProductDescription/productdescription.jsx";
+
 function App() {
   return (
     <BrowserRouter>
@@ -37,8 +36,7 @@ function App() {
               component={SellerRegisterScreen}
               exact
             />
-            <Route path="/signin" component={CustomerSigninScreen} />
-            <Route path="/aboutus" component={AboutUs} />
+            <Route path="/signin" component={CustomerSigninScreen} exact />
             <Route path="/signup" component={CustomerRegisterScreen} exact />
             <Route path="/cart" component={CartScreen} />
             <Route path="/category" exact component={Categories} />
@@ -49,7 +47,6 @@ function App() {
             <Route path="/sellerotp" component={SellerOTP} />
             <Route path="/placeorder" component={PlaceOrder} />
             <Route path="/search/:id" component={SearchProduct} />
-            <Route path="/product/:id" component={Productdesc} />
             <Route component={NotFound} />
           </Switch>
         </main>
