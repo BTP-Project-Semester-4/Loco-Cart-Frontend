@@ -12,13 +12,13 @@ import UserProfile from "./components/Screens/UserProfile/UserProfile";
 import CustomerOTP from "./components/Screens/CustomerOTP/CustomerOTP";
 import SellerOTP from "./components/Screens/SellerOTP/SellerOTP";
 import NotFound from "./components/NotFound/NotFound";
-import Nav from "./components/Navbars/navbar";
 import Footer from "./components/Footers/footer";
 import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
 import CartScreen from "./components/Screens/Cart/CartScreen";
 import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
 import Header from "./components/Header/Header";
-import Productdesc from "./components/Screens/ProductDescription/productsdescription";
+import Productdesc from "./components/Screens/ProductDescription/productdescription.jsx";
+
 function App() {
   return (
     <BrowserRouter>
@@ -27,7 +27,7 @@ function App() {
           {/* <Nav /> */}
           <Header />
         </header>
-        <main style={{}}>
+        <main>
           <Switch>
             <Route path="/" component={HomeScreen} exact />
             <Route path="/sellersignin" component={SellerSigninScreen} />
@@ -36,18 +36,17 @@ function App() {
               component={SellerRegisterScreen}
               exact
             />
-            <Route path="/signin" component={CustomerSigninScreen} />
+            <Route path="/signin" component={CustomerSigninScreen} exact />
             <Route path="/signup" component={CustomerRegisterScreen} exact />
             <Route path="/cart" component={CartScreen} />
             <Route path="/category" exact component={Categories} />
             <Route path="/category/:id" component={SubCategories} />
-            <Route path="/sellerprofile/:id" component={SellerProfile} />
-            <Route path="/userprofile/:id" component={UserProfile} />
+            <Route path="/sellerprofile" component={SellerProfile} />
+            <Route path="/userprofile" component={UserProfile} />
             <Route path="/customerotp" component={CustomerOTP} />
             <Route path="/sellerotp" component={SellerOTP} />
             <Route path="/placeorder" component={PlaceOrder} />
             <Route path="/search/:id" component={SearchProduct} />
-            <Route path="/product/:id" component={Productdesc} />
             <Route component={NotFound} />
           </Switch>
         </main>

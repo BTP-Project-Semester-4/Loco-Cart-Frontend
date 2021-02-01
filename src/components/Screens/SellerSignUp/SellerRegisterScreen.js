@@ -199,39 +199,6 @@ export default function CustomerRegisterScreen() {
       }
     }
   };
-  // const submitHandler = (e) => {
-  //   e.preventDefault();
-
-  //   if (password.length > 8 && password === confirmPassword) {
-  //     fetch("http://localhost:3001/api/seller/register", {
-  //       method: "post",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         firstName: firstName,
-  //         lastName: lastName,
-  //         email: email,
-  //         category: category,
-  //         password: password,
-  //         contactNo: contactNo,
-  //         country: country,
-  //         state: state,
-  //         city: city,
-  //         address: address,
-  //       }),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((result) => {
-  //         console.log(result);
-  //         if (result.message === "Success") {
-  //           history.push("/sellersignin");
-  //         } else {
-  //           history.push("/sellersignup");
-  //         }
-  //       });
-  //   }
-  // };
   return (
     <div>
       {!otherDetails ? (
@@ -337,7 +304,7 @@ export default function CustomerRegisterScreen() {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="/signin" variant="body2">
+                    <Link href="/sellersignin" variant="body2">
                       {"Already have an account? Sign In"}
                     </Link>
                   </Grid>
