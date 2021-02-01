@@ -94,7 +94,7 @@ export default function CustomerSigninScreen() {
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log(result);
+          // console.log(result);
           if (result.message === "Success") {
             localStorage.setItem("jwt", result.token);
             if (result.isAuthenticated) {
@@ -104,7 +104,7 @@ export default function CustomerSigninScreen() {
               });
               sleep(2000).then(() => {
                 window.location.reload(false);
-                history.push("/category");
+                history.push("/");
               });
             } else {
               toast.warning("Please Authorize yourself", {
@@ -112,7 +112,7 @@ export default function CustomerSigninScreen() {
                 autoClose: 2000,
               });
               sleep(2300).then(() => {
-                window.location.reload(false);
+                // window.location.reload(false);
                 history.push("/customerotp");
               });
             }
@@ -178,7 +178,7 @@ export default function CustomerSigninScreen() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/sellersignup" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
