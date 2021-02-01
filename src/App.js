@@ -19,7 +19,7 @@ import HomeScreen from "./components/Screens/HomeScreen/HomeScreen";
 import CartScreen from "./components/Screens/Cart/CartScreen";
 import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
 import Header from "./components/Header/Header";
-import Productdesc from "./components/Screens/ProductDescription/productsdescription.jsx";
+import Productdesc from "./components/Screens/ProductDescription/productdescription.jsx";
 function App() {
   return (
     <BrowserRouter>

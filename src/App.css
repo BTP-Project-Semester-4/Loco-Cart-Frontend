@@ -20,6 +20,7 @@ header {
 }
 
 main {
+  font-family:'Trebuchet MS';
   grid-area: main;
   position: relative;
   min-height: 70vh;
