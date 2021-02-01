@@ -2,14 +2,7 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #1A2980;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #26D0CE, #1A2980);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #26D0CE, #1A2980); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
-    width: 100%;
-}
+
 
 
 .column {
@@ -27,7 +20,7 @@ body {
 {
     align-content: center;
     margin-bottom: auto;
-    font-family: Comic Sans MS;
+    font-family:'Trebuchet MS';
 }
 
 /* Remove extra left and right margins, due to padding */
@@ -56,10 +49,11 @@ body {
 }
 .card1
 {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
     padding: 16px;
-    text-align:center;
-    background-color:black;
+    /* text-align:center; */
+    /* background-color:white */
+    /* ; */
 }
 
 .title {
@@ -80,20 +74,20 @@ body {
     font-size: 18px;
 }
 
-a {
+/* a {
     text-decoration: none;
     font-size: 18px;
     color: black;
-}
-a:hover {
+} */
+/* a:hover {
     opacity: 0.7;
-}
+} */
 /* .1
 {
     
 } */
 .contact:link{
-    background-color: black;
+    /* background-color: black; */
     color: white;
     padding: 14px 25px;
     text-align: center;
@@ -105,7 +99,7 @@ a:hover {
 .contact:link:hover{
     background-color:#0082e6;
 }
-img {
+.aboutusimage {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 5px;
@@ -113,23 +107,40 @@ img {
     height: 215px;
     border-color: black;
 }
+
 .abt
 {
     line-height: 1.5;
     color:aqua;
-   font-family: Comic Sans MS;
+    font-family:'Trebuchet MS';
 }
 .w
 {
-    color:yellowgreen;
-    font-family:Comic Sans MS;
+    /* color:yellowgreen; */
+    background-color:#3f51b5;
+    border:2px solid black;
+    border-radius: 10px;
+    padding-left:10px;
+    padding-bottom: 10px;
+    padding-top:10px;
+    color: #fff;
+    font-family:'Trebuchet MS';
+}
+.whyus
+{
+    font-family:'Trebuchet MS';
+    font-size: 2rem;
+    /* text-decoration:underline; */
+    font-weight: bold;
 }
 .w01
 {
     line-height: 2;
     font-size: 14px;
-    font-family:Comic Sans MS;
-    text-align: center;
+    text-decoration:none;
+    /* background-color: white; */
+    font-family:'Trebuchet MS';
+    /* text-align: center; */
 }
 a.social {
     margin: 0 1rem;
