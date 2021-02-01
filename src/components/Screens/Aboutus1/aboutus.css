@@ -20,7 +20,7 @@
 {
     align-content: center;
     margin-bottom: auto;
-    font-family: Comic Sans MS;
+    font-family:'Trebuchet MS';
 }
 
 /* Remove extra left and right margins, due to padding */
@@ -49,10 +49,11 @@
 }
 .card1
 {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
     padding: 16px;
-    text-align:center;
-    background-color:black;
+    /* text-align:center; */
+    /* background-color:white */
+    /* ; */
 }
 
 .title {
@@ -86,7 +87,7 @@
     
 } */
 .contact:link{
-    background-color: black;
+    /* background-color: black; */
     color: white;
     padding: 14px 25px;
     text-align: center;
@@ -111,19 +112,34 @@
 {
     line-height: 1.5;
     color:aqua;
-   font-family: Comic Sans MS;
+    font-family:'Trebuchet MS';
 }
 .w
 {
-    color:yellowgreen;
-    font-family:Comic Sans MS;
+    /* color:yellowgreen; */
+    background-color: white;
+    border:2px solid black;
+    border-radius: 10px;
+    padding-left:10px;
+    padding-bottom: 10px;
+    padding-top:10px;
+    font-family:'Trebuchet MS';
+}
+.whyus
+{
+    font-family:'Trebuchet MS';
+    font-size: 2rem;
+    /* text-decoration:underline; */
+    font-weight: bold;
 }
 .w01
 {
     line-height: 2;
     font-size: 14px;
-    font-family:Comic Sans MS;
-    text-align: center;
+    text-decoration:none;
+    /* background-color: white; */
+    font-family:'Trebuchet MS';
+    /* text-align: center; */
 }
 a.social {
     margin: 0 1rem;

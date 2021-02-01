@@ -18,7 +18,7 @@ const About=()=>{
   return(
       <div>
      {/* <Nav/> */}
-<h2 style={{fontFamily: 'Comic Sans MS',marginTop:'10px'}}><center><b><u>Contact Us</u></b></center></h2>
+<h2 style={{fontFamily:'Trebuchet MS',marginTop:'10px'}}><center><b><u>Contact Us</u></b></center></h2>
 
 <div class="row">
     <div class="column drift">
@@ -124,13 +124,13 @@ const About=()=>{
         <div class="card1">
             {/* <!-- <h2 style="font-family: 'Comic Sans MS'"><center><b><u>About Us</u></b></center></h2> --> */}
             <div class="w">
-                <h2 style={{fontFamily: 'Comic Sans MS'}}><h2 style={{color:'red'}}><b><u>WHY US?</u></b></h2>
+                <h2 style={{fontFamily:'Trebuchet MS',textAlign:'center'}} className="whyus"><b><u>WHY US?  🤔</u></b></h2>
            
-           <p><div class="w01"><h2>1.E-Commerce Website for Selling and Buying Items.</h2></div></p>
-           <p><div class="w01"><h2>2.Different Categories for differnt products are provided.</h2></div></p>
-           <p><div class="w01"><h2>3.Any one who wants to sell any item can register and Sell their Product.</h2></div></p>
-           <p><div class="w01"><h2>4.Privacy For Sellers and Customers.</h2></div></p>
-           <p><div class="w01"><h2>5.Providing several new things for our Customers.</h2></div></p></h2>
+           <p><div class="w01">1.E-Commerce Website for Selling and Buying Items.</div></p>
+           <p><div class="w01">2.Different Categories for differnt products are provided.</div></p>
+           <p><div class="w01">3.Any one who wants to sell any item can register and Sell their Product.</div></p>
+           <p><div class="w01">4.Privacy For Sellers and Customers.</div></p>
+           <p><div class="w01">5.Providing several new things for our Customers.</div></p>
            </div>
         </div>
         </div>
