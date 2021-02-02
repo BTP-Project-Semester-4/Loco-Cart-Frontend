@@ -31,7 +31,6 @@ const Productdesc = (props) => {
 
   return (
     <>
-      {/* {window.location.reload(false)} */}
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       {/* <title>amazon | Product Page</title> */}
@@ -107,7 +106,6 @@ const Productdesc = (props) => {
                   <Link to="/cart">
                     <button class="button button2">ADD TO CART</button>
                   </Link>
-
                   <Link to={"/sellerprofile/" + sellerId}>
                     <button class="button button2">SELLER PROFILE</button>
                   </Link>
