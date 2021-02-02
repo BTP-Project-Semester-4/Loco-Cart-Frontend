@@ -101,6 +101,7 @@ export default function CustomerOTP() {
         method: "post",
         headers: {
           "Content-Type": "application/json",
+          authorization: "Bearer " + localStorage.getItem("jwt"),
         },
         body: JSON.stringify({
           otp: otp,
@@ -111,14 +112,14 @@ export default function CustomerOTP() {
         .then((result) => {
           console.log(result);
           if (result.message === "Valid OTP...User Authenticated") {
-            localStorage.setItem("jwt", result.token);
+            // localStorage.setItem("jwt", result.token);
             toast.success("Sweet !", {
               position: toast.POSITION.TOP_CENTER,
               autoClose: 1500,
             });
             sleep(2000).then(() => {
               history.push("/");
-              // window.location.reload(false);
+              window.location.reload(false);
             });
           } else {
             toast.warning(result.message, {

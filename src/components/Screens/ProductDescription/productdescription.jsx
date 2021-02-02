@@ -39,7 +39,16 @@ const Productdesc = (props) => {
           <img
             src={IImage}
             alt="default"
-            style={{ width: "400px", height: "600px", margin: "20px" }}
+            style={{
+              width: "400px",
+              height: "600px",
+              margin: "20px",
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "auto",
+              marginBottom: "auto",
+            }}
           />
         </div>
         <div className="item-info-parent">
