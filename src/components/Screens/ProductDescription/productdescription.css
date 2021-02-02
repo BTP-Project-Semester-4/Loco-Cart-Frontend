@@ -1,68 +1,89 @@
-/* body {
-  font-family: sans-serif;
-  font-size: 23px;
-  line-height: 3;
-} */
-.button1 { border: none; color: white; background-color: #ff9f00; font: size 1em; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; }
-.button2 { border: none; color: white; background-color: #fb641b; font: size 1.2em; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; }
-
-/* header {
-  height: 15vh;
-  width: 100%;
-  background: lightgray;
-  margin-bottom: 50px;
-} */
-
+.button2 {
+  border: none;
+  color: white;
+  background-color: #3f51b5;
+  border-radius: 5px;
+  font: size 1.2em;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  margin-right: 10px !important;
+  cursor: pointer;
+}
+.button2:hover {
+  font-weight: bolder;
+  background-color: #1e3097;
+  transition: all 0.3s ease;
+  transform: translate(-2%, -2%);
+  box-shadow: 5px 5px 5px grey;
+}
 #product-info {
   line-height: 3;
-  display: flex;
   width: 95%;
-  margin: 0 auto
+  margin: 0 auto;
 }
+@media only screen and (min-width: 700px) {
+  #product-info {
+    display: flex;
+  }
+  .item-image-parent {
+    order: 1;
+    width: 50%;
+    display: flex;
+  }
 
-.item-image-parent {
-  
-  order: 1;
-  width: 50%;
-  display: flex;
+  .item-info-parent {
+    order: 2;
+    width: 50%;
+  }
 }
+@media only screen and (max-width: 699px) {
+  .item-image-parent {
+    text-align: center;
+  }
+  .item-image-parent {
+    order: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.item-info-parent {
-  order: 2;
-  width: 50%;
+  .item-info-parent {
+    order: 2;
+    width: 100%;
+  }
 }
 
 .item-list-vertical {
-  
   order: 1;
   width: 10%;
   overflow-y: auto;
-  margin-top: 50px;
+  /* margin-top: 50px; */
 }
 
 .item-image-main {
   order: 2;
   width: 90%;
-  height:70%;
+  height: 70%;
+  margin-top: 20px;
 }
 
 /* sectioning completed */
 
-
 .thumb-box {
   width: 75%;
-  margin: 10px auto;
+  /* margin: 10px auto; */
   background: white;
   border: 1px solid gray;
 }
 .thumb-box img {
-  line-height:2.6;
+  line-height: 2.6;
   width: 100%;
   height: 100%;
 }
 
 .item-image-main img {
-
   line-height: 3;
   background-color: white;
   width: 100%;
@@ -72,41 +93,26 @@
 .thumb-box:hover {
   line-height: 3;
   cursor: pointer;
-  border-color: #e77600;;
+  border-color: #e77600;
   box-shadow: 0px 1px 5px 1px #e77600;
 }
 
 /* Item Info */
-.main-info h3{
+.main-info h3 {
   line-height: 3;
   font-size: 25px;
   margin-bottom: 0;
   font-family: Arial, Helvetica, sans-serif;
-  font-weight:bold;
-}
-
-.star-rating {
-  width: 70%;
-  color: gray;
-  font-size: 24px;
-  border-bottom: 0.4px solid rgba(194, 194, 194, 0.829);
-}
-
-.star-rating span {
-  color: gold;
+  font-weight: bold;
 }
 
 .main-info p {
-
-  font-size: 23px;
-  color: yellow;
-  margin-bottom: 30px;
+  font-size: 1.2rem;
 }
 
 #price {
-  color:black;
+  color: black;
   font-size: 23px;
-  line-height: 2.7;
 }
 
 /* Select Items */
@@ -115,7 +121,7 @@
   margin-bottom: 10px;
 }
 
-.change-color .thumb-box{
+.change-color .thumb-box {
   margin: 10px 10px 10px 0;
   width: 40px;
   display: inline-block;
@@ -127,13 +133,49 @@
   border-color: rgb(189, 189, 189);
   margin-top: 10px;
 }
-
+.ProductDiscName {
+  text-transform: uppercase;
+  color: #3f51b5;
+  font-size: 2rem;
+}
 .description ul {
   padding-left: 17px;
-  font-size:25px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-size: 25px;
   font-weight: bold;
-  line-height:2.3;
+  line-height: 2.3;
   /* line-height: 2.5rem; */
 }
-
+.description {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid#b4b4b4;
+  margin-bottom: 10px;
+  box-shadow: 5px 5px 5px rgb(187, 187, 187);
+}
+.ProductDescHeadings {
+  font-size: 1.3rem;
+}
+.ProductDiscBox {
+  background-color: white;
+}
+.ProductDiscContent {
+  font-size: 1rem;
+  color: #555555;
+  font-style: italic;
+}
+.ProductDiscButtonDiv {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.ProductDescriptionStarRating {
+  background-color: #09a811;
+  width: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  border-radius: 10px;
+  color: #ffffff;
+  font-style: italic;
+  text-decoration: none !important;
+}
