@@ -47,6 +47,7 @@ function App() {
             <Route path="/sellerotp" component={SellerOTP} />
             <Route path="/placeorder" component={PlaceOrder} />
             <Route path="/search/:id" component={SearchProduct} />
+            <Route path="/product/:id" component={Productdesc} />
             <Route component={NotFound} />
           </Switch>
         </main>
