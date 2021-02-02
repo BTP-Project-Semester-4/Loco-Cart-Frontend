@@ -32,7 +32,7 @@ export default function CartScreen() {
       toast.error("Please sign in to continue !!!", {
         position: toast.POSITION.TOP_CENTER,
       });
-      history.push("/signin");
+      // history.push("/signin");
     } else {
       Axios.get(`http://localhost:3001/api/customer/getcart/${userId}`, {
         id: userId,
