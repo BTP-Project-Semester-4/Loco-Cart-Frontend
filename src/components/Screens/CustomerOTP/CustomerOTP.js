@@ -119,7 +119,7 @@ export default function CustomerOTP() {
             });
             sleep(2000).then(() => {
               history.push("/");
-              // window.location.reload(false);
+              window.location.reload(false);
             });
           } else {
             toast.warning(result.message, {
