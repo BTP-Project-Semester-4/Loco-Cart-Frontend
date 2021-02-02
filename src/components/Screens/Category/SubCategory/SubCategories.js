@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 });
 
 function MediaCard(props) {
+  const [id, setid] = React.useState(props._id);
   const [miniPrice, setminiPrice] = React.useState(100000000);
   const [discription, setdiscription] = React.useState("Product");
   const [image, setimage] = React.useState("HII");
@@ -43,13 +44,15 @@ function MediaCard(props) {
       {parseInt(props.mini, 10) <= parseInt(miniPrice, 10) &&
         parseInt(props.maxi, 10) >= parseInt(miniPrice, 10) && (
           <div class="box-wrapper" style={{ margin: "10px" }}>
-            <img
-              src={image}
-              alt="rhcp"
-              style={{ cursor: "pointer" }}
-              width="450px"
-              height="200px"
-            />
+            <a href={"/product/" + id}>
+              <img
+                src={image}
+                alt="rhcp"
+                style={{ cursor: "pointer" }}
+                width="450px"
+                height="200px"
+              />
+            </a>
             <div class="box-content">
               <a class="buy">
                 <span>
