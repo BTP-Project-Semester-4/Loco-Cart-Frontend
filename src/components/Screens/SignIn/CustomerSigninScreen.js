@@ -103,17 +103,18 @@ export default function CustomerSigninScreen() {
                 autoClose: 1500,
               });
               sleep(2000).then(() => {
-                window.location.reload(false);
                 history.push("/");
+                window.location.reload(false);
               });
             } else {
+              console.log("customer unauthorised");
               toast.warning("Please Authorize yourself", {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 2000,
               });
               sleep(2300).then(() => {
-                // window.location.reload(false);
                 history.push("/customerotp");
+                // window.location.reload(false);
               });
             }
           } else {

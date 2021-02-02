@@ -12,7 +12,14 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import jwt from "jsonwebtoken";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+toast.configure();
+
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -65,7 +72,7 @@ export default function CustomerOTP() {
   const history = useHistory();
   useEffect(() => {
     if (localStorage.getItem("jwt") === null) {
-      history.push("/signin");
+      // history.push("/signin");
     } else {
       fetch("http://localhost:3001/api/customer/customerotp", {
         method: "get",
@@ -94,7 +101,6 @@ export default function CustomerOTP() {
         method: "post",
         headers: {
           "Content-Type": "application/json",
-          authorization: "Bearer " + localStorage.getItem("jwt"),
         },
         body: JSON.stringify({
           otp: otp,
@@ -105,7 +111,20 @@ export default function CustomerOTP() {
         .then((result) => {
           console.log(result);
           if (result.message === "Valid OTP...User Authenticated") {
-            history.push("/category");
+            localStorage.setItem("jwt", result.token);
+            toast.success("Sweet !", {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 1500,
+            });
+            sleep(2000).then(() => {
+              history.push("/");
+              // window.location.reload(false);
+            });
+          } else {
+            toast.warning(result.message, {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 2000,
+            });
           }
         });
     }

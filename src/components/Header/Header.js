@@ -185,8 +185,8 @@ export default function Header() {
   const logoutHandler = (e) => {
     e.preventDefault();
     localStorage.removeItem("jwt");
-    window.location.reload(false);
     history.push("/");
+    window.location.reload(false);
   };
   return (
     <div className={classes.root}>
