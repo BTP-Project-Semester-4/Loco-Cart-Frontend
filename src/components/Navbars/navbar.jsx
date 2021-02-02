@@ -145,6 +145,10 @@ export default function PrimarySearchAppBar() {
     });
   }
 
+  function searchProductPage(item) {
+    history.push("/search/" + item.Name);
+  }
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -283,10 +287,10 @@ export default function PrimarySearchAppBar() {
                               textAlign: "center",
                             }}
                           >
-                            <Link to={"/search/" + item.Name}>
+                            <div onClick={searchProductPage(item)}>
                               {" "}
                               {item.Name}{" "}
-                            </Link>
+                            </div>
                           </div>
                         </Dropdown.Item>
                       );

@@ -1,10 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./productdescription.css";
-import p2 from "./p3.jpg";
 import { Link } from "react-router-dom";
+import Axios from "axios";
 
-const Productdesc = () => {
+const Productdesc = (props) => {
+  const [miniiPrice, setminiiPrice] = React.useState(10000000);
+  const [discription, setdiscription] = React.useState("Loading");
+  const [IImage, setIImage] = React.useState("Loading...");
+  const [name, setname] = React.useState("Loading...");
+  const [category, setcategory] = React.useState("Loading...");
+  const [sellerId, setsellerId] = React.useState("Loading...");
+
+  Axios.post("http://localhost:3001/api/product/searchbyid", {
+    id: props.match.params.id,
+  }).then((result) => {
+    for (var key in result.data.products.Sellers) {
+      var obj = result.data.products.Sellers[key];
+      if (miniiPrice > obj.SellerPrice) {
+        setminiiPrice(obj.SellerPrice);
+        setdiscription(obj.Description);
+        setIImage(obj.Image);
+        setname(result.data.products.Name);
+        setcategory(result.data.products.Category);
+        setsellerId(obj.SellerId);
+        console.log(obj.SellerId);
+      }
+    }
+  });
+
   return (
     <>
       <meta charSet="UTF-8" />
@@ -29,19 +53,23 @@ const Productdesc = () => {
         </div> */}
           </div>
           <div className="item-image-main">
-            <img src={p2} alt="default" />
+            <img
+              src={IImage}
+              alt="default"
+              style={{ width: "400px", height: "600px", margin: "20px" }}
+            />
           </div>
         </div>
         <div className="item-info-parent">
           {/* main info */}
           <div className="main-info">
-            <h3>Apple iPhone X </h3>
+            <h3>{name}</h3>
             {/* <div className="star-rating">
           <span>★★★★</span>★            
         </div> */}
             <h3>
               <p>
-                PRICE:<span id="price">₹ 449.00</span>
+                PRICE:<span id="price">₹ {miniiPrice}</span>
               </p>
             </h3>
           </div>
@@ -68,19 +96,18 @@ const Productdesc = () => {
         </div> */}
             <div className="description">
               <ul>
-                <li>Description:14.73 cm Super Retina Screen</li>
+                <li>Description : {discription}</li>
                 <li>Display: Innovative Display Technology</li>
                 <li>Model Number: MQA62HN/A</li>
-                <li>Model Name:iPhone X</li>
-                <li>Browse Type:Smartphones</li>
+                <li>Model Name: {name}</li>
+                <li>Browse Type: {category}</li>
 
                 <li>
                   <Link to="/cart">
                     <button class="button button2">ADD TO CART</button>
                   </Link>
-
-                  <Link to="/sellerprofile">
-                    <button class="button button1">SELLER PROFILE</button>
+                  <Link to={"/sellerprofile/" + sellerId}>
+                    <button class="button button2">SELLER PROFILE</button>
                   </Link>
                 </li>
               </ul>

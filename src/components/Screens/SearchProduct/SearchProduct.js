@@ -15,6 +15,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import Input from "@material-ui/core/Input";
 import Axios from "axios";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   list: {
@@ -26,79 +27,100 @@ const useStyles = makeStyles({
 });
 
 function MediaCard(props) {
+  const [id, setid] = React.useState(props._id);
+  const [miniPrice, setminiPrice] = React.useState(100000000);
+  const [discription, setdiscription] = React.useState("Product");
+  const [image, setimage] = React.useState("HII");
+  for (var key in props.Sellers) {
+    var obj = props.Sellers[key];
+    if (parseInt(miniPrice, 10) > parseInt(obj.SellerPrice, 10)) {
+      setminiPrice(obj.SellerPrice);
+      setdiscription(obj.Description);
+      setimage(obj.Image);
+    }
+  }
+  const history = useHistory();
+
   return (
     <>
-      <div class="box-wrapper" style={{ margin: "10px" }}>
-        <img
-          src="https://th.bing.com/th/id/OIP.iC4LckUp_x_Rg4Tp-SRf-QHaEo?w=305&h=190&c=7&o=5&dpr=1.25&pid=1.7"
-          alt="rhcp"
-          style={{ cursor: "pointer" }}
-          width="450px"
-          height="200px"
-        />
-        <div class="box-content">
-          <a class="buy">
-            <span>
+      {parseInt(props.mini, 10) <= parseInt(miniPrice, 10) &&
+        parseInt(props.maxi, 10) >= parseInt(miniPrice, 10) && (
+          <div class="box-wrapper" style={{ margin: "10px" }}>
+            <a href={"/product/" + id}>
               <img
-                style={{
-                  marginTop: "10px",
-                  cursor: "pointer",
-                  height: "50px",
-                  width: "50px",
-                }}
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png"
+                src={image}
+                alt="rhcp"
+                style={{ cursor: "pointer" }}
+                width="450px"
+                height="200px"
               />
-            </span>
-          </a>
-          <div class="title">{props.Name}</div>
-          <div class="desc">Lorem ipsum dolor sit amet.</div>
-          <span class="price">₹ 5.67</span>
-          <div class="ssfooter">
-            <ul>
-              <li class="fa fa-star">
-                <img
-                  src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                  style={{ height: "2rem" }}
-                />
-              </li>
-              <li class="fa fa-star">
-                <img
-                  src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                  style={{ height: "2rem" }}
-                />
-              </li>
-              <li class="fa fa-star">
-                <img
-                  src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                  style={{ height: "2rem" }}
-                />
-              </li>
-              <li class="fa fa-star">
-                <img
-                  src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                  style={{ height: "2rem" }}
-                />
-              </li>
-              <li class="fa fa-star-o">
-                <img
-                  src="https://img.icons8.com/fluent/48/000000/star-half-empty.png"
-                  style={{ height: "2rem" }}
-                />
-              </li>
-            </ul>
+            </a>
+            <div class="box-content">
+              <a class="buy">
+                <span>
+                  <img
+                    style={{
+                      marginTop: "10px",
+                      cursor: "pointer",
+                      height: "50px",
+                      width: "50px",
+                    }}
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png"
+                  />
+                </span>
+              </a>
+              <div class="title">{props.Name}</div>
+              <div class="desc">
+                <b>{props.Category}</b> : {discription}
+              </div>
+              <span class="price">₹ {miniPrice}</span>
+              <div class="ssfooter">
+                <ul>
+                  <li class="fa fa-star">
+                    <img
+                      src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                      style={{ height: "2rem" }}
+                    />
+                  </li>
+                  <li class="fa fa-star">
+                    <img
+                      src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                      style={{ height: "2rem" }}
+                    />
+                  </li>
+                  <li class="fa fa-star">
+                    <img
+                      src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                      style={{ height: "2rem" }}
+                    />
+                  </li>
+                  <li class="fa fa-star">
+                    <img
+                      src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
+                      style={{ height: "2rem" }}
+                    />
+                  </li>
+                  <li class="fa fa-star-o">
+                    <img
+                      src="https://img.icons8.com/fluent/48/000000/star-half-empty.png"
+                      style={{ height: "2rem" }}
+                    />
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="success"></div>
+            <Button
+              variant="contained"
+              color="primary"
+              className="addtocart"
+              disableElevation
+              style={{ height: "40px", width: "90%", marginBottom: "8px" }}
+            >
+              <p style={{ fontSize: "1.2rem" }}>🛒 Add to Cart 🛒</p>
+            </Button>
           </div>
-        </div>
-        <div class="success"></div>
-        <Button
-          variant="contained"
-          color="primary"
-          className="addtocart"
-          disableElevation
-          style={{ height: "40px", width: "90%", marginBottom: "8px" }}
-        >
-          <p style={{ fontSize: "1.2rem" }}>🛒 Add to Cart 🛒</p>
-        </Button>
-      </div>
+        )}
     </>
   );
 }
@@ -106,11 +128,13 @@ function MediaCard(props) {
 export function SearchProduct(props) {
   window.onload = function () {
     if (!window.location.hash) {
-      window.location = window.location + "#?=Serched";
+      window.location = window.location + "#?=Searched";
       window.location.reload();
     }
   };
   const search = props.match.params.id;
+  const [lastsearched, setlastsearched] = React.useState(props.match.params.id);
+  localStorage.setItem("LastSearched", props.match.params.id);
 
   const [Products, setProducts] = React.useState([]);
   const address = "http://localhost:3001/api/product/search";
@@ -143,6 +167,13 @@ export function SearchProduct(props) {
 
   const [minPrice, setminPrice] = React.useState(0);
   const [maxPrice, setmaxPrice] = React.useState(1000000000);
+  const [miinPrice, setmiinPrice] = React.useState(0);
+  const [maaxPrice, setmaaxPrice] = React.useState(1000000000);
+
+  function settingmaximini() {
+    setmaxPrice(maaxPrice);
+    setminPrice(miinPrice);
+  }
 
   const list = (anchor) => (
     <div
@@ -179,23 +210,26 @@ export function SearchProduct(props) {
               <Input
                 type="Number"
                 placeholder="Min Price"
-                onChange={(e) => setminPrice(e.target.value)}
+                onChange={(e) => setmiinPrice(e.target.value)}
               />
               <Input
                 type="Number"
                 placeholder="Max Price"
-                onChange={(e) => setmaxPrice(e.target.value)}
+                onChange={(e) => setmaaxPrice(e.target.value)}
               />
             </ListItem>
             <ListItem>
-              {
-                <Button variant="contained" color="primary">
-                  {parseInt(minPrice, 10) > 0 &&
-                    parseInt(maxPrice, 10) < 100000 &&
-                    parseInt(minPrice, 10) < parseInt(maxPrice, 10) &&
-                    "Check"}
-                </Button>
-              }
+              {parseInt(miinPrice, 10) > 0 &&
+                parseInt(maaxPrice, 10) < 100000 &&
+                parseInt(miinPrice, 10) <= parseInt(maaxPrice, 10) && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={settingmaximini}
+                  >
+                    Check
+                  </Button>
+                )}
             </ListItem>
           </>
         ))}
@@ -205,6 +239,8 @@ export function SearchProduct(props) {
 
   return (
     <>
+      {lastsearched != localStorage.getItem("LastSearched") &&
+        window.location.reload(false)}
       <div
         style={{
           height: "60px",
@@ -241,6 +277,8 @@ export function SearchProduct(props) {
       </div>
       <div style={{ margin: "auto", width: "90%" }}>
         {Products.map((item) => {
+          item.mini = minPrice;
+          item.maxi = maxPrice;
           return (
             <>
               <MediaCard {...item} />
