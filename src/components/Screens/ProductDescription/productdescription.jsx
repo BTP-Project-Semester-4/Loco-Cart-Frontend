@@ -42,7 +42,7 @@ const Productdesc = (props) => {
             style={{
               width: "400px",
               height: "600px",
-              margin: "20px",
+              margin: "21px",
               display: "block",
               marginLeft: "auto",
               marginRight: "auto",
