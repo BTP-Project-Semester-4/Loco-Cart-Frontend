@@ -18,7 +18,7 @@ import CartScreen from "./components/Screens/Cart/CartScreen";
 import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
 import Header from "./components/Header/Header";
 import Productdesc from "./components/Screens/ProductDescription/productdescription.jsx";
-
+import AboutUs from "./components/Screens/AboutUs/aboutus";
 function App() {
   return (
     <BrowserRouter>
@@ -48,6 +48,7 @@ function App() {
             <Route path="/placeorder" component={PlaceOrder} />
             <Route path="/search/:id" component={SearchProduct} />
             <Route path="/product/:id" component={Productdesc} />
+            <Route path="/aboutus" component={AboutUs} />
             <Route component={NotFound} />
           </Switch>
         </main>
