@@ -18,30 +18,37 @@
   box-shadow: 5px 5px 5px grey;
 }
 #product-info {
-  line-height: 3;
+  /* line-height: 3; */
   width: 95%;
-  margin: 0 auto;
+  background-color: #ffffff;
+  margin: auto;
+  margin-top: 10px;
+  border-radius: 20px;
+  border: 1px solid#b4b4b4;
+  margin-bottom: 10px;
+  box-shadow: 5px 5px 5px rgb(187, 187, 187);
 }
 @media only screen and (min-width: 700px) {
   #product-info {
     display: flex;
   }
   .item-image-parent {
-    order: 1;
+    /* order: 1; */
     width: 50%;
     display: flex;
+    /* position: fixed; */
+    margin: auto;
   }
 
   .item-info-parent {
-    order: 2;
+    /* order: 2; */
     width: 50%;
+    display: flex;
   }
 }
 @media only screen and (max-width: 699px) {
   .item-image-parent {
     text-align: center;
-  }
-  .item-image-parent {
     order: 1;
     width: 100%;
     display: flex;
@@ -137,6 +144,8 @@
   text-transform: uppercase;
   color: #3f51b5;
   font-size: 2rem;
+  font-weight: bolder;
+  margin-top: 20px;
 }
 .description ul {
   padding-left: 17px;
@@ -149,9 +158,10 @@
   background-color: white;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid#b4b4b4;
+  /* border: 1px solid#b4b4b4; */
   margin-bottom: 10px;
-  box-shadow: 5px 5px 5px rgb(187, 187, 187);
+  margin-right: 20px;
+  /* box-shadow: 5px 5px 5px rgb(187, 187, 187); */
 }
 .ProductDescHeadings {
   font-size: 1.3rem;
@@ -163,6 +173,10 @@
   font-size: 1rem;
   color: #555555;
   font-style: italic;
+  margin-left: 5px;
+  /* height: 150px; */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .ProductDiscButtonDiv {
   margin-top: 20px;
@@ -178,4 +192,47 @@
   color: #ffffff;
   font-style: italic;
   text-decoration: none !important;
+}
+.ProductDescriptionReview {
+  /* justify-content: center; */
+  padding: 20px;
+  width: 95%;
+  background-color: #ffffff;
+  margin: auto;
+  margin-top: 10px;
+  border-radius: 20px;
+  border: 1px solid#b4b4b4;
+  margin-bottom: 10px;
+  box-shadow: 5px 5px 5px rgb(187, 187, 187);
+  text-align: center;
+  /* align-items: center; */
+}
+.ProductDescriptionReviewRating {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  width: 40%;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.ProductDescriptionReviewHeading {
+  border-radius: 10px;
+  border: 1px solid;
+  padding: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.ProductDescriptionTextArea {
+  border-radius: 10px;
+  border: 1px solid;
+  padding: 10px;
+  margin-top: 10px;
+  font-style: italic;
+}
+.ProductDescriptionReviewReviews {
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
