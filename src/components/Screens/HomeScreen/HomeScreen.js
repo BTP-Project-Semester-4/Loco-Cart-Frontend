@@ -68,8 +68,7 @@ const Corousal = () => {
             <div class="carousel__snapper">
               <a href="#carousel__slide4"
                 class="carousel__prev">Go to last slide</a>
-              <a href="#carousel__slide2"
-                class="carousel__next">Go to next slide</a>
+              <a href="#carousel__slide2" class="carousel__next">Go to next slide</a>
             </div>
           </li>
           <li id="carousel__slide2"
@@ -253,7 +252,7 @@ export default function HomeScreen() {
         })}
       </div>
       <br/>
-        
+
     </>
   );
 }
