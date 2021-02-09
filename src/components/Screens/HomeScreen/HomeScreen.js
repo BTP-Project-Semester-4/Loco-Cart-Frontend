@@ -132,7 +132,10 @@ function MediaCard(props) {
             </a>
             <div class="title">{props.Name}</div>
             <div class="desc">
-              <b>{props.Category}</b> : {discription}
+              <b>{props.Category}</b> :{" "}
+              {discription.length > 20
+                ? discription.substring(0, 17) + "..."
+                : discription}
             </div>
             <span class="price">₹ {miniPrice}</span>
             <div class="ssfooter">
