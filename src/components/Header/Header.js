@@ -30,6 +30,8 @@ import Button from "@material-ui/core/Button";
 import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
+import CategoryIcon from "@material-ui/icons/Category";
+import InfoIcon from "@material-ui/icons/Info";
 const jwt = require("jsonwebtoken");
 const env = require("dotenv");
 env.config();
@@ -327,7 +329,7 @@ export default function Header() {
         ) : (
           <List>
             <Divider />
-            <Link to="/userprofile">
+            <Link to="/userprofile/6016bf61a0cf182f8037ed63">
               <ListItem button key="Profile">
                 <ListItemIcon>
                   <AccountCircleRoundedIcon />
@@ -390,6 +392,22 @@ export default function Header() {
                 primary="Home Screen"
                 style={{ color: "#000000" }}
               />
+            </ListItem>
+          </Link>
+          <Link to="/aboutus">
+            <ListItem button key="About Us">
+              <ListItemIcon>
+                <InfoIcon />
+              </ListItemIcon>
+              <ListItemText primary="About Us" style={{ color: "#000000" }} />
+            </ListItem>
+          </Link>
+          <Link to="/category">
+            <ListItem button key="Category">
+              <ListItemIcon>
+                <CategoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Category" style={{ color: "#000000" }} />
             </ListItem>
           </Link>
           <Link to="/signin">
