@@ -5,82 +5,121 @@ import Button from "@material-ui/core/Button";
 import "../Category/SubCategory/subcategory.scss";
 import Axios from "axios";
 
+const CategoryBar = () => {
+  return (
+    <>
+      {" "}
+      <div  style={{height: "150px", display: "flex" , background: "#fff", marginBottom: "10px", overflowX: "scroll"}}>
+          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+            <img src="https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTZ8fHNob3BwaW5nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" style={{width:"100px", height:"80px"}}/>
+            <br/>
+            <b>All Categories</b>
+          </div>
+          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+            <img src="https://5.imimg.com/data5/LJ/RP/MY-4878239/stationery-500x500.png" style={{width:"100px", height:"80px"}}/>
+            <br/>
+            <b>Stationery</b>
+          </div>
+          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIiQmWJAdGBHSPQJL-IdHhWYrMwUbSvIqTOQ&usqp=CAU" style={{width:"100px", height:"80px"}}/>
+            <br/>
+            <b>Groceries</b>
+          </div>
+          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgKefNtESG11OmRK1-xQhYHlO9JLtJTC5Mcg&usqp=CAU" style={{width:"100px", height:"80px"}}/>
+            <br/>
+            <b>Electronics</b>
+          </div>
+          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK8uPxPdCyNRld3q0v4v0AkZYge0fADARDb3otD3Uxl5jXCSu_PGKNhAoFfwa71C_3Rw9K6_Y&usqp=CAc" style={{width:"100px", height:"80px"}}/>
+            <br/>
+            <b>Footwear</b>
+          </div>
+          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhnxvR9_DlyUe2NilNqYtkG6w6LECXWajbVg&usqp=CAU" style={{width:"100px", height:"80px"}}/>
+            <br/>
+            <b>Sports</b>
+          </div>
+          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRULdhvxYHLSDEpEV18oJadwRShXgT2cRorPA&usqp=CAU" style={{width:"100px", height:"80px"}}/>
+            <br/>
+            <b>Books</b>
+          </div>
+          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NHx8cGhvbmV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" style={{width:"100px", height:"80px"}}/>
+            <br/>
+            <b>Download Our App</b>
+          </div>
+      </div>
+    </>
+  );
+};
+
 const Corousal = () => {
   return (
     <>
       {" "}
       <div>
-        <div class="carousel">
-          <div class="carousel-inner">
-            <input
-              class="carousel-open"
-              type="radio"
-              id="carousel-1"
-              name="carousel"
-              aria-hidden="true"
-              hidden=""
-              checked="checked"
-            />
-            <div class="carousel-item">
-              <img src="http://fakeimg.pl/2000x800/0079D8/fff/?text=Without" />
+      <section class="carousel" aria-label="Gallery">
+        <ol class="carousel__viewport">
+          <li id="carousel__slide1"
+              tabindex="0"
+              class="carousel__slide">
+            <div class="carousel__snapper">
+              <a href="#carousel__slide4"
+                class="carousel__prev">Go to last slide</a>
+              <a href="#carousel__slide2" class="carousel__next">Go to next slide</a>
             </div>
-            <input
-              class="carousel-open"
-              type="radio"
-              id="carousel-2"
-              name="carousel"
-              aria-hidden="true"
-              hidden=""
-            />
-            <div class="carousel-item">
-              <img src="http://fakeimg.pl/2000x800/DA5930/fff/?text=JavaScript" />
-            </div>
-            <input
-              class="carousel-open"
-              type="radio"
-              id="carousel-3"
-              name="carousel"
-              aria-hidden="true"
-              hidden=""
-            />
-
-            <label for="carousel-1" class="carousel-control prev control-1">
-              ‹
-            </label>
-            <label for="carousel-2" class="carousel-control next control-1">
-              ›
-            </label>
-            <label for="carousel-1" class="carousel-control prev control-2">
-              ‹
-            </label>
-            <label for="carousel-3" class="carousel-control next control-2">
-              ›
-            </label>
-            <label for="carousel-2" class="carousel-control prev control-2">
-              ‹
-            </label>
-            <label for="carousel-1" class="carousel-control next control-2">
-              ›
-            </label>
-            <ol class="carousel-indicators">
-              <li>
-                <label for="carousel-1" class="carousel-bullet">
-                  •
-                </label>
-              </li>
-              <li>
-                <label for="carousel-2" class="carousel-bullet">
-                  •
-                </label>
-              </li>
-              <li>
-                <label for="carousel-3" class="carousel-bullet">
-                  •
-                </label>
-              </li>
-            </ol>
-          </div>
-        </div>
+          </li>
+          <li id="carousel__slide2"
+              tabindex="0"
+              class="carousel__slide">
+            <div class="carousel__snapper"></div>
+            <a href="#carousel__slide1"
+              class="carousel__prev">Go to previous slide</a>
+            <a href="#carousel__slide3"
+              class="carousel__next">Go to next slide</a>
+          </li>
+          <li id="carousel__slide3"
+              tabindex="0"
+              class="carousel__slide">
+            <div class="carousel__snapper"></div>
+            <a href="#carousel__slide2"
+              class="carousel__prev">Go to previous slide</a>
+            <a href="#carousel__slide4"
+              class="carousel__next">Go to next slide</a>
+          </li>
+          <li id="carousel__slide4"
+              tabindex="0"
+              class="carousel__slide">
+            <div class="carousel__snapper"></div>
+            <a href="#carousel__slide3"
+              class="carousel__prev">Go to previous slide</a>
+            <a href="#carousel__slide1"
+              class="carousel__next">Go to first slide</a>
+          </li>
+        </ol>
+        <aside class="carousel__navigation">
+          <ol class="carousel__navigation-list">
+            <li class="carousel__navigation-item">
+              <a href="#carousel__slide1"
+                class="carousel__navigation-button">Go to slide 1</a>
+            </li>
+            <li class="carousel__navigation-item">
+              <a href="#carousel__slide2"
+                class="carousel__navigation-button">Go to slide 2</a>
+            </li>
+            <li class="carousel__navigation-item">
+              <a href="#carousel__slide3"
+                class="carousel__navigation-button">Go to slide 3</a>
+            </li>
+            <li class="carousel__navigation-item">
+              <a href="#carousel__slide4"
+                class="carousel__navigation-button">Go to slide 4</a>
+            </li>
+          </ol>
+        </aside>
+      </section>
       </div>
     </>
   );
@@ -105,7 +144,7 @@ function MediaCard(props) {
       {
         <div
           class="box-wrapper"
-          style={{ margin: "10px", transform: "translate(0, -10%)" }}
+          style={{ margin: "10px", transform: "translate(0, 0%)" }}
         >
           <a href={"/product/" + id}>
             <img
@@ -201,6 +240,7 @@ export default function HomeScreen() {
 
   return (
     <>
+      <CategoryBar />
       <Corousal />
       <div style={{ margin: "auto", width: "90%" }}>
         {Products.slice(0, 20).map((item) => {
@@ -211,6 +251,8 @@ export default function HomeScreen() {
           );
         })}
       </div>
+      <br/>
+
     </>
   );
 }
