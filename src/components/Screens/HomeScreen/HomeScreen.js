@@ -242,6 +242,13 @@ export default function HomeScreen() {
     <>
       <CategoryBar />
       <Corousal />
+
+      <div style={{ marginTop : "1%", marginBottom: "1%" , textAlign : "center"}}>
+          <button class="learn-more" style={{   textAlign: "center" }}>
+        <h3>  ❤️‍🔥 Our Top Picks For You ❤️‍🔥 </h3>
+          </button>
+      </div>
+
       <div style={{ margin: "auto", width: "90%" }}>
         {Products.slice(0, 20).map((item) => {
           return (
@@ -251,7 +258,6 @@ export default function HomeScreen() {
           );
         })}
       </div>
-      <br/>
 
     </>
   );
