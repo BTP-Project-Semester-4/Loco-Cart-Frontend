@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
 import "./productdescription.css";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import Rating from "@material-ui/lab/Rating";
-import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import Grid from "@material-ui/core/Grid";
 import {
   Chart,
   ChartTitle,
@@ -14,40 +14,80 @@ import {
   ChartSeriesItem,
   ChartCategoryAxis,
   ChartCategoryAxisTitle,
+  ChartTooltip,
   ChartCategoryAxisItem,
+  ChartLegend,
 } from "@progress/kendo-react-charts";
+import RateReviewIcon from "@material-ui/icons/RateReview";
 
 const [firstSeries, secondSeries, thirdSeries, fourthSeries, fifthSeries] = [
-  [3000, 0, 0, 0, 0],
+  [300, 0, 0, 0, 0],
   [0, 123, 0, 0, 0],
   [0, 0, 234, 0, 0],
   [0, 0, 0, 343, 0],
   [0, 0, 0, 0, 122],
 ];
-const categories = ["5⭐", "4⭐", "3⭐", "2⭐", "1⭐"];
+const categories = ["5", "4", "3", "2", "1"];
 const ChartContainer = () => (
-  <Chart>
-    <ChartTitle text="Units sold" />
-    <ChartCategoryAxis>
-      <ChartCategoryAxisItem categories={categories} color="black">
-        <ChartCategoryAxisTitle text="Star Rating" />
-      </ChartCategoryAxisItem>
-    </ChartCategoryAxis>
-    <ChartSeries>
-      <ChartSeriesItem
-        type="bar"
-        gap={2}
-        spacing={0.25}
-        data={firstSeries}
-        color="green"
-      />
-      <ChartSeriesItem type="bar" data={secondSeries} color="green" />
-      <ChartSeriesItem type="bar" data={thirdSeries} color="green" />
-      <ChartSeriesItem type="bar" data={fourthSeries} color="orange" />
-      <ChartSeriesItem type="bar" data={fifthSeries} color="red" />
-    </ChartSeries>
-  </Chart>
+  <div
+    style={{
+      backgroundColor: "#dfe0df",
+      magrin: "10px",
+      borderRadius: "15px",
+      padding: "5px",
+    }}
+  >
+    <Chart visible={true}>
+      <ChartTitle text="Star Rating" color="#7e7474" />
+      <ChartTooltip format="{0}" color="#ffffff" />
+      <ChartCategoryAxis color="#7e7474">
+        <ChartCategoryAxisItem categories={categories} color="#7e7474">
+          {/* <ChartCategoryAxisTitle text="Star Rating" /> */}
+        </ChartCategoryAxisItem>
+      </ChartCategoryAxis>
+      <ChartSeries color="#AAAAAA">
+        <ChartSeriesItem type="bar" gap={2} data={firstSeries} color="green" />
+        <ChartSeriesItem
+          type="bar"
+          data={secondSeries}
+          gap={0}
+          color="#4cbb17"
+        />
+        <ChartSeriesItem
+          type="bar"
+          data={thirdSeries}
+          gap={0}
+          color="#39ff14"
+        />
+        <ChartSeriesItem
+          type="bar"
+          data={fourthSeries}
+          gap={0}
+          color="orange"
+        />
+        <ChartSeriesItem type="bar" data={fifthSeries} gap={0} color="red" />
+      </ChartSeries>
+    </Chart>
+  </div>
 );
+
+const baseYear = 2000;
+const generateData = () => {
+  const data = {
+    categories: [],
+    series: {
+      name: "My data over time",
+      data: [],
+    },
+  };
+
+  for (let i = 0; i < 200; i++) {
+    data.categories.push(baseYear + i);
+    data.series.data.push(Math.floor(Math.random() * 200));
+  }
+
+  return data;
+};
 
 const Productdesc = (props) => {
   const [miniiPrice, setminiiPrice] = React.useState(10000000);
@@ -109,14 +149,14 @@ const Productdesc = (props) => {
                   src={IImage}
                   alt="default"
                   style={{
-                    width: "400px%",
-                    height: "600px",
+                    width: "350px%",
+                    height: "500px",
                     margin: "21px",
                     display: "block",
                     marginLeft: "auto",
                     marginRight: "auto",
                     marginTop: "20px",
-                    marginBottom: "auto",
+                    marginBottom: "10px",
                     top: 0,
                   }}
                 />
@@ -131,7 +171,7 @@ const Productdesc = (props) => {
         </div>
         <div className="item-info-parent">
           <div className="select-items">
-            <div className="main-info">
+            <div className="main-info" style={{ paddingLeft: "15px" }}>
               <h5 className="ProductDiscName">
                 {name + " "}
                 <sup>
@@ -141,7 +181,6 @@ const Productdesc = (props) => {
                   >
                     {rating}
                   </span>
-                  {/* <span>⭐⭐⭐⭐</span> */}
                 </sup>
               </h5>
               <Rating
@@ -150,6 +189,15 @@ const Productdesc = (props) => {
                 precision={0.1}
                 readOnly
               />
+              <p style={{ fontSize: "1.2rem", color: "#7e7474" }}>
+                <span>
+                  <VisibilityIcon />
+                  <sup>1000</sup>
+                </span>{" "}
+                <RateReviewIcon />
+                <sup>400</sup>
+              </p>
+
               <p style={{ fontSize: "1.3rem", color: "green" }}>
                 PRICE:
                 <span id="price" style={{ fontStyle: "italic" }}>
@@ -157,6 +205,7 @@ const Productdesc = (props) => {
                   ₹{miniiPrice}
                 </span>
               </p>
+
               <div className="ProductDiscButtonDiv">
                 <ul>
                   <li>
@@ -172,25 +221,16 @@ const Productdesc = (props) => {
             </div>
             <div className="description">
               <ul>
-                {/* <li>
-                  <div className="ProductDiscBox">
-                    <h4 className="ProductDescHeadings">Display: </h4>
-                    <p className="ProductDiscContent">
-                      {" "}
-                      Innovative Display Technology
-                    </p>
-                  </div>
-                </li> */}
                 <li>
+                  <li>
+                    <div className="ProductDiscBox">
+                      <h4 className="ProductDescHeadings">Model Name: </h4>
+                      <p className="ProductDiscContent"> {name}</p>
+                    </div>
+                  </li>
                   <div className="ProductDiscBox">
                     <h4 className="ProductDescHeadings">Model Number: </h4>
                     <p className="ProductDiscContent"> MQA62HN/A</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="ProductDiscBox">
-                    <h4 className="ProductDescHeadings">Model Name: </h4>
-                    <p className="ProductDiscContent"> {name}</p>
                   </div>
                 </li>
                 <li>
@@ -212,9 +252,6 @@ const Productdesc = (props) => {
                     </div>
                   </div>
                 </li>
-                {/* <li>
-                  <ChartContainer />
-                </li> */}
               </ul>
             </div>
           </div>
@@ -249,11 +286,11 @@ const Productdesc = (props) => {
           </p>
           <input
             className="ProductDescriptionReviewHeading"
-            size="58"
             placeholder="heading"
+            style={{ width: "100%" }}
           />
           <textarea
-            cols="60"
+            style={{ width: "100%" }}
             rows="8"
             placeholder="Your valuable comment..."
             className="ProductDescriptionTextArea"
