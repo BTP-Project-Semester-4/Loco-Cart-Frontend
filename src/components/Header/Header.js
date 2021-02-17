@@ -157,7 +157,7 @@ export default function Header() {
   React.useEffect(() => {
     showLococart();
     try {
-      const jwtToken = localStorage.getItem("jwt");
+      const jwtToken = localStorage.getItem("CustomerJwt");
       console.log(jwt);
       const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
 
@@ -186,7 +186,7 @@ export default function Header() {
 
   const logoutHandler = (e) => {
     e.preventDefault();
-    localStorage.removeItem("jwt");
+    localStorage.removeItem("CustomerJwt");
     history.push("/");
     window.location.reload(false);
   };
