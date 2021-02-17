@@ -6,6 +6,7 @@ import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import { jwt } from "jsonwebtoken";
 import {
   Chart,
   ChartTitle,
@@ -16,6 +17,14 @@ import {
   ChartCategoryAxisItem,
 } from "@progress/kendo-react-charts";
 import RateReviewIcon from "@material-ui/icons/RateReview";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
+
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
 
 const categories = ["5", "4", "3", "2", "1"];
 let one = new Set();
@@ -101,10 +110,14 @@ const Productdesc = (props) => {
   const [rating, setRating] = React.useState(1.1);
   const [product, setProduct] = React.useState("");
   const [comments, setComments] = React.useState([]);
+  const [objectKey, setObjectKey] = React.useState();
 
   const [comment, setComment] = React.useState("");
   const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(0);
+
+  const [userId, setUserId] = React.useState("");
+  const [UserName, setUserName] = React.useState("");
 
   if (hover < 0 && value === 0) {
     setHover(0);
@@ -123,7 +136,6 @@ const Productdesc = (props) => {
   }).then((result) => {
     for (var key in result.data.products.Sellers) {
       var obj = result.data.products.Sellers[key];
-
       if (miniiPrice > obj.SellerPrice) {
         setminiiPrice(obj.SellerPrice);
         setdiscription(obj.Description);
@@ -133,6 +145,7 @@ const Productdesc = (props) => {
         setsellerId(obj.SellerId);
         setRating(obj.Rating.$numberDecimal);
         setComments(obj.Comments);
+        setObjectKey(key);
         // console.log(obj.SellerId);
       }
     }
@@ -140,7 +153,6 @@ const Productdesc = (props) => {
   useEffect(() => {
     for (var key in comments) {
       var obj = comments[key];
-      console.log(obj);
       if (obj.Rating.$numberDecimal <= 1.0) {
         one.add(obj._id);
       } else if (obj.Rating.$numberDecimal <= 2.0) {
@@ -158,15 +170,63 @@ const Productdesc = (props) => {
     thirdSeries[2] = three.size;
     fourthSeries[3] = four.size;
     fifthSeries[4] = five.size;
-  });
+    try {
+      const jwtToken = localStorage.getItem("CustomerJwt");
+      const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      console.log("userInfo \n" + jwtToken + "\n" + user);
+      setUserId(user._id);
 
-  console.log(firstSeries);
-  console.log(secondSeries);
-  console.log(thirdSeries);
-  console.log(fourthSeries);
-  console.log(fifthSeries);
+      const customerInfo = "http://localhost:3001/api/customer/" + userId;
+      Axios.get({ customerInfo })
+        .then(function (response) {
+          const customerName = response.firstName + " " + response.lastName;
+          setUserName(customerName);
+          console.log("CustomerName: " + customerName);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
   const onCommentHandler = (e) => {
     e.preventDefault();
+    const url = `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`;
+    console.log("onCommentHandler");
+    // if (userId) {
+    Axios.post(
+      `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`,
+      {
+        id: objectKey,
+        name: "Nalin",
+        rating: value,
+        comment: comment,
+        userId: "5ff1abe1db632843b446a776",
+      }
+    )
+      .then((result) => {
+        if (result.message === "Success") {
+          toast.success("Thank you for your valueable comment :)", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1500,
+          });
+          window.location.reload(false);
+        } else {
+          toast.error("Something went wrong!!!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // } else {
+    //   toast.warning("You need to signin to give comment and review !!", {
+    //     position: toast.POSITION.TOP_CENTER,
+    //     autoClose: 2000,
+    //   });
+    // }
   };
 
   return (
@@ -335,11 +395,11 @@ const Productdesc = (props) => {
               rows="8"
               placeholder="Your valuable comment..."
               className="ProductDescriptionTextArea"
-              onChange={(e) => setComment(e)}
+              onChange={(e) => setComment(e.target.value)}
             ></textarea>
             <br />
             <Button variant="contained" color="primary" type="submit">
-              Primary
+              Submit
             </Button>
           </form>
         </div>
