@@ -146,7 +146,6 @@ const Productdesc = (props) => {
         setRating(obj.Rating.$numberDecimal);
         setComments(obj.Comments);
         setObjectKey(key);
-        // console.log(obj.SellerId);
       }
     }
   });
