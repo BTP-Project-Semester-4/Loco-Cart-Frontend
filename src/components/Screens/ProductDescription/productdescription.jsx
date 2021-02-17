@@ -6,28 +6,30 @@ import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import Grid from "@material-ui/core/Grid";
 import {
   Chart,
   ChartTitle,
   ChartSeries,
   ChartSeriesItem,
   ChartCategoryAxis,
-  ChartCategoryAxisTitle,
   ChartTooltip,
   ChartCategoryAxisItem,
-  ChartLegend,
 } from "@progress/kendo-react-charts";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 
-const [firstSeries, secondSeries, thirdSeries, fourthSeries, fifthSeries] = [
-  [300, 0, 0, 0, 0],
-  [0, 123, 0, 0, 0],
-  [0, 0, 234, 0, 0],
-  [0, 0, 0, 343, 0],
-  [0, 0, 0, 0, 122],
-];
 const categories = ["5", "4", "3", "2", "1"];
+let one = new Set();
+let two = new Set();
+let three = new Set();
+let four = new Set();
+let five = new Set();
+var [firstSeries, secondSeries, thirdSeries, fourthSeries, fifthSeries] = [
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0],
+];
 const ChartContainer = () => (
   <div
     style={{
@@ -96,10 +98,14 @@ const Productdesc = (props) => {
   const [name, setname] = React.useState("Loading...");
   const [category, setcategory] = React.useState("Loading...");
   const [sellerId, setsellerId] = React.useState("Loading...");
-  const [rating, setRating] = React.useState("4.7");
+  const [rating, setRating] = React.useState(1.1);
+  const [product, setProduct] = React.useState("");
+  const [comments, setComments] = React.useState([]);
 
+  const [comment, setComment] = React.useState("");
   const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(0);
+
   if (hover < 0 && value === 0) {
     setHover(0);
   }
@@ -117,6 +123,7 @@ const Productdesc = (props) => {
   }).then((result) => {
     for (var key in result.data.products.Sellers) {
       var obj = result.data.products.Sellers[key];
+
       if (miniiPrice > obj.SellerPrice) {
         setminiiPrice(obj.SellerPrice);
         setdiscription(obj.Description);
@@ -124,10 +131,43 @@ const Productdesc = (props) => {
         setname(result.data.products.Name);
         setcategory(result.data.products.Category);
         setsellerId(obj.SellerId);
-        console.log(obj.SellerId);
+        setRating(obj.Rating.$numberDecimal);
+        setComments(obj.Comments);
+        // console.log(obj.SellerId);
       }
     }
   });
+  useEffect(() => {
+    for (var key in comments) {
+      var obj = comments[key];
+      console.log(obj);
+      if (obj.Rating.$numberDecimal <= 1.0) {
+        one.add(obj._id);
+      } else if (obj.Rating.$numberDecimal <= 2.0) {
+        two.add(obj._id);
+      } else if (obj.Rating.$numberDecimal <= 3.0) {
+        three.add(obj._id);
+      } else if (obj.Rating.$numberDecimal <= 4.0) {
+        four.add(obj._id);
+      } else if (obj.Rating.$numberDecimal <= 5.0) {
+        five.add(obj._id);
+      }
+    }
+    firstSeries[0] = one.size;
+    secondSeries[1] = two.size;
+    thirdSeries[2] = three.size;
+    fourthSeries[3] = four.size;
+    fifthSeries[4] = five.size;
+  });
+
+  console.log(firstSeries);
+  console.log(secondSeries);
+  console.log(thirdSeries);
+  console.log(fourthSeries);
+  console.log(fifthSeries);
+  const onCommentHandler = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div>
@@ -195,7 +235,7 @@ const Productdesc = (props) => {
                   <sup>1000</sup>
                 </span>{" "}
                 <RateReviewIcon />
-                <sup>400</sup>
+                <sup>{comments.length}</sup>
               </p>
 
               <p style={{ fontSize: "1.3rem", color: "green" }}>
@@ -265,62 +305,62 @@ const Productdesc = (props) => {
           className={classes.root}
           className="ProductDescriptionReviewRating"
         >
-          <p style={{ fontSize: "1.2rem" }}>
-            <b>Rating: </b>
-            <Rating
-              name="hover-feedback"
-              value={value}
-              min={3}
-              precision={0.5}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-              onChangeActive={(event, newHover) => {
-                setHover(newHover);
-              }}
-            />
-            <i>
-              {" " + (value === 0 ? hover : value) + " "}
-              stars
-            </i>
-          </p>
-          <input
+          <form onSubmit={onCommentHandler}>
+            <p style={{ fontSize: "1.2rem" }}>
+              <b>Rating: </b>
+              <Rating
+                name="hover-feedback"
+                value={value}
+                min={3}
+                precision={0.5}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }}
+                onChangeActive={(event, newHover) => {
+                  setHover(newHover);
+                }}
+              />
+              <i>
+                {" " + (value === 0 ? hover : value) + " "}
+                stars
+              </i>
+            </p>
+            {/* <input
             className="ProductDescriptionReviewHeading"
             placeholder="heading"
             style={{ width: "100%" }}
-          />
-          <textarea
-            style={{ width: "100%" }}
-            rows="8"
-            placeholder="Your valuable comment..."
-            className="ProductDescriptionTextArea"
-          ></textarea>
-          <br />
-          <Button variant="contained" color="primary">
-            Primary
-          </Button>
+          /> */}
+            <textarea
+              style={{ width: "100%" }}
+              rows="8"
+              placeholder="Your valuable comment..."
+              className="ProductDescriptionTextArea"
+              onChange={(e) => setComment(e)}
+            ></textarea>
+            <br />
+            <Button variant="contained" color="primary" type="submit">
+              Primary
+            </Button>
+          </form>
         </div>
         <hr />
-        <div className="ProductDescriptionReviewReviews">
-          <h2 style={{ color: "#3f51b5" }}>
-            Nalin Agrawal{" "}
-            <Rating name="read-only" precision={0.5} value={4} readOnly />
-          </h2>
-          <h5 style={{ fontSize: "1rem" }}>Totally worthed</h5>
-          <i>
-            <p>Very nice pen there !!!</p>
-          </i>
-        </div>
-        <div className="ProductDescriptionReviewReviews">
-          <h2 style={{ color: "#3f51b5" }}>
-            Nalin Agrawal{" "}
-            <Rating name="read-only" precision={0.5} value={4.5} readOnly />
-          </h2>
-          <h5 style={{ fontSize: "1rem" }}>Totally worthed</h5>
-          <i>
-            <p>Very nice pen there !!!</p>
-          </i>
-        </div>
+        {comments.map((item) => (
+          <div className="ProductDescriptionReviewReviews">
+            <h2 style={{ color: "#3f51b5" }}>
+              {item.Name + " "}
+              <Rating
+                name="read-only"
+                precision={0.5}
+                value={item.Rating.$numberDecimal}
+                readOnly
+              />
+            </h2>
+            {/* <h5 style={{ fontSize: "1rem" }}>Totally worthed</h5> */}
+            <i>
+              <p>{item.Content}</p>
+            </i>
+          </div>
+        ))}
       </section>
     </div>
   );
