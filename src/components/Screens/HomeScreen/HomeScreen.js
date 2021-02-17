@@ -1,51 +1,60 @@
-import React from "react";
+import React, {useCallback} from "react";
 import "./Homescreen.scss";
 import { Media } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import "../Category/SubCategory/subcategory.scss";
 import Axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const CategoryBar = () => {
+  const history = useHistory();
+  const handleOnClick1 = useCallback(() => history.push('/category'), [history]);
+  const handleOnClick2 = useCallback(() => history.push('/category/Stationery'), [history]);
+  const handleOnClick3 = useCallback(() => history.push('/category/Grocery'), [history]);
+  const handleOnClick4 = useCallback(() => history.push('/category/Electronics'), [history]);
+  const handleOnClick5 = useCallback(() => history.push('/category/Footwear'), [history]);
+  const handleOnClick6 = useCallback(() => history.push('/category/Sports'), [history]);
+  const handleOnClick7 = useCallback(() => history.push('/category/Books'), [history]);
   return (
     <>
       {" "}
-      <div  style={{height: "150px", display: "flex" , background: "#fff", marginBottom: "10px", overflowX: "scroll"}}>
-          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+      <div  style={{height: "150px", display: "flex" , background: "#fff", marginBottom: "10px", overflowX: "scroll", color: "#3f51b5"}}>
+          <div onClick={handleOnClick1} style={{marginLeft : "5%", marginTop: "2%", textAlign: "center", cursor: "pointer"}}>
             <img src="https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTZ8fHNob3BwaW5nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" style={{width:"100px", height:"80px"}}/>
             <br/>
             <b>All Categories</b>
           </div>
-          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+          <div onClick={handleOnClick2} style={{marginLeft : "5%", marginTop: "2%", textAlign: "center", cursor: "pointer"}}>
             <img src="https://5.imimg.com/data5/LJ/RP/MY-4878239/stationery-500x500.png" style={{width:"100px", height:"80px"}}/>
             <br/>
             <b>Stationery</b>
           </div>
-          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+          <div onClick={handleOnClick3} style={{marginLeft : "5%", marginTop: "2%", textAlign: "center", cursor: "pointer"}}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIiQmWJAdGBHSPQJL-IdHhWYrMwUbSvIqTOQ&usqp=CAU" style={{width:"100px", height:"80px"}}/>
             <br/>
             <b>Groceries</b>
           </div>
-          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+          <div onClick={handleOnClick4} style={{marginLeft : "5%", marginTop: "2%", textAlign: "center", cursor: "pointer"}}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgKefNtESG11OmRK1-xQhYHlO9JLtJTC5Mcg&usqp=CAU" style={{width:"100px", height:"80px"}}/>
             <br/>
             <b>Electronics</b>
           </div>
-          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+          <div onClick={handleOnClick5} style={{marginLeft : "5%", marginTop: "2%", textAlign: "center", cursor: "pointer"}}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK8uPxPdCyNRld3q0v4v0AkZYge0fADARDb3otD3Uxl5jXCSu_PGKNhAoFfwa71C_3Rw9K6_Y&usqp=CAc" style={{width:"100px", height:"80px"}}/>
             <br/>
             <b>Footwear</b>
           </div>
-          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+          <div onClick={handleOnClick6} style={{marginLeft : "5%", marginTop: "2%", textAlign: "center", cursor: "pointer"}}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhnxvR9_DlyUe2NilNqYtkG6w6LECXWajbVg&usqp=CAU" style={{width:"100px", height:"80px"}}/>
             <br/>
             <b>Sports</b>
           </div>
-          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+          <div onClick={handleOnClick7} style={{marginLeft : "5%", marginTop: "2%", textAlign: "center", cursor: "pointer"}}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRULdhvxYHLSDEpEV18oJadwRShXgT2cRorPA&usqp=CAU" style={{width:"100px", height:"80px"}}/>
             <br/>
             <b>Books</b>
           </div>
-          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center"}}>
+          <div style={{marginLeft : "5%", marginTop: "2%", textAlign: "center", cursor: "pointer"}}>
             <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NHx8cGhvbmV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" style={{width:"100px", height:"80px"}}/>
             <br/>
             <b>Download Our App</b>
@@ -242,6 +251,13 @@ export default function HomeScreen() {
     <>
       <CategoryBar />
       <Corousal />
+
+      <div style={{ marginTop : "1%", marginBottom: "1%" , textAlign : "center"}}>
+          <button class="learn-more" style={{   textAlign: "center" }}>
+        <h3>  ❤️‍🔥 Our Top Picks For You ❤️‍🔥 </h3>
+          </button>
+      </div>
+
       <div style={{ margin: "auto", width: "90%" }}>
         {Products.slice(0, 20).map((item) => {
           return (
@@ -251,7 +267,6 @@ export default function HomeScreen() {
           );
         })}
       </div>
-      <br/>
 
     </>
   );
