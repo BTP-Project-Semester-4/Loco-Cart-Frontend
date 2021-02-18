@@ -274,3 +274,79 @@ a.pre-order-btn {
     color:#000;
   }
 } 
+
+
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css");
+
+.testimonials1
+{
+  padding: 40px 0;
+  background: #f1f1f1;
+  color: #434343;
+  text-align: center;
+}
+
+.testimonial-inner1
+{
+  margin: auto;
+  overflow: hidden;
+  padding: 0 20px;
+}
+
+.border1
+{
+  width: 160px;
+  height: 5px;
+  background: #6ab04c;
+  margin: 26px auto;
+}
+
+.row1
+{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.col1
+{
+  flex: 25%;
+  max-width: 25%;
+  box-sizing:  border-box;
+  padding: 15px;
+}
+
+.testimonial1
+{
+  background: #fff;
+  padding: 30px;
+}
+
+.img1
+{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.name1
+{
+  font-size: 20px;
+  text-transform: uppercase;
+  margin: 20px 0;
+}
+
+.stars1
+{
+  color: #f0932b;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 960px)
+{
+  .col1
+  {
+    flex: 100%;
+    max-width: 80%;
+  }
+}
