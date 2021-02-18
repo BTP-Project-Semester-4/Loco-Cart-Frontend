@@ -8,6 +8,10 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { FaWindowClose } from "react-icons/fa";
+import amit from './../../../images/AMIT.jpeg'
+import nalin from './../../../images/NALIN.jpeg';
+import vijay from './../../../images/Vijay.jpeg';
+import prerit from './../../../images/Prerit.jpeg';
 
 function getModalStyle() {
   const top = 50 ;
@@ -262,6 +266,82 @@ function MediaCard(props) {
   );
 }
 
+const ReviewCard = () => {
+  return(
+    
+    <div>
+       <div class="testimonials1">
+    <div class="testimonial-inner1">
+      <h1>Testimonial</h1>
+      <div class="border1"></div>
+      
+      <div class="row1">
+        <div class="col1">
+          <div class="testimonial1">
+            <img class="img1" src={nalin} alt="" />
+            <div class="name1">Nalin Agrawal</div>
+            <div class="stars1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque repellat aspernatur temporibus assumenda sint odio minima. Voluptate alias possimus aspernatur voluptates excepturi placeat iusto cupiditate.</p>
+          </div>
+        </div>
+
+        <div class="col1">
+          <div class="testimonial1">
+            <img class="img1" src={prerit} alt="" />
+            <div class="name1">Prerit Kumar Jha</div>
+            <div class="stars1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque repellat aspernatur temporibus assumenda sint odio minima. Voluptate alias possimus aspernatur voluptates excepturi placeat iusto cupiditate.</p>
+          </div>
+        </div>
+        
+        <div class="col1">
+          <div class="testimonial1">
+            <img class="img1" src={amit} alt="" />
+            <div class="name1">Amit Kumar Upadhyay</div>
+            <div class="stars1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque repellat aspernatur temporibus assumenda sint odio minima. Voluptate alias possimus aspernatur voluptates excepturi placeat iusto cupiditate.</p>
+          </div>
+        </div>
+        
+        <div class="col1">
+          <div class="testimonial1">
+            <img class="img1" src={vijay} alt="" />
+            <div class="name1">Vijay Joshi</div>
+            <div class="stars1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque repellat aspernatur temporibus assumenda sint odio minima. Voluptate alias possimus aspernatur voluptates excepturi placeat iusto cupiditate!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>         
+    </div>
+  )
+}
+
 export default function HomeScreen() {
 
   const classes = useStyles();
@@ -310,7 +390,17 @@ export default function HomeScreen() {
 
       <div style={{ marginTop : "1%", marginBottom: "1%" , textAlign : "center"}}>
           <button class="learn-more" style={{   textAlign: "center" }}>
-        <h3>  ❤️‍🔥 Our Top Picks For You ❤️‍🔥 </h3>
+        <h3>  ❤️‍🔥 Customers Reviews ❤️‍🔥 </h3>
+          </button>
+      </div>
+
+      <div style={{margin: "auto"}}>
+        <ReviewCard />
+      </div>
+
+      <div style={{ marginTop : "1%", marginBottom: "1%" , textAlign : "center"}}>
+          <button class="learn-more" style={{   textAlign: "center" }}>
+        <h3>  ❤️‍🔥 Top Picks For You ❤️‍🔥 </h3>
           </button>
       </div>
 
@@ -335,6 +425,8 @@ export default function HomeScreen() {
         {body}
       </Modal>
     </div>
+
+
 
     </>
   );
