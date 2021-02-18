@@ -5,6 +5,31 @@ import Button from "@material-ui/core/Button";
 import "../Category/SubCategory/subcategory.scss";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
+import { FaWindowClose } from "react-icons/fa";
+
+function getModalStyle() {
+  const top = 50 ;
+  const left = 50 ;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    background: "#000",
+    border: '2px solid #fff',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 const CategoryBar = () => {
   const history = useHistory();
@@ -238,6 +263,37 @@ function MediaCard(props) {
 }
 
 export default function HomeScreen() {
+
+  const classes = useStyles();
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = React.useState(true);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+  const body = (
+    <div style={modalStyle} className={classes.paper}>
+      <div style={{ right: 0, top: 0, margin: "20px", position: "fixed" ,color: "#fff"}}>
+          <FaWindowClose onClick={handleClose} />
+        </div>
+        <br />
+      <div style={{width: "100%", textAlign: "center", transform: "translate3d(0%,10%,20px)",color:"#fff"}}> 
+      <h2 id="simple-modal-title"><b>🔥 𝓛𝓞𝓒𝓞-𝓒𝓐𝓡𝓣 🔥</b></h2>
+      <p id="simple-modal-description">
+      <b>𝐖𝐄𝐋𝐂𝐎𝐌𝐄𝐒 𝐘𝐎𝐔</b>
+      </p>
+      <a class="pre-order-btn" href="#" onClick={handleClose}><b>🔥 WE CONNECT LOCALLY 🔥</b></a>
+      </div> 
+    </div>
+  );
+  
+
   const [Products, setProducts] = React.useState([]);
   const address = "http://localhost:3001/api/product/allproducts";
   React.useEffect(() => {
@@ -267,6 +323,18 @@ export default function HomeScreen() {
           );
         })}
       </div>
+
+
+      <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {body}
+      </Modal>
+    </div>
 
     </>
   );
