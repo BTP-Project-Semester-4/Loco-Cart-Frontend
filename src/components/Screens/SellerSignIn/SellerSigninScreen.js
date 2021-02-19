@@ -95,7 +95,7 @@ export default function SellerSigninScreen() {
         .then((result) => {
           console.log(result);
           if (result.message === "Success") {
-            localStorage.setItem("jwt", result.token);
+            localStorage.setItem("sellerjwt", result.token);
             if (result.isAuthenticated) {
               toast.success("Sweet !", {
                 position: toast.POSITION.TOP_CENTER,
