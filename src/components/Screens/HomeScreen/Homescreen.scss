@@ -268,11 +268,6 @@ a.pre-order-btn {
   margin: 2em auto;
   font-size:1.25em;
   font-weight:6600;
-  &:hover { 
-  background-color:#fff;
-    text-decoration:none;
-    color:#000;
-  }
 } 
 
 
@@ -349,4 +344,15 @@ a.pre-order-btn {
     flex: 100%;
     max-width: 80%;
   }
+}
+
+.LOGO {
+  animation-name: logo;
+  animation-duration: 3s;
+  animation-iteration-count: 100;
+}
+
+@keyframes logo {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
