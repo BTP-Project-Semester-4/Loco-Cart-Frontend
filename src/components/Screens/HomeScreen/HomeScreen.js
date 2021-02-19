@@ -13,7 +13,6 @@ import nalin from './../../../images/NALIN.jpeg';
 import vijay from './../../../images/Vijay.jpeg';
 import prerit from './../../../images/Prerit.jpeg';
 import LocoCart from './../../../images/LocoCart.JPG';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 
