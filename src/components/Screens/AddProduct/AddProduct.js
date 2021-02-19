@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import './AddProduct.css';
 import TextField from "@material-ui/core/TextField";
 import Grid from '@material-ui/core/Grid';
@@ -8,11 +9,13 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const jwt = require('jsonwebtoken');
 
 toast.configure();
 
 const AddProduct = ()=>{
     const [query, setQuery] = useState("");
+    const [sellerId, setSellerId] = useState("");
     const [searchedProducts, setSearchedProducts] = useState([]);
     const [step, setStep] = useState(0);
     const [isNew, setIsNew] = useState(false);
@@ -23,6 +26,28 @@ const AddProduct = ()=>{
     const [quantity, setQuantity] = useState(undefined);
     const [image, setImage] = useState(undefined);
     const [url, setUrl] = useState("");
+    const history = useHistory();
+
+    useEffect(()=>{
+        try{
+            const decodedToken = jwt.verify(localStorage.getItem('sellerjwt'),process.env.REACT_APP_JWT_SECRET);
+            setSellerId(decodedToken._id);
+        }catch{
+            toast.error(
+                'Please sign in first',
+                {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+                }
+            );
+            history.push('/sellersignin');
+        }
+    },[]);
 
     useEffect(()=>{
         if(query !== ""){
@@ -45,6 +70,48 @@ const AddProduct = ()=>{
             })
         }
     },[query]);
+
+    useEffect(()=>{
+        if(url !== ""){
+            fetch(
+                'http://localhost:3001/api/product/addproduct',
+                {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        productName: name,
+                        productCategory: category,
+                        sellerPrice: sellerPrice,
+                        sellerDescription: description,
+                        sellerQuantity: quantity,
+                        sellerId: sellerId,
+                        sellerImage: url
+                    }),
+                }
+            )
+            .then(res=>res.json())
+            .then(result=>{
+                if(result.message === "Success"){
+                    setStep(2);
+                }else{
+                    toast.error(
+                        'Some error occured!',
+                        {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined
+                        }
+                    );
+                }
+            })
+        }
+    },[url]);
 
     const getMapLength = (ipMap) =>{
         var ans = 0;
@@ -464,6 +531,24 @@ const AddProduct = ()=>{
                     :
                     <div>
 
+                    </div>
+                }
+                {
+                    step===2
+                    ?
+                    
+                    <div style={{textAlign:"center"}}>
+                    <CheckCircleIcon
+                                style={{
+                                    height:"100px",
+                                    width:"100px",
+                                    color:"#00cc00"
+                                }}
+                    />
+                    <h3 className="total_price">ADDED ITEM SUCCESSFULLY</h3>
+                    </div>
+                    :
+                    <div>
                     </div>
                 }
             </div>
