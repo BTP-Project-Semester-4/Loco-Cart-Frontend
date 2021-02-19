@@ -12,6 +12,10 @@ import amit from './../../../images/AMIT.jpeg'
 import nalin from './../../../images/NALIN.jpeg';
 import vijay from './../../../images/Vijay.jpeg';
 import prerit from './../../../images/Prerit.jpeg';
+import LocoCart from './../../../images/LocoCart.JPG';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 function getModalStyle() {
   const top = 50 ;
@@ -28,10 +32,10 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     width: 400,
-    background: "#000",
-    border: '2px solid #fff',
+    background: "#fff",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    // borderRadius: "25px"
   },
 }));
 
@@ -279,7 +283,7 @@ const ReviewCard = () => {
         <div class="col1">
           <div class="testimonial1">
             <img class="img1" src={nalin} alt="" />
-            <div class="name1">Nalin Agrawal</div>
+            <div class="name1">Nalin</div>
             <div class="stars1">
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
@@ -294,7 +298,7 @@ const ReviewCard = () => {
         <div class="col1">
           <div class="testimonial1">
             <img class="img1" src={prerit} alt="" />
-            <div class="name1">Prerit Kumar Jha</div>
+            <div class="name1">Prerit</div>
             <div class="stars1">
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
@@ -302,14 +306,17 @@ const ReviewCard = () => {
               <i class="fas fa-star"></i>
               <i class="far fa-star"></i>
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque repellat aspernatur temporibus assumenda sint odio minima. Voluptate alias possimus aspernatur voluptates excepturi placeat iusto cupiditate.</p>
+            <p>Site is definitely one of the best website designs we’ve 
+              seen in a while. Website tend to be highly effective 
+              in engaging users. Taking advantage of positive reviews on recommendation 
+              platforms/sites is a great strategy for finding customer. Thank You !<br/> ✨</p>
           </div>
         </div>
         
         <div class="col1">
           <div class="testimonial1">
             <img class="img1" src={amit} alt="" />
-            <div class="name1">Amit Kumar Upadhyay</div>
+            <div class="name1">Amit</div>
             <div class="stars1">
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
@@ -324,7 +331,7 @@ const ReviewCard = () => {
         <div class="col1">
           <div class="testimonial1">
             <img class="img1" src={vijay} alt="" />
-            <div class="name1">Vijay Joshi</div>
+            <div class="name1">Vijay</div>
             <div class="stars1">
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
@@ -347,6 +354,7 @@ export default function HomeScreen() {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);
+  const [Loading, setLoading] = React.useState(true);
 
   const handleOpen = () => {
     setOpen(true);
@@ -359,16 +367,16 @@ export default function HomeScreen() {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <div style={{ right: 0, top: 0, margin: "20px", position: "fixed" ,color: "#fff"}}>
+      <div style={{ right: 0, top: 0, margin: "20px", position: "fixed" ,color: "#000"}}>
           <FaWindowClose onClick={handleClose} />
         </div>
         <br />
-      <div style={{width: "100%", textAlign: "center", transform: "translate3d(0%,10%,20px)",color:"#fff"}}> 
-      <h2 id="simple-modal-title"><b>🔥 𝓛𝓞𝓒𝓞-𝓒𝓐𝓡𝓣 🔥</b></h2>
+      <div style={{width: "100%", textAlign: "center", transform: "translate3d(0%,10%,20px)",color:"#000"}}> 
+      <h1 id="simple-modal-title"><b>🔥 LOCOCART 🔥</b></h1>
       <p id="simple-modal-description">
-      <b>𝐖𝐄𝐋𝐂𝐎𝐌𝐄𝐒 𝐘𝐎𝐔</b>
+      <b>WELCOMES YOU</b>
       </p>
-      <a class="pre-order-btn" href="#" onClick={handleClose}><b>🔥 WE CONNECT LOCALLY 🔥</b></a>
+      <a class="pre-order-btn" href="#" onClick={handleClose}><b> WE CONNECT LOCALLY </b></a>
       </div> 
     </div>
   );
@@ -380,11 +388,13 @@ export default function HomeScreen() {
     Axios.post(address).then((result) => {
       console.log(result);
       setProducts(result.data.products);
+      setLoading(false);
     });
   }, []);
 
   return (
-    <>
+    <div >
+    { !Loading && <div style={{background: "#f1f1f1"}}>
       <CategoryBar />
       <Corousal />
 
@@ -426,8 +436,13 @@ export default function HomeScreen() {
       </Modal>
     </div>
 
+    </div>
+    }
+    {
+      Loading && <div><div className="LOGO" style={{marginLeft: "40%", marginTop: "10%"}}><img src={LocoCart} style={{width: "30%" , height: "30%"}}/></div></div>
+    }
 
 
-    </>
+    </div>
   );
 }
