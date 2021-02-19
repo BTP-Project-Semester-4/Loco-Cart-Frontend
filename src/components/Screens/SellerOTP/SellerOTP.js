@@ -62,13 +62,13 @@ export default function SellerOTP() {
   const [otp, setOtp] = useState("");
   const history = useHistory();
   useEffect(()=>{
-    if(localStorage.getItem("jwt") === null){
+    if(localStorage.getItem("sellerjwt") === null){
       history.push('/sellersignin');
     }else{
       fetch('http://localhost:3001/api/seller/sellerotp',{
       method:"get",
       headers:{
-        "authorization":"Bearer "+localStorage.getItem("jwt")
+        "authorization":"Bearer "+localStorage.getItem("sellerjwt")
       }
       })
       .then(res=>res.json())
