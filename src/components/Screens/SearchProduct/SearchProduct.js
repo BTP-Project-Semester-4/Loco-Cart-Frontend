@@ -75,37 +75,14 @@ function MediaCard(props) {
               </div>
               <span class="price">₹ {miniPrice}</span>
               <div class="ssfooter">
-                <ul>
-                  <li class="fa fa-star">
-                    <img
-                      src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                      style={{ height: "2rem" }}
-                    />
-                  </li>
-                  <li class="fa fa-star">
-                    <img
-                      src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                      style={{ height: "2rem" }}
-                    />
-                  </li>
-                  <li class="fa fa-star">
-                    <img
-                      src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                      style={{ height: "2rem" }}
-                    />
-                  </li>
-                  <li class="fa fa-star">
-                    <img
-                      src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                      style={{ height: "2rem" }}
-                    />
-                  </li>
-                  <li class="fa fa-star-o">
-                    <img
-                      src="https://img.icons8.com/fluent/48/000000/star-half-empty.png"
-                      style={{ height: "2rem" }}
-                    />
-                  </li>
+                <ul class="stars1">
+                    
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                      
                 </ul>
               </div>
             </div>
