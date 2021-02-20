@@ -6,7 +6,7 @@ import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import { jwt } from "jsonwebtoken";
+// import { jwt } from "jsonwebtoken";
 import {
   Chart,
   ChartTitle,
@@ -19,7 +19,7 @@ import {
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+const jwt = require("jsonwebtoken");
 toast.configure();
 
 function sleep(time) {
@@ -116,7 +116,7 @@ const Productdesc = (props) => {
   const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(0);
 
-  const [userId, setUserId] = React.useState("");
+  var userId = "";
   const [UserName, setUserName] = React.useState("");
 
   if (hover < 0 && value === 0) {
@@ -149,45 +149,48 @@ const Productdesc = (props) => {
       }
     }
   });
-  useEffect(() => {
-    for (var key in comments) {
-      var obj = comments[key];
-      if (obj.Rating.$numberDecimal <= 1.0) {
-        one.add(obj._id);
-      } else if (obj.Rating.$numberDecimal <= 2.0) {
-        two.add(obj._id);
-      } else if (obj.Rating.$numberDecimal <= 3.0) {
-        three.add(obj._id);
-      } else if (obj.Rating.$numberDecimal <= 4.0) {
-        four.add(obj._id);
-      } else if (obj.Rating.$numberDecimal <= 5.0) {
-        five.add(obj._id);
-      }
+  for (var key in comments) {
+    var obj = comments[key];
+    if (obj.Rating.$numberDecimal <= 1.0) {
+      one.add(obj._id);
+    } else if (obj.Rating.$numberDecimal <= 2.0) {
+      two.add(obj._id);
+    } else if (obj.Rating.$numberDecimal <= 3.0) {
+      three.add(obj._id);
+    } else if (obj.Rating.$numberDecimal <= 4.0) {
+      four.add(obj._id);
+    } else if (obj.Rating.$numberDecimal <= 5.0) {
+      five.add(obj._id);
     }
-    firstSeries[0] = one.size;
-    secondSeries[1] = two.size;
-    thirdSeries[2] = three.size;
-    fourthSeries[3] = four.size;
-    fifthSeries[4] = five.size;
-    try {
-      const jwtToken = localStorage.getItem("CustomerJwt");
-      const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
-      console.log("userInfo \n" + jwtToken + "\n" + user);
-      setUserId(user._id);
+  }
+  firstSeries[0] = one.size;
+  secondSeries[1] = two.size;
+  thirdSeries[2] = three.size;
+  fourthSeries[3] = four.size;
+  fifthSeries[4] = five.size;
+  try {
+    const jwtToken = localStorage.getItem("CustomerJwt");
+    const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+    // console.log(user);
+    userId = user._id;
+  } catch (e) {
+    console.log(e);
+  }
 
-      const customerInfo = "http://localhost:3001/api/customer/" + userId;
-      Axios.get({ customerInfo })
-        .then(function (response) {
-          const customerName = response.firstName + " " + response.lastName;
-          setUserName(customerName);
-          console.log("CustomerName: " + customerName);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    } catch (e) {
-      console.log(e);
-    }
+  useEffect(() => {
+    Axios.get(`http://localhost:3001/api/customer/${userId}`)
+      .then(function (response) {
+        console.log(response);
+        const customerName =
+          response.data.customer.firstName +
+          " " +
+          response.data.customer.lastName;
+        setUserName(customerName);
+        console.log("CustomerName: " + customerName);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }, []);
   const onCommentHandler = (e) => {
     e.preventDefault();
@@ -198,14 +201,15 @@ const Productdesc = (props) => {
       `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`,
       {
         id: objectKey,
-        name: "Nalin",
+        name: UserName,
         rating: value,
         comment: comment,
-        userId: "5ff1abe1db632843b446a776",
+        userId: userId,
       }
     )
       .then((result) => {
-        if (result.message === "Success") {
+        console.log(result);
+        if (result.data.message === "Success") {
           toast.success("Thank you for your valueable comment :)", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 1500,
