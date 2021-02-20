@@ -1,0 +1,89 @@
+.horizontal-card {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: relative;
+    height: 170px;
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    border: 1.4px solid grey;
+    background-color: rgba(255, 255, 255, 0.836);
+    transition: transform .2s;
+}
+
+.horizontal-card-body .name {
+    margin-top: 0px;
+    font-size: 17px;
+    /* color: #fafafa; */
+    color: #3f51b5;
+    font-weight: 900;
+    /* background-color: #00BC40; */
+}
+
+.horizontal-card-body .order {
+    height: 70px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-weight: bolder;
+    color: #37474f;
+}
+
+.horizontal-card-body .orders {
+    /* float: right; */
+    /* width: 100%; */
+    color: #aaaaaa;
+}
+
+.horizontal-card-body .profile {
+    font-weight: bolder;
+    color: red;
+}
+
+.horizontal-card-body .status {
+    color: #242B2E;
+}
+
+.horizontal-card:hover {
+    transform: scale(1.01);
+}
+
+.horizontal-card img {
+    width: 10%;
+    height: fit-content;
+    border-bottom: 0px solid orange;
+}
+
+.horizontal-card .horizontal-card-body {
+    line-height: 2.344445;
+    display: flex;
+    font-size: 14.8px;
+    flex-direction: column;
+    margin-left: 2rem;
+    font-family: 'Trebuchet MS';
+    font-weight: bold;
+}
+
+
+/* .horizontal-card .horizontal-card-footer {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.horizontal-card .horizontal-card-footer span {
+    width: 200px;
+    display: inline-block;
+}
+
+.horizontal-card .horizontal-card-footer a {
+    margin-left: 10px;
+} */
+
+
+/* .horizontal-card-body */
