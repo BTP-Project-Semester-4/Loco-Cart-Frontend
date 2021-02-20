@@ -1,0 +1,107 @@
+html {
+    background: #f4f9f9;
+    box-sizing: border-box;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+.bodys {
+    border: 1px solid;
+    border-radius: 20px;
+    border-color: gray;
+    border: 1px solid;
+    box-shadow: 5px 10px 8px #888888;
+    background: white;
+    width: 95%;
+    max-width: 800px;
+    margin: 50px auto;
+    font-family: 'Trebuchet MS';
+    padding: 20px;
+}
+
+label {
+    display: block;
+    margin: 1em 0 .2em;
+}
+
+
+/* single-line text, checkbox, and button */
+
+input,
+select,
+textarea {
+    border-radius: 18px;
+    display: block;
+    width: 105%;
+    padding: .3em;
+    font-family: 'Trebuchet MS';
+    font-size: 20px;
+    background-color: #fbfbfb;
+    border: solid 1px #CCC;
+    resize: vertical;
+}
+
+textarea {
+    min-height: 195px;
+}
+
+select {
+    color: indigo;
+}
+
+option {
+    color: blue;
+    background: lavenderBlush;
+}
+
+input[type=checkbox] {
+    display: inline;
+    width: auto;
+    color: red;
+}
+
+input[type=submit] {
+    text-transform: uppercase;
+    background: #fb8500;
+    margin: 1em 0 0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    transition: all .3s ease-out;
+}
+
+input:focus,
+input:hover,
+select:focus,
+select:hover,
+textarea:focus,
+textarea:hover {
+    background: lavenderBlush;
+}
+
+
+/* hover and focus states */
+
+input[type=submit]:hover,
+input[type=submit]:focus {
+    background: #e85d04;
+    text-transform: uppercase;
+    outline: none;
+}
+
+@media screen and (min-width:600px) {
+    /*  make the form 2 columns */
+    form:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+    .columnss {
+        width: 50%;
+        font-weight: bold;
+        padding: 1em;
+        float: left;
+    }
+}
