@@ -1,0 +1,79 @@
+.add_product_all_content{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 768px;
+}
+
+.add_product_main_card{
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding:10px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px 2.5px #d6d6d6;
+    margin-bottom: 20px;
+}
+
+.step{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    color: rgb(54, 54, 54);
+    font-size: 1rem;
+}
+
+.message{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.add_product_product_detail{
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+.register_new_message{
+    color: #3f51b5;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.register_new_message:hover {
+    text-decoration: underline;
+}
+
+.product_name_add_product{
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 1.5rem;
+}
+
+.add_product_back_button{
+    background-color: #3f51b5;
+    color: white;
+    border-radius: 5px;
+    padding:5px;
+    width: 100px;
+    margin-top: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.submit_product_back_button{
+    background-color: #3f51b5;
+    color: white;
+    border-radius: 5px;
+    padding:5px;
+    width: 100px;
+    margin-top: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+    float: right;
+    margin-right: 35px;
+    cursor: pointer;
+}

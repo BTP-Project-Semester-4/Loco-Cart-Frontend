@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
