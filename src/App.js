@@ -19,6 +19,9 @@ import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
 import Header from "./components/Header/Header";
 import Productdesc from "./components/Screens/ProductDescription/productdescription.jsx";
 import AboutUs from "./components/Screens/AboutUs/aboutus";
+import AddProduct from "./components/Screens/AddProduct/AddProduct";
+import Feedback from "./components/Screens/SiteFeedback/Feedback.jsx";
+import Notifications from "./components/Screens/Notification/Bes.jsx";
 function App() {
   return (
     <BrowserRouter>
@@ -49,6 +52,9 @@ function App() {
             <Route path="/search/:id" component={SearchProduct} />
             <Route path="/product/:id" component={Productdesc} />
             <Route path="/aboutus" component={AboutUs} />
+            <Route path="/addproduct" component={AddProduct} />
+            <Route path="/feedback" component={Feedback}/>
+            <Route path="/notifications" component={Notifications}/>
             <Route component={NotFound} />
           </Switch>
         </main>
