@@ -5,6 +5,38 @@ import Button from "@material-ui/core/Button";
 import "../Category/SubCategory/subcategory.scss";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
+import { FaWindowClose } from "react-icons/fa";
+import amit from './../../../images/AMIT.jpeg'
+import nalin from './../../../images/NALIN.jpeg';
+import vijay from './../../../images/Vijay.jpeg';
+import prerit from './../../../images/Prerit.jpeg';
+import LocoCart from './../../../images/LocoCart.JPG';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+
+function getModalStyle() {
+  const top = 50 ;
+  const left = 50 ;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    background: "#fff",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    // borderRadius: "25px"
+  },
+}));
 
 const CategoryBar = () => {
   const history = useHistory();
@@ -187,38 +219,15 @@ function MediaCard(props) {
             </div>
             <span class="price">₹ {miniPrice}</span>
             <div class="ssfooter">
-              <ul>
-                <li class="fa fa-star">
-                  <img
-                    src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                    style={{ height: "2rem" }}
-                  />
-                </li>
-                <li class="fa fa-star">
-                  <img
-                    src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                    style={{ height: "2rem" }}
-                  />
-                </li>
-                <li class="fa fa-star">
-                  <img
-                    src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                    style={{ height: "2rem" }}
-                  />
-                </li>
-                <li class="fa fa-star">
-                  <img
-                    src="https://img.icons8.com/emoji/48/000000/star-emoji.png"
-                    style={{ height: "2rem" }}
-                  />
-                </li>
-                <li class="fa fa-star-o">
-                  <img
-                    src="https://img.icons8.com/fluent/48/000000/star-half-empty.png"
-                    style={{ height: "2rem" }}
-                  />
-                </li>
-              </ul>
+            <ul class="stars1">
+                  
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                  
+                </ul>
             </div>
           </div>
           <div class="success"></div>
@@ -237,24 +246,147 @@ function MediaCard(props) {
   );
 }
 
+const ReviewCard = () => {
+  return(
+    
+    <div>
+       <div class="testimonials1">
+    <div class="testimonial-inner1">
+      <h1>Testimonial</h1>
+      <div class="border1"></div>
+      
+      <div class="row1">
+        <div class="col1">
+          <div class="testimonial1">
+            <img class="img1" src={nalin} alt="" />
+            <div class="name1">Nalin</div>
+            <div class="stars1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque repellat aspernatur temporibus assumenda sint odio minima. Voluptate alias possimus aspernatur voluptates excepturi placeat iusto cupiditate.</p>
+          </div>
+        </div>
+
+        <div class="col1">
+          <div class="testimonial1">
+            <img class="img1" src={prerit} alt="" />
+            <div class="name1">Prerit</div>
+            <div class="stars1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+            <p>Site is definitely one of the best website designs we’ve 
+              seen in a while. Website tend to be highly effective 
+              in engaging users. Taking advantage of positive reviews on recommendation 
+              platforms/sites is a great strategy for finding customer. Thank You !<br/> ✨</p>
+          </div>
+        </div>
+        
+        <div class="col1">
+          <div class="testimonial1">
+            <img class="img1" src={amit} alt="" />
+            <div class="name1">Amit</div>
+            <div class="stars1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque repellat aspernatur temporibus assumenda sint odio minima. Voluptate alias possimus aspernatur voluptates excepturi placeat iusto cupiditate.</p>
+          </div>
+        </div>
+        
+        <div class="col1">
+          <div class="testimonial1">
+            <img class="img1" src={vijay} alt="" />
+            <div class="name1">Vijay</div>
+            <div class="stars1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque repellat aspernatur temporibus assumenda sint odio minima. Voluptate alias possimus aspernatur voluptates excepturi placeat iusto cupiditate!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>         
+    </div>
+  )
+}
+
 export default function HomeScreen() {
+
+  const classes = useStyles();
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = React.useState(true);
+  const [Loading, setLoading] = React.useState(true);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+  const body = (
+    <div style={modalStyle} className={classes.paper}>
+      <div style={{ right: 0, top: 0, margin: "20px", position: "fixed" ,color: "#000"}}>
+          <FaWindowClose onClick={handleClose} />
+        </div>
+        <br />
+      <div style={{width: "100%", textAlign: "center", transform: "translate3d(0%,10%,20px)",color:"#000"}}> 
+      <h1 id="simple-modal-title"><b>🔥 LOCOCART 🔥</b></h1>
+      <p id="simple-modal-description">
+      <b>WELCOMES YOU</b>
+      </p>
+      <a class="pre-order-btn" href="#" onClick={handleClose}><b> WE CONNECT LOCALLY </b></a>
+      </div> 
+    </div>
+  );
+  
+
   const [Products, setProducts] = React.useState([]);
   const address = "http://localhost:3001/api/product/allproducts";
   React.useEffect(() => {
     Axios.post(address).then((result) => {
       console.log(result);
       setProducts(result.data.products);
+      setLoading(false);
     });
   }, []);
 
   return (
-    <>
+    <div >
+    { !Loading && <div style={{background: "#f1f1f1"}}>
       <CategoryBar />
       <Corousal />
 
       <div style={{ marginTop : "1%", marginBottom: "1%" , textAlign : "center"}}>
           <button class="learn-more" style={{   textAlign: "center" }}>
-        <h3>  ❤️‍🔥 Our Top Picks For You ❤️‍🔥 </h3>
+        <h3>  ❤️‍🔥 Customers Reviews ❤️‍🔥 </h3>
+          </button>
+      </div>
+
+      <div style={{margin: "auto"}}>
+        <ReviewCard />
+      </div>
+
+      <div style={{ marginTop : "1%", marginBottom: "1%" , textAlign : "center"}}>
+          <button class="learn-more" style={{   textAlign: "center" }}>
+        <h3>  ❤️‍🔥 Top Picks For You ❤️‍🔥 </h3>
           </button>
       </div>
 
@@ -268,6 +400,25 @@ export default function HomeScreen() {
         })}
       </div>
 
-    </>
+
+      <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {body}
+      </Modal>
+    </div>
+
+    </div>
+    }
+    {
+      Loading && <div><div className="LOGO" style={{marginLeft: "40%", marginTop: "10%"}}><img src={LocoCart} style={{width: "30%" , height: "30%"}}/></div></div>
+    }
+
+
+    </div>
   );
 }
