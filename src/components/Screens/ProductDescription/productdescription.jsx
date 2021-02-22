@@ -3,22 +3,39 @@ import "./productdescription.css";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import Rating from "@material-ui/lab/Rating";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 // import { jwt } from "jsonwebtoken";
-import {
-  Chart,
-  ChartTitle,
-  ChartSeries,
-  ChartSeriesItem,
-  ChartCategoryAxis,
-  ChartTooltip,
-  ChartCategoryAxisItem,
-} from "@progress/kendo-react-charts";
+// import {
+//   Chart,
+//   ChartTitle,
+//   ChartSeries,
+//   ChartSeriesItem,
+//   ChartCategoryAxis,
+//   ChartTooltip,
+//   ChartCategoryAxisItem,
+// } from "@progress/kendo-react-charts";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import LinearProgress from "@material-ui/core/LinearProgress";
+
+const BorderLinearProgress = withStyles((theme) => ({
+  root: {
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: "#1a90ff",
+  },
+}))(LinearProgress);
 const jwt = require("jsonwebtoken");
 toast.configure();
 
@@ -32,53 +49,118 @@ let two = new Set();
 let three = new Set();
 let four = new Set();
 let five = new Set();
-var [firstSeries, secondSeries, thirdSeries, fourthSeries, fifthSeries] = [
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-];
+let total = new Set();
+// var [firstSeries, secondSeries, thirdSeries, fourthSeries, fifthSeries] = [
+//   [0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0],
+// ];
+
 const ChartContainer = () => (
-  <div
-    style={{
-      backgroundColor: "#dfe0df",
-      magrin: "10px",
-      borderRadius: "15px",
-      padding: "5px",
-    }}
-  >
-    <Chart visible={true}>
-      <ChartTitle text="Star Rating" color="#7e7474" />
-      <ChartTooltip format="{0}" color="#ffffff" />
-      <ChartCategoryAxis color="#7e7474">
-        <ChartCategoryAxisItem categories={categories} color="#7e7474">
-          {/* <ChartCategoryAxisTitle text="Star Rating" /> */}
-        </ChartCategoryAxisItem>
-      </ChartCategoryAxis>
-      <ChartSeries color="#AAAAAA">
-        <ChartSeriesItem type="bar" gap={2} data={firstSeries} color="green" />
-        <ChartSeriesItem
-          type="bar"
-          data={secondSeries}
-          gap={0}
-          color="#4cbb17"
+  // <div
+  //   style={{
+  //     backgroundColor: "#dfe0df",
+  //     magrin: "10px",
+  //     borderRadius: "15px",
+  //     padding: "5px",
+  //   }}
+  // >
+  //   <Chart visible={true}>
+  //     <ChartTitle text="Star Rating" color="#7e7474" />
+  //     <ChartTooltip format="{0}" color="#ffffff" />
+  //     <ChartCategoryAxis color="#7e7474">
+  //       <ChartCategoryAxisItem categories={categories} color="#7e7474">
+  //         {/* <ChartCategoryAxisTitle text="Star Rating" /> */}
+  //       </ChartCategoryAxisItem>
+  //     </ChartCategoryAxis>
+  //     <ChartSeries color="#AAAAAA">
+  //       <ChartSeriesItem type="bar" gap={2} data={firstSeries} color="green" />
+  //       <ChartSeriesItem
+  //         type="bar"
+  //         data={secondSeries}
+  //         gap={0}
+  //         color="#4cbb17"
+  //       />
+  //       <ChartSeriesItem
+  //         type="bar"
+  //         data={thirdSeries}
+  //         gap={0}
+  //         color="#39ff14"
+  //       />
+  //       <ChartSeriesItem
+  //         type="bar"
+  //         data={fourthSeries}
+  //         gap={0}
+  //         color="orange"
+  //       />
+  //       <ChartSeriesItem type="bar" data={fifthSeries} gap={0} color="red" />
+  //     </ChartSeries>
+  //   </Chart>
+  // </div>
+  <div class="reviews-container">
+    <h2>Reviews</h2>
+    <div class="rreview">
+      5 <i class="fas fa-star"></i>
+      <div class="progress">
+        {/* <div class="progress-done" data-done="68"></div> */}
+        <BorderLinearProgress
+          variant="determinate"
+          value={(five.size / total.size) * 100}
         />
-        <ChartSeriesItem
-          type="bar"
-          data={thirdSeries}
-          gap={0}
-          color="#39ff14"
+      </div>
+      <span class="percent">{five.size}</span>
+    </div>
+
+    <div class="rreview">
+      <span class="icon-container">
+        4 <i class="fas fa-star"></i>
+      </span>
+      <div class="progress">
+        <BorderLinearProgress
+          variant="determinate"
+          value={(four.size / total.size) * 100}
         />
-        <ChartSeriesItem
-          type="bar"
-          data={fourthSeries}
-          gap={0}
-          color="orange"
+      </div>
+      <span class="percent">{four.size}</span>
+    </div>
+    <div class="rreview">
+      <span class="icon-container">
+        3 <i class="fas fa-star"></i>
+      </span>
+      <div class="progress">
+        <BorderLinearProgress
+          variant="determinate"
+          value={(three.size / total.size) * 100}
         />
-        <ChartSeriesItem type="bar" data={fifthSeries} gap={0} color="red" />
-      </ChartSeries>
-    </Chart>
+      </div>
+      <span class="percent">{three.size}</span>
+    </div>
+    <div class="rreview">
+      <span class="icon-container">
+        2 <i class="fas fa-star"></i>
+      </span>
+      <div class="progress">
+        <BorderLinearProgress
+          variant="determinate"
+          value={(two.size / total.size) * 100}
+        />
+      </div>
+      <span class="percent">{two.size}</span>
+    </div>
+    <div class="rreview">
+      <span class="icon-container">
+        1 <i class="fas fa-star"></i>
+      </span>
+      <div class="progress">
+        <BorderLinearProgress
+          variant="determinate"
+          value={(one.size / total.size) * 100}
+        />
+      </div>
+      <span class="percent">{one.size}</span>
+    </div>
   </div>
 );
 
@@ -153,23 +235,40 @@ const Productdesc = (props) => {
   });
   for (var key in comments) {
     var obj = comments[key];
-    if (obj.Rating.$numberDecimal <= 1.0) {
+    if (obj.Rating.$numberDecimal <= 1) {
       one.add(obj._id);
-    } else if (obj.Rating.$numberDecimal <= 2.0) {
+      total.add(obj._id);
+    } else if (
+      obj.Rating.$numberDecimal <= 2 &&
+      obj.Rating.$numberDecimal > 1
+    ) {
       two.add(obj._id);
-    } else if (obj.Rating.$numberDecimal <= 3.0) {
+      total.add(obj._id);
+    } else if (
+      obj.Rating.$numberDecimal <= 3 &&
+      obj.Rating.$numberDecimal > 2
+    ) {
       three.add(obj._id);
-    } else if (obj.Rating.$numberDecimal <= 4.0) {
+      total.add(obj._id);
+    } else if (
+      obj.Rating.$numberDecimal <= 4 &&
+      obj.Rating.$numberDecimal > 3
+    ) {
       four.add(obj._id);
-    } else if (obj.Rating.$numberDecimal <= 5.0) {
+      total.add(obj._id);
+    } else if (
+      obj.Rating.$numberDecimal <= 5 &&
+      obj.Rating.$numberDecimal > 4
+    ) {
       five.add(obj._id);
+      total.add(obj._id);
     }
   }
-  firstSeries[0] = one.size;
-  secondSeries[1] = two.size;
-  thirdSeries[2] = three.size;
-  fourthSeries[3] = four.size;
-  fifthSeries[4] = five.size;
+  // firstSeries[0] = one.size;
+  // secondSeries[1] = two.size;
+  // thirdSeries[2] = three.size;
+  // fourthSeries[3] = four.size;
+  // fifthSeries[4] = five.size;
   try {
     const jwtToken = localStorage.getItem("CustomerJwt");
     const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
@@ -260,7 +359,7 @@ const Productdesc = (props) => {
                       src={IImage}
                       alt="default"
                       style={{
-                        width: "350px%",
+                        width: "350px",
                         height: "500px",
                         margin: "21px",
                         display: "block",
