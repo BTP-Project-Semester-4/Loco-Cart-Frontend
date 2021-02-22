@@ -3,22 +3,31 @@ import "./productdescription.css";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import Rating from "@material-ui/lab/Rating";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-// import { jwt } from "jsonwebtoken";
-import {
-  Chart,
-  ChartTitle,
-  ChartSeries,
-  ChartSeriesItem,
-  ChartCategoryAxis,
-  ChartTooltip,
-  ChartCategoryAxisItem,
-} from "@progress/kendo-react-charts";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CompanyLogo from "./../../../images/LocoCart.PNG";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { FaCommentsDollar } from "react-icons/fa";
+
+const BorderLinearProgress = withStyles((theme) => ({
+  root: {
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: "#1a90ff",
+  },
+}))(LinearProgress);
 const jwt = require("jsonwebtoken");
 toast.configure();
 
@@ -32,53 +41,72 @@ let two = new Set();
 let three = new Set();
 let four = new Set();
 let five = new Set();
-var [firstSeries, secondSeries, thirdSeries, fourthSeries, fifthSeries] = [
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-];
+let total = new Set();
+
 const ChartContainer = () => (
-  <div
-    style={{
-      backgroundColor: "#dfe0df",
-      magrin: "10px",
-      borderRadius: "15px",
-      padding: "5px",
-    }}
-  >
-    <Chart visible={true}>
-      <ChartTitle text="Star Rating" color="#7e7474" />
-      <ChartTooltip format="{0}" color="#ffffff" />
-      <ChartCategoryAxis color="#7e7474">
-        <ChartCategoryAxisItem categories={categories} color="#7e7474">
-          {/* <ChartCategoryAxisTitle text="Star Rating" /> */}
-        </ChartCategoryAxisItem>
-      </ChartCategoryAxis>
-      <ChartSeries color="#AAAAAA">
-        <ChartSeriesItem type="bar" gap={2} data={firstSeries} color="green" />
-        <ChartSeriesItem
-          type="bar"
-          data={secondSeries}
-          gap={0}
-          color="#4cbb17"
+  <div class="reviews-container">
+    <h2>Reviews</h2>
+    <div class="rreview">
+      <span class="icon-container">
+        5 <i class="fas fa-star" style={{ color: "orange" }}></i>
+      </span>
+      <div class="progress">
+        <BorderLinearProgress
+          variant="determinate"
+          value={(five.size / total.size) * 100}
         />
-        <ChartSeriesItem
-          type="bar"
-          data={thirdSeries}
-          gap={0}
-          color="#39ff14"
+      </div>
+      <span class="percent">{five.size}</span>
+    </div>
+
+    <div class="rreview">
+      <span class="icon-container">
+        4 <i class="fas fa-star" style={{ color: "orange" }}></i>
+      </span>
+      <div class="progress">
+        <BorderLinearProgress
+          variant="determinate"
+          value={(four.size / total.size) * 100}
         />
-        <ChartSeriesItem
-          type="bar"
-          data={fourthSeries}
-          gap={0}
-          color="orange"
+      </div>
+      <span class="percent">{four.size}</span>
+    </div>
+    <div class="rreview">
+      <span class="icon-container">
+        3 <i class="fas fa-star" style={{ color: "orange" }}></i>
+      </span>
+      <div class="progress">
+        <BorderLinearProgress
+          variant="determinate"
+          value={(three.size / total.size) * 100}
         />
-        <ChartSeriesItem type="bar" data={fifthSeries} gap={0} color="red" />
-      </ChartSeries>
-    </Chart>
+      </div>
+      <span class="percent">{three.size}</span>
+    </div>
+    <div class="rreview">
+      <span class="icon-container">
+        2 <i class="fas fa-star" style={{ color: "orange" }}></i>
+      </span>
+      <div class="progress">
+        <BorderLinearProgress
+          variant="determinate"
+          value={(two.size / total.size) * 100}
+        />
+      </div>
+      <span class="percent">{two.size}</span>
+    </div>
+    <div class="rreview">
+      <span class="icon-container">
+        1 <i class="fas fa-star" style={{ color: "orange" }}></i>
+      </span>
+      <div class="progress">
+        <BorderLinearProgress
+          variant="determinate"
+          value={(one.size / total.size) * 100}
+        />
+      </div>
+      <span class="percent">{one.size}</span>
+    </div>
   </div>
 );
 
@@ -116,6 +144,7 @@ const Productdesc = (props) => {
   const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(0);
 
+  const [isLoaging, setIsLoaging] = React.useState(true);
   var userId = "";
   const [UserName, setUserName] = React.useState("");
 
@@ -134,6 +163,7 @@ const Productdesc = (props) => {
   Axios.post("http://localhost:3001/api/product/searchbyid", {
     id: props.match.params.id,
   }).then((result) => {
+    if (result) setIsLoaging(false);
     for (var key in result.data.products.Sellers) {
       var obj = result.data.products.Sellers[key];
       if (miniiPrice > obj.SellerPrice) {
@@ -147,37 +177,51 @@ const Productdesc = (props) => {
         setComments(obj.Comments);
         setObjectKey(key);
       }
+      console.log(result);
     }
   });
+
   for (var key in comments) {
     var obj = comments[key];
-    if (obj.Rating.$numberDecimal <= 1.0) {
+    if (obj.Rating.$numberDecimal <= 1) {
       one.add(obj._id);
-    } else if (obj.Rating.$numberDecimal <= 2.0) {
+      total.add(obj._id);
+    } else if (
+      obj.Rating.$numberDecimal <= 2 &&
+      obj.Rating.$numberDecimal > 1
+    ) {
       two.add(obj._id);
-    } else if (obj.Rating.$numberDecimal <= 3.0) {
+      total.add(obj._id);
+    } else if (
+      obj.Rating.$numberDecimal <= 3 &&
+      obj.Rating.$numberDecimal > 2
+    ) {
       three.add(obj._id);
-    } else if (obj.Rating.$numberDecimal <= 4.0) {
+      total.add(obj._id);
+    } else if (
+      obj.Rating.$numberDecimal <= 4 &&
+      obj.Rating.$numberDecimal > 3
+    ) {
       four.add(obj._id);
-    } else if (obj.Rating.$numberDecimal <= 5.0) {
+      total.add(obj._id);
+    } else if (
+      obj.Rating.$numberDecimal <= 5 &&
+      obj.Rating.$numberDecimal > 4
+    ) {
       five.add(obj._id);
+      total.add(obj._id);
     }
   }
-  firstSeries[0] = one.size;
-  secondSeries[1] = two.size;
-  thirdSeries[2] = three.size;
-  fourthSeries[3] = four.size;
-  fifthSeries[4] = five.size;
-  try {
-    const jwtToken = localStorage.getItem("CustomerJwt");
-    const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
-    // console.log(user);
-    userId = user._id;
-  } catch (e) {
-    console.log(e);
-  }
+  useEffect(async () => {
+    try {
+      const jwtToken = localStorage.getItem("CustomerJwt");
+      const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      // console.log(user);
+      userId = user._id;
+    } catch (e) {
+      console.log(e);
+    }
 
-  useEffect(() => {
     Axios.get(`http://localhost:3001/api/customer/${userId}`)
       .then(function (response) {
         console.log(response);
@@ -196,235 +240,277 @@ const Productdesc = (props) => {
     e.preventDefault();
     const url = `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`;
     console.log("onCommentHandler");
-    // if (userId) {
-    Axios.post(
-      `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`,
-      {
-        id: objectKey,
-        name: UserName,
-        rating: value,
-        comment: comment,
-        userId: userId,
-      }
-    )
-      .then((result) => {
-        console.log(result);
-        if (result.data.message === "Success") {
-          toast.success("Thank you for your valueable comment :)", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1500,
-          });
-          window.location.reload(false);
-        } else {
-          toast.error("Something went wrong!!!", {
-            position: toast.POSITION.TOP_CENTER,
-          });
+    if (userId) {
+      Axios.post(
+        `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`,
+        {
+          id: objectKey,
+          name: UserName,
+          rating: value,
+          comment: comment,
+          userId: userId,
         }
-      })
-      .catch((err) => {
-        console.log(err);
+      )
+        .then((result) => {
+          console.log(result);
+          if (result.data.message === "Success") {
+            toast.success("Thank you for your valueable comment :)", {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 1500,
+            });
+            window.location.reload(false);
+          } else {
+            toast.error("Something went wrong!!!", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      toast.warning("You need to signin to give comment and review !!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
       });
-    // } else {
-    //   toast.warning("You need to signin to give comment and review !!", {
-    //     position: toast.POSITION.TOP_CENTER,
-    //     autoClose: 2000,
-    //   });
-    // }
+    }
   };
 
   return (
-    <div>
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link href="productdescription.css" rel="stylesheet" />
-      <br />
-      <p className="ProductDiscContent">
-        <a href="/">Home</a> {" > "}
-        <a href={`/Category/${category}`}>{category}</a>
-        {" >"} {name}
-      </p>
-      <section id="product-info">
-        <div className="item-image-parent">
-          <ul style={{ width: "100%", padding: "20px" }}>
-            <li style={{ width: "100%" }}>
-              <div style={{ width: "100%" }}>
+    <div style={{ height: "100%", width: "100%" }}>
+      {isLoaging && (
+        <div style={{ height: "100%", width: "100%" }}>
+          {/* <div
+            style={{
+              display: "block",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <div style={{ margin: "auto", left: "50%", top: "30%" }}>
+              <div>
                 <img
-                  src={IImage}
-                  alt="default"
-                  style={{
-                    width: "350px%",
-                    height: "500px",
-                    margin: "21px",
-                    display: "block",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "20px",
-                    marginBottom: "10px",
-                    top: 0,
-                  }}
+                  src={CompanyLogo}
+                  alt="lococart"
+                  style={{ width: "300px", height: "300px" }}
                 />
               </div>
-            </li>
-            <li>
               <div>
-                <ChartContainer />
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div className="item-info-parent">
-          <div className="select-items">
-            <div className="main-info" style={{ paddingLeft: "15px" }}>
-              <h5 className="ProductDiscName">
-                {name + " "}
-                <sup>
-                  <span
-                    className="ProductDescriptionStarRating"
-                    style={{ textDecoration: "none" }}
-                  >
-                    {rating}
-                  </span>
-                </sup>
-              </h5>
-              <Rating
-                name="read-only"
-                value={rating}
-                precision={0.1}
-                readOnly
-              />
-              <p style={{ fontSize: "1.2rem", color: "#7e7474" }}>
-                <span>
-                  <VisibilityIcon />
-                  <sup>1000</sup>
-                </span>{" "}
-                <RateReviewIcon />
-                <sup>{comments.length}</sup>
-              </p>
-
-              <p style={{ fontSize: "1.3rem", color: "green" }}>
-                PRICE:
-                <span id="price" style={{ fontStyle: "italic" }}>
-                  {" "}
-                  ₹{miniiPrice}
-                </span>
-              </p>
-
-              <div className="ProductDiscButtonDiv">
-                <ul>
-                  <li>
-                    <Link to="/cart">
-                      <button class="button button2">ADD TO CART</button>
-                    </Link>
-                    <Link to={"/sellerprofile/" + sellerId}>
-                      <button class="button button2">SELLER PROFILE</button>
-                    </Link>
-                  </li>
-                </ul>
+                <CircularProgress />
               </div>
             </div>
-            <div className="description">
-              <ul>
-                <li>
-                  <li>
-                    <div className="ProductDiscBox">
-                      <h4 className="ProductDescHeadings">Model Name: </h4>
-                      <p className="ProductDiscContent"> {name}</p>
-                    </div>
-                  </li>
-                  <div className="ProductDiscBox">
-                    <h4 className="ProductDescHeadings">Model Number: </h4>
-                    <p className="ProductDiscContent"> MQA62HN/A</p>
+          </div> */}
+          <div style={{ marginBottom: "25%" }}>
+            <div
+              className="LOGO"
+              style={{ marginLeft: "40%", marginTop: "10%" }}
+            >
+              <img src={CompanyLogo} style={{ width: "30%", height: "30%" }} />
+            </div>
+            <div style={{ marginLeft: "48%" }}>
+              <CircularProgress />
+            </div>
+          </div>
+        </div>
+      )}
+      {!isLoaging && (
+        <div>
+          <meta charSet="UTF-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <link href="productdescription.css" rel="stylesheet" />
+          <br />
+          <p className="ProductDiscContent">
+            <a href="/">Home</a> {" > "}
+            <a href={`/Category/${category}`}>{category}</a>
+            {" >"} {name}
+          </p>
+          <section id="product-info">
+            <div className="item-image-parent">
+              <ul style={{ width: "100%", padding: "20px" }}>
+                <li style={{ width: "100%" }}>
+                  <div style={{ width: "100%" }}>
+                    <img
+                      src={IImage}
+                      alt="default"
+                      style={{
+                        width: "350px",
+                        height: "500px",
+                        margin: "21px",
+                        display: "block",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        marginTop: "20px",
+                        marginBottom: "10px",
+                        top: 0,
+                      }}
+                    />
                   </div>
                 </li>
                 <li>
                   <div>
-                    <h4 className="ProductDescHeadings">Browse Type: </h4>
-                    <p className="ProductDiscContent"> {category}</p>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <h4 className="ProductDescHeadings">Description : </h4>
-                    <div className="ProductDiscBox">
-                      <p
-                        className="ProductDiscContent"
-                        style={{ height: "200px" }}
-                      >
-                        {discription}
-                      </p>
-                    </div>
+                    <ChartContainer />
                   </div>
                 </li>
               </ul>
             </div>
-          </div>
-        </div>
-      </section>
-      <section className="ProductDescriptionReview">
-        <div>
-          <h2 style={{ color: "#3f51b5" }}>Comments {" & "} Review</h2>
-        </div>
-        <div
-          className={classes.root}
-          className="ProductDescriptionReviewRating"
-        >
-          <form onSubmit={onCommentHandler}>
-            <p style={{ fontSize: "1.2rem" }}>
-              <b>Rating: </b>
-              <Rating
-                name="hover-feedback"
-                value={value}
-                min={3}
-                precision={0.5}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
-                onChangeActive={(event, newHover) => {
-                  setHover(newHover);
-                }}
-              />
-              <i>
-                {" " + (value === 0 ? hover : value) + " "}
-                stars
-              </i>
-            </p>
-            {/* <input
+            <div className="item-info-parent">
+              <div className="select-items">
+                <div className="main-info" style={{ paddingLeft: "15px" }}>
+                  <h5 className="ProductDiscName">
+                    {name + " "}
+                    <sup>
+                      <span
+                        className="ProductDescriptionStarRating"
+                        style={{ textDecoration: "none" }}
+                      >
+                        {rating}
+                      </span>
+                    </sup>
+                  </h5>
+                  <Rating
+                    name="read-only"
+                    value={rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                  <p style={{ fontSize: "1.2rem", color: "#7e7474" }}>
+                    <span>
+                      <VisibilityIcon />
+                      <sup>1000</sup>
+                    </span>{" "}
+                    <RateReviewIcon />
+                    <sup>{comments.length}</sup>
+                  </p>
+
+                  <p style={{ fontSize: "1.3rem", color: "green" }}>
+                    PRICE:
+                    <span id="price" style={{ fontStyle: "italic" }}>
+                      {" "}
+                      ₹{miniiPrice}
+                    </span>
+                  </p>
+
+                  <div className="ProductDiscButtonDiv">
+                    <ul>
+                      <li>
+                        <Link to="/cart">
+                          <button class="button button2">ADD TO CART</button>
+                        </Link>
+                        <Link to={"/sellerprofile/" + sellerId}>
+                          <button class="button button2">SELLER PROFILE</button>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="description">
+                  <ul>
+                    <li>
+                      <li>
+                        <div className="ProductDiscBox">
+                          <h4 className="ProductDescHeadings">Model Name: </h4>
+                          <p className="ProductDiscContent"> {name}</p>
+                        </div>
+                      </li>
+                      <div className="ProductDiscBox">
+                        <h4 className="ProductDescHeadings">Model Number: </h4>
+                        <p className="ProductDiscContent"> MQA62HN/A</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h4 className="ProductDescHeadings">Browse Type: </h4>
+                        <p className="ProductDiscContent"> {category}</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h4 className="ProductDescHeadings">Description : </h4>
+                        <div className="ProductDiscBox">
+                          <p
+                            className="ProductDiscContent"
+                            style={{ height: "200px" }}
+                          >
+                            {discription}
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section className="ProductDescriptionReview">
+            <div>
+              <h2 style={{ color: "#3f51b5" }}>Comments {" & "} Review</h2>
+            </div>
+            <div
+              className={classes.root}
+              className="ProductDescriptionReviewRating"
+            >
+              <form onSubmit={onCommentHandler}>
+                <p style={{ fontSize: "1.2rem" }}>
+                  <b>Rating: </b>
+                  <Rating
+                    name="hover-feedback"
+                    value={value}
+                    min={3}
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                    }}
+                    onChangeActive={(event, newHover) => {
+                      setHover(newHover);
+                    }}
+                  />
+                  <i>
+                    {" " + (value === 0 ? hover : value) + " "}
+                    stars
+                  </i>
+                </p>
+                {/* <input
             className="ProductDescriptionReviewHeading"
             placeholder="heading"
             style={{ width: "100%" }}
           /> */}
-            <textarea
-              style={{ width: "100%" }}
-              rows="8"
-              placeholder="Your valuable comment..."
-              className="ProductDescriptionTextArea"
-              onChange={(e) => setComment(e.target.value)}
-            ></textarea>
-            <br />
-            <Button variant="contained" color="primary" type="submit">
-              Submit
-            </Button>
-          </form>
+                <textarea
+                  style={{ width: "100%" }}
+                  rows="8"
+                  placeholder="Your valuable comment..."
+                  className="ProductDescriptionTextArea"
+                  onChange={(e) => setComment(e.target.value)}
+                ></textarea>
+                <br />
+                <Button variant="contained" color="primary" type="submit">
+                  Submit
+                </Button>
+              </form>
+            </div>
+            <hr />
+            {comments.map((item) => (
+              <div className="ProductDescriptionReviewReviews">
+                <h2 style={{ color: "#3f51b5" }}>
+                  {item.Name + " "}
+                  <Rating
+                    name="read-only"
+                    precision={0.5}
+                    value={item.Rating.$numberDecimal}
+                    readOnly
+                  />
+                </h2>
+                {/* <h5 style={{ fontSize: "1rem" }}>Totally worthed</h5> */}
+                <i>
+                  <p>{item.Content}</p>
+                </i>
+              </div>
+            ))}
+          </section>
         </div>
-        <hr />
-        {comments.map((item) => (
-          <div className="ProductDescriptionReviewReviews">
-            <h2 style={{ color: "#3f51b5" }}>
-              {item.Name + " "}
-              <Rating
-                name="read-only"
-                precision={0.5}
-                value={item.Rating.$numberDecimal}
-                readOnly
-              />
-            </h2>
-            {/* <h5 style={{ fontSize: "1rem" }}>Totally worthed</h5> */}
-            <i>
-              <p>{item.Content}</p>
-            </i>
-          </div>
-        ))}
-      </section>
+      )}
     </div>
   );
 };
