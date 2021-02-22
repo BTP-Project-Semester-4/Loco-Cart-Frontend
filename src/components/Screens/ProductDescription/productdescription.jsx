@@ -116,6 +116,7 @@ const Productdesc = (props) => {
   const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(0);
 
+  const [isLoaging, setIsLoaging] = React.useState(true);
   var userId = "";
   const [UserName, setUserName] = React.useState("");
 
@@ -148,6 +149,7 @@ const Productdesc = (props) => {
         setObjectKey(key);
       }
     }
+    setIsLoaging(false);
   });
   for (var key in comments) {
     var obj = comments[key];
@@ -234,197 +236,205 @@ const Productdesc = (props) => {
 
   return (
     <div>
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link href="productdescription.css" rel="stylesheet" />
-      <br />
-      <p className="ProductDiscContent">
-        <a href="/">Home</a> {" > "}
-        <a href={`/Category/${category}`}>{category}</a>
-        {" >"} {name}
-      </p>
-      <section id="product-info">
-        <div className="item-image-parent">
-          <ul style={{ width: "100%", padding: "20px" }}>
-            <li style={{ width: "100%" }}>
-              <div style={{ width: "100%" }}>
-                <img
-                  src={IImage}
-                  alt="default"
-                  style={{
-                    width: "350px%",
-                    height: "500px",
-                    margin: "21px",
-                    display: "block",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginTop: "20px",
-                    marginBottom: "10px",
-                    top: 0,
-                  }}
-                />
-              </div>
-            </li>
-            <li>
-              <div>
-                <ChartContainer />
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div className="item-info-parent">
-          <div className="select-items">
-            <div className="main-info" style={{ paddingLeft: "15px" }}>
-              <h5 className="ProductDiscName">
-                {name + " "}
-                <sup>
-                  <span
-                    className="ProductDescriptionStarRating"
-                    style={{ textDecoration: "none" }}
-                  >
-                    {rating}
-                  </span>
-                </sup>
-              </h5>
-              <Rating
-                name="read-only"
-                value={rating}
-                precision={0.1}
-                readOnly
-              />
-              <p style={{ fontSize: "1.2rem", color: "#7e7474" }}>
-                <span>
-                  <VisibilityIcon />
-                  <sup>1000</sup>
-                </span>{" "}
-                <RateReviewIcon />
-                <sup>{comments.length}</sup>
-              </p>
-
-              <p style={{ fontSize: "1.3rem", color: "green" }}>
-                PRICE:
-                <span id="price" style={{ fontStyle: "italic" }}>
-                  {" "}
-                  ₹{miniiPrice}
-                </span>
-              </p>
-
-              <div className="ProductDiscButtonDiv">
-                <ul>
-                  <li>
-                    <Link to="/cart">
-                      <button class="button button2">ADD TO CART</button>
-                    </Link>
-                    <Link to={"/sellerprofile/" + sellerId}>
-                      <button class="button button2">SELLER PROFILE</button>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="description">
-              <ul>
-                <li>
-                  <li>
-                    <div className="ProductDiscBox">
-                      <h4 className="ProductDescHeadings">Model Name: </h4>
-                      <p className="ProductDiscContent"> {name}</p>
-                    </div>
-                  </li>
-                  <div className="ProductDiscBox">
-                    <h4 className="ProductDescHeadings">Model Number: </h4>
-                    <p className="ProductDiscContent"> MQA62HN/A</p>
+      {isLoaging && <div>a</div>}
+      {!isLoaging && (
+        <div>
+          <meta charSet="UTF-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <link href="productdescription.css" rel="stylesheet" />
+          <br />
+          <p className="ProductDiscContent">
+            <a href="/">Home</a> {" > "}
+            <a href={`/Category/${category}`}>{category}</a>
+            {" >"} {name}
+          </p>
+          <section id="product-info">
+            <div className="item-image-parent">
+              <ul style={{ width: "100%", padding: "20px" }}>
+                <li style={{ width: "100%" }}>
+                  <div style={{ width: "100%" }}>
+                    <img
+                      src={IImage}
+                      alt="default"
+                      style={{
+                        width: "350px%",
+                        height: "500px",
+                        margin: "21px",
+                        display: "block",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        marginTop: "20px",
+                        marginBottom: "10px",
+                        top: 0,
+                      }}
+                    />
                   </div>
                 </li>
                 <li>
                   <div>
-                    <h4 className="ProductDescHeadings">Browse Type: </h4>
-                    <p className="ProductDiscContent"> {category}</p>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <h4 className="ProductDescHeadings">Description : </h4>
-                    <div className="ProductDiscBox">
-                      <p
-                        className="ProductDiscContent"
-                        style={{ height: "200px" }}
-                      >
-                        {discription}
-                      </p>
-                    </div>
+                    <ChartContainer />
                   </div>
                 </li>
               </ul>
             </div>
-          </div>
-        </div>
-      </section>
-      <section className="ProductDescriptionReview">
-        <div>
-          <h2 style={{ color: "#3f51b5" }}>Comments {" & "} Review</h2>
-        </div>
-        <div
-          className={classes.root}
-          className="ProductDescriptionReviewRating"
-        >
-          <form onSubmit={onCommentHandler}>
-            <p style={{ fontSize: "1.2rem" }}>
-              <b>Rating: </b>
-              <Rating
-                name="hover-feedback"
-                value={value}
-                min={3}
-                precision={0.5}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
-                onChangeActive={(event, newHover) => {
-                  setHover(newHover);
-                }}
-              />
-              <i>
-                {" " + (value === 0 ? hover : value) + " "}
-                stars
-              </i>
-            </p>
-            {/* <input
+            <div className="item-info-parent">
+              <div className="select-items">
+                <div className="main-info" style={{ paddingLeft: "15px" }}>
+                  <h5 className="ProductDiscName">
+                    {name + " "}
+                    <sup>
+                      <span
+                        className="ProductDescriptionStarRating"
+                        style={{ textDecoration: "none" }}
+                      >
+                        {rating}
+                      </span>
+                    </sup>
+                  </h5>
+                  <Rating
+                    name="read-only"
+                    value={rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                  <p style={{ fontSize: "1.2rem", color: "#7e7474" }}>
+                    <span>
+                      <VisibilityIcon />
+                      <sup>1000</sup>
+                    </span>{" "}
+                    <RateReviewIcon />
+                    <sup>{comments.length}</sup>
+                  </p>
+
+                  <p style={{ fontSize: "1.3rem", color: "green" }}>
+                    PRICE:
+                    <span id="price" style={{ fontStyle: "italic" }}>
+                      {" "}
+                      ₹{miniiPrice}
+                    </span>
+                  </p>
+
+                  <div className="ProductDiscButtonDiv">
+                    <ul>
+                      <li>
+                        <Link to="/cart">
+                          <button class="button button2">ADD TO CART</button>
+                        </Link>
+                        <Link to={"/sellerprofile/" + sellerId}>
+                          <button class="button button2">SELLER PROFILE</button>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="description">
+                  <ul>
+                    <li>
+                      <li>
+                        <div className="ProductDiscBox">
+                          <h4 className="ProductDescHeadings">Model Name: </h4>
+                          <p className="ProductDiscContent"> {name}</p>
+                        </div>
+                      </li>
+                      <div className="ProductDiscBox">
+                        <h4 className="ProductDescHeadings">Model Number: </h4>
+                        <p className="ProductDiscContent"> MQA62HN/A</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h4 className="ProductDescHeadings">Browse Type: </h4>
+                        <p className="ProductDiscContent"> {category}</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h4 className="ProductDescHeadings">Description : </h4>
+                        <div className="ProductDiscBox">
+                          <p
+                            className="ProductDiscContent"
+                            style={{ height: "200px" }}
+                          >
+                            {discription}
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section className="ProductDescriptionReview">
+            <div>
+              <h2 style={{ color: "#3f51b5" }}>Comments {" & "} Review</h2>
+            </div>
+            <div
+              className={classes.root}
+              className="ProductDescriptionReviewRating"
+            >
+              <form onSubmit={onCommentHandler}>
+                <p style={{ fontSize: "1.2rem" }}>
+                  <b>Rating: </b>
+                  <Rating
+                    name="hover-feedback"
+                    value={value}
+                    min={3}
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                    }}
+                    onChangeActive={(event, newHover) => {
+                      setHover(newHover);
+                    }}
+                  />
+                  <i>
+                    {" " + (value === 0 ? hover : value) + " "}
+                    stars
+                  </i>
+                </p>
+                {/* <input
             className="ProductDescriptionReviewHeading"
             placeholder="heading"
             style={{ width: "100%" }}
           /> */}
-            <textarea
-              style={{ width: "100%" }}
-              rows="8"
-              placeholder="Your valuable comment..."
-              className="ProductDescriptionTextArea"
-              onChange={(e) => setComment(e.target.value)}
-            ></textarea>
-            <br />
-            <Button variant="contained" color="primary" type="submit">
-              Submit
-            </Button>
-          </form>
+                <textarea
+                  style={{ width: "100%" }}
+                  rows="8"
+                  placeholder="Your valuable comment..."
+                  className="ProductDescriptionTextArea"
+                  onChange={(e) => setComment(e.target.value)}
+                ></textarea>
+                <br />
+                <Button variant="contained" color="primary" type="submit">
+                  Submit
+                </Button>
+              </form>
+            </div>
+            <hr />
+            {comments.map((item) => (
+              <div className="ProductDescriptionReviewReviews">
+                <h2 style={{ color: "#3f51b5" }}>
+                  {item.Name + " "}
+                  <Rating
+                    name="read-only"
+                    precision={0.5}
+                    value={item.Rating.$numberDecimal}
+                    readOnly
+                  />
+                </h2>
+                {/* <h5 style={{ fontSize: "1rem" }}>Totally worthed</h5> */}
+                <i>
+                  <p>{item.Content}</p>
+                </i>
+              </div>
+            ))}
+          </section>
         </div>
-        <hr />
-        {comments.map((item) => (
-          <div className="ProductDescriptionReviewReviews">
-            <h2 style={{ color: "#3f51b5" }}>
-              {item.Name + " "}
-              <Rating
-                name="read-only"
-                precision={0.5}
-                value={item.Rating.$numberDecimal}
-                readOnly
-              />
-            </h2>
-            {/* <h5 style={{ fontSize: "1rem" }}>Totally worthed</h5> */}
-            <i>
-              <p>{item.Content}</p>
-            </i>
-          </div>
-        ))}
-      </section>
+      )}
     </div>
   );
 };
