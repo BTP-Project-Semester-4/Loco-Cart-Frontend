@@ -13,6 +13,7 @@ import nalin from "./../../../images/NALIN.jpeg";
 import vijay from "./../../../images/Vijay.jpeg";
 import prerit from "./../../../images/Prerit.jpeg";
 import LocoCart from "./../../../images/LocoCart.PNG";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 function getModalStyle() {
@@ -567,9 +568,12 @@ export default function HomeScreen() {
         </div>
       )}
       {Loading && (
-        <div>
+        <div style={{ marginBottom: "25%" }}>
           <div className="LOGO" style={{ marginLeft: "40%", marginTop: "10%" }}>
             <img src={LocoCart} style={{ width: "30%", height: "30%" }} />
+          </div>
+          <div style={{ marginLeft: "48%" }}>
+            <CircularProgress />
           </div>
         </div>
       )}

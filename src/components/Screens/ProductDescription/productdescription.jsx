@@ -6,21 +6,13 @@ import Rating from "@material-ui/lab/Rating";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-// import { jwt } from "jsonwebtoken";
-// import {
-//   Chart,
-//   ChartTitle,
-//   ChartSeries,
-//   ChartSeriesItem,
-//   ChartCategoryAxis,
-//   ChartTooltip,
-//   ChartCategoryAxisItem,
-// } from "@progress/kendo-react-charts";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import CompanyLogo from "./../../../images/LocoCart.PNG";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { FaCommentsDollar } from "react-icons/fa";
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -50,61 +42,15 @@ let three = new Set();
 let four = new Set();
 let five = new Set();
 let total = new Set();
-// var [firstSeries, secondSeries, thirdSeries, fourthSeries, fifthSeries] = [
-//   [0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0],
-// ];
 
 const ChartContainer = () => (
-  // <div
-  //   style={{
-  //     backgroundColor: "#dfe0df",
-  //     magrin: "10px",
-  //     borderRadius: "15px",
-  //     padding: "5px",
-  //   }}
-  // >
-  //   <Chart visible={true}>
-  //     <ChartTitle text="Star Rating" color="#7e7474" />
-  //     <ChartTooltip format="{0}" color="#ffffff" />
-  //     <ChartCategoryAxis color="#7e7474">
-  //       <ChartCategoryAxisItem categories={categories} color="#7e7474">
-  //         {/* <ChartCategoryAxisTitle text="Star Rating" /> */}
-  //       </ChartCategoryAxisItem>
-  //     </ChartCategoryAxis>
-  //     <ChartSeries color="#AAAAAA">
-  //       <ChartSeriesItem type="bar" gap={2} data={firstSeries} color="green" />
-  //       <ChartSeriesItem
-  //         type="bar"
-  //         data={secondSeries}
-  //         gap={0}
-  //         color="#4cbb17"
-  //       />
-  //       <ChartSeriesItem
-  //         type="bar"
-  //         data={thirdSeries}
-  //         gap={0}
-  //         color="#39ff14"
-  //       />
-  //       <ChartSeriesItem
-  //         type="bar"
-  //         data={fourthSeries}
-  //         gap={0}
-  //         color="orange"
-  //       />
-  //       <ChartSeriesItem type="bar" data={fifthSeries} gap={0} color="red" />
-  //     </ChartSeries>
-  //   </Chart>
-  // </div>
   <div class="reviews-container">
     <h2>Reviews</h2>
     <div class="rreview">
-      5 <i class="fas fa-star"></i>
+      <span class="icon-container">
+        5 <i class="fas fa-star" style={{ color: "orange" }}></i>
+      </span>
       <div class="progress">
-        {/* <div class="progress-done" data-done="68"></div> */}
         <BorderLinearProgress
           variant="determinate"
           value={(five.size / total.size) * 100}
@@ -115,7 +61,7 @@ const ChartContainer = () => (
 
     <div class="rreview">
       <span class="icon-container">
-        4 <i class="fas fa-star"></i>
+        4 <i class="fas fa-star" style={{ color: "orange" }}></i>
       </span>
       <div class="progress">
         <BorderLinearProgress
@@ -127,7 +73,7 @@ const ChartContainer = () => (
     </div>
     <div class="rreview">
       <span class="icon-container">
-        3 <i class="fas fa-star"></i>
+        3 <i class="fas fa-star" style={{ color: "orange" }}></i>
       </span>
       <div class="progress">
         <BorderLinearProgress
@@ -139,7 +85,7 @@ const ChartContainer = () => (
     </div>
     <div class="rreview">
       <span class="icon-container">
-        2 <i class="fas fa-star"></i>
+        2 <i class="fas fa-star" style={{ color: "orange" }}></i>
       </span>
       <div class="progress">
         <BorderLinearProgress
@@ -151,7 +97,7 @@ const ChartContainer = () => (
     </div>
     <div class="rreview">
       <span class="icon-container">
-        1 <i class="fas fa-star"></i>
+        1 <i class="fas fa-star" style={{ color: "orange" }}></i>
       </span>
       <div class="progress">
         <BorderLinearProgress
@@ -217,6 +163,7 @@ const Productdesc = (props) => {
   Axios.post("http://localhost:3001/api/product/searchbyid", {
     id: props.match.params.id,
   }).then((result) => {
+    if (result) setIsLoaging(false);
     for (var key in result.data.products.Sellers) {
       var obj = result.data.products.Sellers[key];
       if (miniiPrice > obj.SellerPrice) {
@@ -230,9 +177,10 @@ const Productdesc = (props) => {
         setComments(obj.Comments);
         setObjectKey(key);
       }
+      console.log(result);
     }
-    setIsLoaging(false);
   });
+
   for (var key in comments) {
     var obj = comments[key];
     if (obj.Rating.$numberDecimal <= 1) {
@@ -264,21 +212,16 @@ const Productdesc = (props) => {
       total.add(obj._id);
     }
   }
-  // firstSeries[0] = one.size;
-  // secondSeries[1] = two.size;
-  // thirdSeries[2] = three.size;
-  // fourthSeries[3] = four.size;
-  // fifthSeries[4] = five.size;
-  try {
-    const jwtToken = localStorage.getItem("CustomerJwt");
-    const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
-    // console.log(user);
-    userId = user._id;
-  } catch (e) {
-    console.log(e);
-  }
+  useEffect(async () => {
+    try {
+      const jwtToken = localStorage.getItem("CustomerJwt");
+      const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      // console.log(user);
+      userId = user._id;
+    } catch (e) {
+      console.log(e);
+    }
 
-  useEffect(() => {
     Axios.get(`http://localhost:3001/api/customer/${userId}`)
       .then(function (response) {
         console.log(response);
@@ -297,45 +240,79 @@ const Productdesc = (props) => {
     e.preventDefault();
     const url = `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`;
     console.log("onCommentHandler");
-    // if (userId) {
-    Axios.post(
-      `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`,
-      {
-        id: objectKey,
-        name: UserName,
-        rating: value,
-        comment: comment,
-        userId: userId,
-      }
-    )
-      .then((result) => {
-        console.log(result);
-        if (result.data.message === "Success") {
-          toast.success("Thank you for your valueable comment :)", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1500,
-          });
-          window.location.reload(false);
-        } else {
-          toast.error("Something went wrong!!!", {
-            position: toast.POSITION.TOP_CENTER,
-          });
+    if (userId) {
+      Axios.post(
+        `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`,
+        {
+          id: objectKey,
+          name: UserName,
+          rating: value,
+          comment: comment,
+          userId: userId,
         }
-      })
-      .catch((err) => {
-        console.log(err);
+      )
+        .then((result) => {
+          console.log(result);
+          if (result.data.message === "Success") {
+            toast.success("Thank you for your valueable comment :)", {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 1500,
+            });
+            window.location.reload(false);
+          } else {
+            toast.error("Something went wrong!!!", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      toast.warning("You need to signin to give comment and review !!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
       });
-    // } else {
-    //   toast.warning("You need to signin to give comment and review !!", {
-    //     position: toast.POSITION.TOP_CENTER,
-    //     autoClose: 2000,
-    //   });
-    // }
+    }
   };
 
   return (
-    <div>
-      {isLoaging && <div>a</div>}
+    <div style={{ height: "100%", width: "100%" }}>
+      {isLoaging && (
+        <div style={{ height: "100%", width: "100%" }}>
+          {/* <div
+            style={{
+              display: "block",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <div style={{ margin: "auto", left: "50%", top: "30%" }}>
+              <div>
+                <img
+                  src={CompanyLogo}
+                  alt="lococart"
+                  style={{ width: "300px", height: "300px" }}
+                />
+              </div>
+              <div>
+                <CircularProgress />
+              </div>
+            </div>
+          </div> */}
+          <div style={{ marginBottom: "25%" }}>
+            <div
+              className="LOGO"
+              style={{ marginLeft: "40%", marginTop: "10%" }}
+            >
+              <img src={CompanyLogo} style={{ width: "30%", height: "30%" }} />
+            </div>
+            <div style={{ marginLeft: "48%" }}>
+              <CircularProgress />
+            </div>
+          </div>
+        </div>
+      )}
       {!isLoaging && (
         <div>
           <meta charSet="UTF-8" />
