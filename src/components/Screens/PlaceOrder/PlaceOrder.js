@@ -318,7 +318,7 @@ const PlaceOrder = ()=>{
                 {status==2?
                 <div>
                 <h1 className="step">STEP 3 OF 3</h1>
-                <h3 className="total_price">ENTER THE OTP SENT TO YOUR MOBILE NO.</h3>
+                <h3 className="total_price">ENTER THE OTP SENT TO YOUR EMAIL ID</h3>
                 <div style={{margin:"10px",maxWidth:"768px"}}>
                         <FormControl fullWidth variant="outlined">
                             <InputLabel htmlFor="outlined-adornment-amount">ENTER OTP</InputLabel>
