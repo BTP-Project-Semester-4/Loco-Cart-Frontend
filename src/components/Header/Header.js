@@ -24,6 +24,9 @@ import HomeIcon from "@material-ui/icons/Home";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import SearchIcon from "@material-ui/icons/Search";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import ChatIcon from "@material-ui/icons/Chat";
+import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import { Dropdown } from "react-bootstrap";
 import InputBase from "@material-ui/core/InputBase";
 import Button from "@material-ui/core/Button";
@@ -154,14 +157,30 @@ export default function Header() {
     }
   };
   const [userId, setUserId] = useState("");
-  React.useEffect(() => {
+  const [UserName, setUserName] = useState("");
+  React.useEffect(async () => {
     showLococart();
     try {
-      const jwtToken = localStorage.getItem("CustomerJwt");
+      const jwtToken = await localStorage.getItem("CustomerJwt");
       console.log(jwt);
-      const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      const user = await jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
 
-      setUserId(user._id);
+      if (user) {
+        setUserId(user._id);
+        console.log(user);
+        const resp = await Axios.get(
+          `http://localhost:3001/api/customer/${user._id}`
+        )
+          .then(function (response) {
+            console.log(response);
+            const customerName = response.data.customer.firstName;
+            setUserName(response.data.customer.firstName);
+            console.log("CustomerName: " + customerName);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     } catch (e) {
       console.log(e);
     }
@@ -189,6 +208,14 @@ export default function Header() {
     localStorage.removeItem("CustomerJwt");
     history.push("/");
     window.location.reload(false);
+  };
+  const notificationHandler = (e) => {
+    e.preventDefault();
+    history.push("/notifications");
+  };
+  const profileHandler = (e) => {
+    e.preventDefault();
+    history.push("/userprofile/" + userId);
   };
   return (
     <div className={classes.root}>
@@ -295,13 +322,51 @@ export default function Header() {
               Login
             </Button>
           ) : (
-            <Button
-              color="inherit"
-              style={{ marginLeft: "auto" }}
-              onClick={logoutHandler}
-            >
-              Logout
-            </Button>
+            <div>
+              <Button
+                color="inherit"
+                style={{ marginLeft: "auto" }}
+                onClick={profileHandler}
+              >
+                <AccountCircleRoundedIcon
+                  style={{ color: "#ffffff", marginTop: "2px" }}
+                />
+              </Button>
+              <Button
+                color="inherit"
+                style={{ marginLeft: "auto" }}
+                onClick={notificationHandler}
+              >
+                <NotificationsIcon
+                  style={{ color: "#ffffff", marginTop: "2px" }}
+                />
+                <span
+                  style={{
+                    transform: "translateX(-13px) translateY(-9px)",
+                  }}
+                >
+                  <div
+                    style={{
+                      borderRadius: "50%",
+                      backgroundColor: "red",
+                      paddingLeft: "8px",
+                      paddingRight: "8px",
+                      fontSize: "11px",
+                    }}
+                    className="badge"
+                  >
+                    2
+                  </div>
+                </span>
+              </Button>
+              <Button
+                color="inherit"
+                style={{ marginLeft: "auto" }}
+                onClick={logoutHandler}
+              >
+                Logout
+              </Button>
+            </div>
           )}
         </Toolbar>
       </AppBar>
@@ -317,9 +382,17 @@ export default function Header() {
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
+              <div style={{ fontFamily: "Trebuchet MS" }}>
+                <i>
+                  Hi, <b>{UserName + " "}</b>
+                </i>
+                <ChevronLeftIcon />
+              </div>
             ) : (
-              <ChevronRightIcon />
+              <div>
+                {UserName}
+                <ChevronRightIcon />
+              </div>
             )}
           </IconButton>
         </div>
@@ -329,7 +402,7 @@ export default function Header() {
         ) : (
           <List>
             <Divider />
-            <Link to="/userprofile/6016bf61a0cf182f8037ed63">
+            <Link to={"/userprofile/" + userId} onClick={handleDrawerClose}>
               <ListItem button key="Profile">
                 <ListItemIcon>
                   <AccountCircleRoundedIcon />
@@ -337,7 +410,18 @@ export default function Header() {
                 <ListItemText primary="Profile" style={{ color: "#000000" }} />
               </ListItem>
             </Link>
-            <Link to="/bidscreen">
+            <Link to="/notifications" onClick={handleDrawerClose}>
+              <ListItem button key="Notifications">
+                <ListItemIcon>
+                  <NotificationsActiveIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Notifications"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+            <Link to="/bidscreen" onClick={handleDrawerClose}>
               <ListItem button key="Bid Products">
                 <ListItemIcon>
                   <GavelIcon />
@@ -348,7 +432,7 @@ export default function Header() {
                 />
               </ListItem>
             </Link>
-            <Link to="/cart">
+            <Link to="/cart" onClick={handleDrawerClose}>
               <ListItem button key="Cart">
                 <ListItemIcon>
                   <ShoppingCartIcon />
@@ -356,7 +440,7 @@ export default function Header() {
                 <ListItemText primary="Cart" style={{ color: "#000000" }} />
               </ListItem>
             </Link>
-            <Link to="/orderhistory">
+            <Link to="/orderhistory" onClick={handleDrawerClose}>
               <ListItem button key="Order History">
                 <ListItemIcon>
                   <HistoryIcon />
@@ -367,7 +451,7 @@ export default function Header() {
                 />
               </ListItem>
             </Link>
-            <Link to="/customerotp">
+            <Link to="/customerotp" onClick={handleDrawerClose}>
               <ListItem button key="Verify Account">
                 <ListItemIcon>
                   <VerifiedUserIcon />
@@ -383,7 +467,7 @@ export default function Header() {
 
         <Divider />
         <List>
-          <Link to="/">
+          <Link to="/" onClick={handleDrawerClose}>
             <ListItem button key="Home Screen">
               <ListItemIcon>
                 <HomeIcon />
@@ -394,15 +478,7 @@ export default function Header() {
               />
             </ListItem>
           </Link>
-          <Link to="/aboutus">
-            <ListItem button key="About Us">
-              <ListItemIcon>
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText primary="About Us" style={{ color: "#000000" }} />
-            </ListItem>
-          </Link>
-          <Link to="/category">
+          <Link to="/category" onClick={handleDrawerClose}>
             <ListItem button key="Category">
               <ListItemIcon>
                 <CategoryIcon />
@@ -410,7 +486,7 @@ export default function Header() {
               <ListItemText primary="Category" style={{ color: "#000000" }} />
             </ListItem>
           </Link>
-          <Link to="/signin">
+          <Link to="/signin" onClick={handleDrawerClose}>
             <ListItem button key="Register/SignIn">
               <ListItemIcon>
                 <VpnKeyIcon />
@@ -421,7 +497,7 @@ export default function Header() {
               />
             </ListItem>
           </Link>
-          <Link to="/sellersignin">
+          <Link to="/sellersignin" onClick={handleDrawerClose}>
             <ListItem button key="Seller SignIn">
               <ListItemIcon>
                 <BusinessCenterIcon />
@@ -432,7 +508,23 @@ export default function Header() {
               />
             </ListItem>
           </Link>
-          <Link to="/logout">
+          <Link to="/feedback" onClick={handleDrawerClose}>
+            <ListItem button key="Feedback">
+              <ListItemIcon>
+                <ChatIcon />
+              </ListItemIcon>
+              <ListItemText primary="Feedback" style={{ color: "#000000" }} />
+            </ListItem>
+          </Link>
+          <Link to="/aboutus" onClick={handleDrawerClose}>
+            <ListItem button key="About Us">
+              <ListItemIcon>
+                <InfoIcon />
+              </ListItemIcon>
+              <ListItemText primary="About Us" style={{ color: "#000000" }} />
+            </ListItem>
+          </Link>
+          <Link to="/logout" onClick={handleDrawerClose}>
             <ListItem button key="Logout">
               <ListItemIcon>
                 <MeetingRoomIcon />
