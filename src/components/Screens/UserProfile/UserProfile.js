@@ -8,51 +8,37 @@ import StarIcon from '@material-ui/icons/Star';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+import { FaWindowClose } from "react-icons/fa";
+import Axios from 'axios';
+
+function getModalStyle() {
+    const top = 50;
+    const left = 50;
+  
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
+  
+  const useStyles = makeStyles((theme) => ({
+    paper: {
+      position: "absolute",
+      width: 400,
+      background: "#fff",
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+      // borderRadius: "25px"
+    },
+  }));
 
 
-const PastOrderCard = (props)=>{
-    return(
-        <>
-         <Grid container xs={12} sm={12} md={12} lg={12} className="review">
-            <Grid item xs={12} sm={12} md={4} lg={4}>
-                <img src="https://avatars0.githubusercontent.com/u/67575900?s=400&u=a87b16f58b6cf169801a1f7c97237b039dc2bf76&v=4"
-                className="seller-img"/>
-                <h3 className="seller-name">Prerit Retailers</h3>
-                <p className="seller-rating">Rated 5</p><StarIcon color="primary"/>
-            </Grid>
-            <Grid item xs={12} sm={12} md={8} lg={8} >
-            <div style={{margin: "auto"}}>
-                        <div style={{float: "right",marginRight: "4%"}}>
-                            🟢 Ordered On : Mar 3, 2021
-                        </div>
-                        <div>
-                        <br/>
-                        <br/>
-                        <Button color="primary" variant="outlined">
-                            Total Cart Value : ₹ 1562.00 /-        
-                        </Button>
-                        <div class="stars1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <Button variant="contained" color="primary" endIcon={<Icon>send</Icon>}>
-                        More Details
-                        </Button>
-                        <br/>
-                        <br/>
-                        You Have Saved 5% On This Order. ! Happy Shopping 🛍️                     
-                        </div>         
-                </div>
-            </Grid>
-            </Grid>
-        </>
-    )
-}
 
 const UserProfile = (props)=>{
+    const classes = useStyles();
     const history = useHistory();
     const [firstName, setFirstName] = useState("Loading...");
     const [lastName, setLastName] = useState("Loading...");
@@ -62,6 +48,61 @@ const UserProfile = (props)=>{
     const [state, setState] = useState("Loading...");
     const [country, setCountry] = useState("Loading...");
     const [phoneNo, setPhoneNo] = useState("Loading...");
+    const [modalStyle] = React.useState(getModalStyle);
+    const [open, setOpen] = React.useState(false);
+    const [pastOrder, setPastOrder] = React.useState([]);
+
+    const handleOpen = () => {
+    setOpen(true);
+    };
+
+    const handleClose = () => {
+    setOpen(false);
+    };
+    
+    const PastOrderCard = (props)=>{
+        console.log(props);
+        return(
+            <>
+             <Grid container xs={12} sm={12} md={12} lg={12} className="review">
+                <Grid item xs={12} sm={12} md={4} lg={4}>
+                    <img src="https://avatars0.githubusercontent.com/u/67575900?s=400&u=a87b16f58b6cf169801a1f7c97237b039dc2bf76&v=4"
+                    className="seller-img"/>
+                    <h3 className="seller-name">Prerit Retailers</h3>
+                    <p className="seller-rating">Rated 5</p><StarIcon color="primary"/>
+                </Grid>
+                <Grid item xs={12} sm={12} md={8} lg={8} >
+                <div style={{margin: "auto"}}>
+                            <div style={{float: "right",marginRight: "4%"}}>
+                                🟢 Ordered On : Mar 3, 2021
+                            </div>
+                            <div>
+                            <br/>
+                            <br/>
+                            <Button color="primary" variant="outlined">
+                                Total Cart Value : ₹ 1562.00 /-       
+                            </Button>
+                            <div class="stars1">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <Button variant="contained" color="primary" endIcon={<Icon>send</Icon>} onClick={handleOpen}>
+                            More Details
+                            </Button>
+                            <br/>
+                            <br/>
+                            You Have Saved 5% On This Order. ! Happy Shopping 🛍️                     
+                            </div>         
+                    </div>
+                </Grid>
+                </Grid>
+            </>
+        )
+    }
+
     useEffect(()=>{
         fetch(
             `http://localhost:3001/api/customer/${props.location.pathname.substring(13)}`
@@ -87,8 +128,22 @@ const UserProfile = (props)=>{
                 history.push('/error')
             }
         })
+
+        console.log(props.location.pathname.substring(13));
+
+        Axios.post(
+            "http://localhost:3001/api/customerpastorder/customer_past_order"
+            ,
+        {customerId : props.location.pathname.substring(13)})
+        .then((result) => {
+            console.log(result);
+            setPastOrder(result.data.history);
+        })
+
     },[]);
     return(
+        <>
+
         <Grid container className="all_content">
             <Grid item xs={12} sm={12} md={12} lg={12} className="intro">
             <Grid container>
@@ -123,6 +178,8 @@ const UserProfile = (props)=>{
                         <hr/>
                         <div style={{height: "700px",overflowY: "scroll",overflowX: "hidden"}}>
                            
+                          
+
                             <PastOrderCard />
                             <PastOrderCard />
                             <PastOrderCard />
@@ -136,6 +193,83 @@ const UserProfile = (props)=>{
                 </Grid>
             </Grid>
         </Grid>
+
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+        >
+            <div style={modalStyle} className={classes.paper}>
+            <div
+                style={{
+                right: 0,
+                top: 0,
+                margin: "20px",
+                position: "fixed",
+                color: "#000",
+                }}
+            >
+                <FaWindowClose onClick={handleClose} />
+            </div>
+            <br />
+            <div
+                style={{
+                width: "100%",
+                textAlign: "center",
+                transform: "translate3d(0%,10%,20px)",
+                color: "#000",
+                }}
+            >
+                <h1 id="simple-modal-title">
+                <b > ITEMS </b>
+                </h1>
+                <div style={{height: "150px",overflowY: "scroll",overflowX: "hidden",marginBottom: "5%"}}>
+                    <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Qty</th>
+                    </tr>
+                    <tr>
+                        <td>Peter</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Lois</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Peter</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Lois</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Peter</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Lois</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Peter</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Lois</td>
+                        <td>2</td>
+                    </tr>
+                    </table>
+
+                </div>
+            </div>
+            </div>
+        </Modal>
+
+        </>
     )
 }
 
