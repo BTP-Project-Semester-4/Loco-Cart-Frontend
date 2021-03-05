@@ -72,7 +72,7 @@ const Notifications = () => {
       <div className="container pb-4">
         <div className="row">
           <div className="col-lg-3">
-            {notifications.map((notification) => (
+            {notifications.reverse().map((notification) => (
               <div className="horizontal-card">
                 <img src={notification.image} alt="" />
                 <div className="horizontal-card-body" style={{ width: "100%" }}>

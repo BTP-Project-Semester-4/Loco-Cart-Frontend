@@ -439,7 +439,7 @@ export default function Header() {
                 />
               </ListItem>
             </Link>
-            <Link to="/bidscreen" onClick={handleDrawerClose}>
+            <Link to="/biddingSeller" onClick={handleDrawerClose}>
               <ListItem button key="Bid Products">
                 <ListItemIcon>
                   <GavelIcon />
