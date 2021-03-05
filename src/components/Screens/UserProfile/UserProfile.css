@@ -93,6 +93,7 @@
 .review{
     background-color: white;
     border-radius: 25px;
+    border : 1px solid gray;
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
