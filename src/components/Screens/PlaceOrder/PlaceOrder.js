@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import './PlaceOrder.css';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -9,9 +10,37 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const jwt = require('jsonwebtoken');
+
+toast.configure();
 
 const PlaceOrder = ()=>{
     const [status, setStatus] = useState(0);
+    const history = useHistory();
+    
+    useEffect(()=>{
+        try{
+            const decodedToken = jwt.verify(process.env.REACT_APP_JWT_SECRET, localStorage.getItem("CustomerJwt"));
+            console.log(decodedToken);
+        }catch{
+            toast.error(
+                'Please sign in first',
+                {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+                }
+            );
+            history.push('/signin');
+        }
+    },[]);
+
     return(
         <div className="place_order_all_content">
             <div className="top_section">
