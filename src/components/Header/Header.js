@@ -158,28 +158,83 @@ export default function Header() {
   };
   const [userId, setUserId] = useState("");
   const [UserName, setUserName] = useState("");
+  const [notifications, setNotifications] = React.useState([]);
+  const [isCustomer, setIsCustomer] = useState(true);
   React.useEffect(async () => {
     showLococart();
     try {
-      const jwtToken = await localStorage.getItem("CustomerJwt");
+      var jwtToken = await localStorage.getItem("CustomerJwt");
       console.log(jwt);
-      const user = await jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      if (jwtToken === null) {
+        jwtToken = await localStorage.getItem("sellerjwt");
+        const user = await jwt.verify(
+          jwtToken,
+          process.env.REACT_APP_JWT_SECRET
+        );
+        if (user) {
+          setUserId(user._id);
+          console.log(user);
+          const resp = await Axios.get(
+            `http://localhost:3001/api/seller/${user._id}`
+          )
+            .then(function (response) {
+              console.log(response);
+              const customerName = response.data.seller.firstName;
+              setUserName(response.data.seller.firstName);
+              console.log("Seller: " + customerName);
+              setIsCustomer(false);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
 
-      if (user) {
-        setUserId(user._id);
-        console.log(user);
-        const resp = await Axios.get(
-          `http://localhost:3001/api/customer/${user._id}`
-        )
-          .then(function (response) {
-            console.log(response);
-            const customerName = response.data.customer.firstName;
-            setUserName(response.data.customer.firstName);
-            console.log("CustomerName: " + customerName);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+          const responce = await Axios.get(
+            `http://localhost:3001/api/notification/${user._id}`
+          )
+            .then(function (response) {
+              console.log(response);
+              if (response.data.message === "Success") {
+                setNotifications(response.data.notification.notifications);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      } else {
+        const user = await jwt.verify(
+          jwtToken,
+          process.env.REACT_APP_JWT_SECRET
+        );
+        if (user) {
+          setUserId(user._id);
+          console.log(user);
+          const resp = await Axios.get(
+            `http://localhost:3001/api/customer/${user._id}`
+          )
+            .then(function (response) {
+              console.log(response);
+              const customerName = response.data.customer.firstName;
+              setUserName(response.data.customer.firstName);
+              console.log("CustomerName: " + customerName);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+          const responce = await Axios.get(
+            `http://localhost:3001/api/notification/${user._id}`
+          )
+            .then(function (response) {
+              console.log(response);
+              if (response.data.message === "Success") {
+                setNotifications(response.data.notification.notifications);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
       }
     } catch (e) {
       console.log(e);
@@ -215,7 +270,11 @@ export default function Header() {
   };
   const profileHandler = (e) => {
     e.preventDefault();
-    history.push("/userprofile/" + userId);
+    if (isCustomer) {
+      history.push("/userprofile/" + userId);
+    } else {
+      history.push("/sellerprofile/" + userId);
+    }
   };
   return (
     <div className={classes.root}>
@@ -340,24 +399,28 @@ export default function Header() {
                 <NotificationsIcon
                   style={{ color: "#ffffff", marginTop: "2px" }}
                 />
-                <span
-                  style={{
-                    transform: "translateX(-13px) translateY(-9px)",
-                  }}
-                >
-                  <div
+                {notifications.length === 0 ? (
+                  <span />
+                ) : (
+                  <span
                     style={{
-                      borderRadius: "50%",
-                      backgroundColor: "red",
-                      paddingLeft: "8px",
-                      paddingRight: "8px",
-                      fontSize: "11px",
+                      transform: "translateX(-13px) translateY(-9px)",
                     }}
-                    className="badge"
                   >
-                    2
-                  </div>
-                </span>
+                    <div
+                      style={{
+                        borderRadius: "50%",
+                        backgroundColor: "red",
+                        paddingLeft: "8px",
+                        paddingRight: "8px",
+                        fontSize: "11px",
+                      }}
+                      className="badge"
+                    >
+                      {notifications.length}
+                    </div>
+                  </span>
+                )}
               </Button>
               <Button
                 color="inherit"
@@ -399,7 +462,7 @@ export default function Header() {
 
         {userId === "" ? (
           <List></List>
-        ) : (
+        ) : isCustomer ? (
           <List>
             <Divider />
             <Link to={"/userprofile/" + userId} onClick={handleDrawerClose}>
@@ -417,17 +480,6 @@ export default function Header() {
                 </ListItemIcon>
                 <ListItemText
                   primary="Notifications"
-                  style={{ color: "#000000" }}
-                />
-              </ListItem>
-            </Link>
-            <Link to="/bidscreen" onClick={handleDrawerClose}>
-              <ListItem button key="Bid Products">
-                <ListItemIcon>
-                  <GavelIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Bid Products"
                   style={{ color: "#000000" }}
                 />
               </ListItem>
@@ -452,6 +504,51 @@ export default function Header() {
               </ListItem>
             </Link>
             <Link to="/customerotp" onClick={handleDrawerClose}>
+              <ListItem button key="Verify Account">
+                <ListItemIcon>
+                  <VerifiedUserIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Verify Account"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+          </List>
+        ) : (
+          <List>
+            <Divider />
+            <Link to={"/sellerprofile/" + userId} onClick={handleDrawerClose}>
+              <ListItem button key="Profile">
+                <ListItemIcon>
+                  <AccountCircleRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Profile" style={{ color: "#000000" }} />
+              </ListItem>
+            </Link>
+            <Link to="/notifications" onClick={handleDrawerClose}>
+              <ListItem button key="Notifications">
+                <ListItemIcon>
+                  <NotificationsActiveIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Notifications"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+            <Link to="/biddingSeller" onClick={handleDrawerClose}>
+              <ListItem button key="Bid Products">
+                <ListItemIcon>
+                  <GavelIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Bid Products"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+            <Link to="/sellerotp" onClick={handleDrawerClose}>
               <ListItem button key="Verify Account">
                 <ListItemIcon>
                   <VerifiedUserIcon />
