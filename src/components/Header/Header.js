@@ -158,6 +158,7 @@ export default function Header() {
   };
   const [userId, setUserId] = useState("");
   const [UserName, setUserName] = useState("");
+  const [notifications, setNotifications] = React.useState([]);
   React.useEffect(async () => {
     showLococart();
     try {
@@ -176,6 +177,19 @@ export default function Header() {
             const customerName = response.data.customer.firstName;
             setUserName(response.data.customer.firstName);
             console.log("CustomerName: " + customerName);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+        const responce = await Axios.get(
+          `http://localhost:3001/api/notification/${user._id}`
+        )
+          .then(function (response) {
+            console.log(response);
+            if (response.data.message === "Success") {
+              setNotifications(response.data.notification.notifications);
+            }
           })
           .catch(function (error) {
             console.log(error);
@@ -340,24 +354,28 @@ export default function Header() {
                 <NotificationsIcon
                   style={{ color: "#ffffff", marginTop: "2px" }}
                 />
-                <span
-                  style={{
-                    transform: "translateX(-13px) translateY(-9px)",
-                  }}
-                >
-                  <div
+                {notifications.length === 0 ? (
+                  <span />
+                ) : (
+                  <span
                     style={{
-                      borderRadius: "50%",
-                      backgroundColor: "red",
-                      paddingLeft: "8px",
-                      paddingRight: "8px",
-                      fontSize: "11px",
+                      transform: "translateX(-13px) translateY(-9px)",
                     }}
-                    className="badge"
                   >
-                    2
-                  </div>
-                </span>
+                    <div
+                      style={{
+                        borderRadius: "50%",
+                        backgroundColor: "red",
+                        paddingLeft: "8px",
+                        paddingRight: "8px",
+                        fontSize: "11px",
+                      }}
+                      className="badge"
+                    >
+                      {notifications.length}
+                    </div>
+                  </span>
+                )}
               </Button>
               <Button
                 color="inherit"
@@ -421,7 +439,7 @@ export default function Header() {
                 />
               </ListItem>
             </Link>
-            <Link to="/bidscreen" onClick={handleDrawerClose}>
+            <Link to="/biddingSeller" onClick={handleDrawerClose}>
               <ListItem button key="Bid Products">
                 <ListItemIcon>
                   <GavelIcon />
