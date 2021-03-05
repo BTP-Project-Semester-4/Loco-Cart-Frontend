@@ -19,34 +19,37 @@ export default function CartScreen() {
   var userId = "";
   var totalQuantity = 0;
 
-  useEffect(() => {
+  useEffect(async () => {
     try {
-      const jwtToken = localStorage.getItem("jwt");
-      const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      const jwtToken = await localStorage.getItem("CustomerJwt");
+      console.log(jwt);
+      const user = await jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      // const jwtToken = localStorage.getItem("jwt");
+      // const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
       userId = user._id;
+
+      if (userId === "") {
+        toast.error("Please sign in to continue !!!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        // history.push("/signin");
+      } else {
+        Axios.get(`http://localhost:3001/api/customer/getcart/${userId}`, {
+          id: userId,
+        }).then((result) => {
+          // console.log(result);
+          if (result.data.message === "Success") {
+            setCartItems(result.data.itemList);
+            setTotalPrice(result.data.totalPrice);
+          } else {
+            toast.warning("Your cart it empty!", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
+        });
+      }
     } catch (e) {
       console.log(e);
-    }
-
-    if (userId === "") {
-      toast.error("Please sign in to continue !!!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-      // history.push("/signin");
-    } else {
-      Axios.get(`http://localhost:3001/api/customer/getcart/${userId}`, {
-        id: userId,
-      }).then((result) => {
-        // console.log(result);
-        if (result.data.message === "Success") {
-          setCartItems(result.data.itemList);
-          setTotalPrice(result.data.totalPrice);
-        } else {
-          toast.warning("Your cart it empty!", {
-            position: toast.POSITION.TOP_CENTER,
-          });
-        }
-      });
     }
   }, []);
   return (
