@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import './PlaceOrder.css';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -9,9 +10,39 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const jwt = require('jsonwebtoken');
+
+toast.configure();
 
 const PlaceOrder = ()=>{
     const [status, setStatus] = useState(0);
+    const history = useHistory();
+    
+    useEffect(()=>{
+        try{
+            console.log(localStorage.getItem("CustomerJwt"))
+            const decodedToken = jwt.verify(localStorage.getItem("CustomerJwt"), process.env.REACT_APP_JWT_SECRET);
+            console.log(decodedToken);
+        }catch(err){
+            console.log(err);
+            toast.error(
+                'Please sign in first',
+                {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+                }
+            );
+            history.push('/signin');
+        }
+    },[]);
+
     return(
         <div className="place_order_all_content">
             <div className="top_section">
@@ -318,7 +349,7 @@ const PlaceOrder = ()=>{
                 {status==2?
                 <div>
                 <h1 className="step">STEP 3 OF 3</h1>
-                <h3 className="total_price">ENTER THE OTP SENT TO YOUR MOBILE NO.</h3>
+                <h3 className="total_price">ENTER THE OTP SENT TO YOUR EMAIL ID</h3>
                 <div style={{margin:"10px",maxWidth:"768px"}}>
                         <FormControl fullWidth variant="outlined">
                             <InputLabel htmlFor="outlined-adornment-amount">ENTER OTP</InputLabel>
