@@ -159,41 +159,82 @@ export default function Header() {
   const [userId, setUserId] = useState("");
   const [UserName, setUserName] = useState("");
   const [notifications, setNotifications] = React.useState([]);
+  const [isCustomer, setIsCustomer] = useState(true);
   React.useEffect(async () => {
     showLococart();
     try {
-      const jwtToken = await localStorage.getItem("CustomerJwt");
+      var jwtToken = await localStorage.getItem("CustomerJwt");
       console.log(jwt);
-      const user = await jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      if (jwtToken === null) {
+        jwtToken = await localStorage.getItem("sellerjwt");
+        const user = await jwt.verify(
+          jwtToken,
+          process.env.REACT_APP_JWT_SECRET
+        );
+        if (user) {
+          setUserId(user._id);
+          console.log(user);
+          const resp = await Axios.get(
+            `http://localhost:3001/api/seller/${user._id}`
+          )
+            .then(function (response) {
+              console.log(response);
+              const customerName = response.data.seller.firstName;
+              setUserName(response.data.seller.firstName);
+              console.log("Seller: " + customerName);
+              setIsCustomer(false);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
 
-      if (user) {
-        setUserId(user._id);
-        console.log(user);
-        const resp = await Axios.get(
-          `http://localhost:3001/api/customer/${user._id}`
-        )
-          .then(function (response) {
-            console.log(response);
-            const customerName = response.data.customer.firstName;
-            setUserName(response.data.customer.firstName);
-            console.log("CustomerName: " + customerName);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+          const responce = await Axios.get(
+            `http://localhost:3001/api/notification/${user._id}`
+          )
+            .then(function (response) {
+              console.log(response);
+              if (response.data.message === "Success") {
+                setNotifications(response.data.notification.notifications);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      } else {
+        const user = await jwt.verify(
+          jwtToken,
+          process.env.REACT_APP_JWT_SECRET
+        );
+        if (user) {
+          setUserId(user._id);
+          console.log(user);
+          const resp = await Axios.get(
+            `http://localhost:3001/api/customer/${user._id}`
+          )
+            .then(function (response) {
+              console.log(response);
+              const customerName = response.data.customer.firstName;
+              setUserName(response.data.customer.firstName);
+              console.log("CustomerName: " + customerName);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
 
-        const responce = await Axios.get(
-          `http://localhost:3001/api/notification/${user._id}`
-        )
-          .then(function (response) {
-            console.log(response);
-            if (response.data.message === "Success") {
-              setNotifications(response.data.notification.notifications);
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+          const responce = await Axios.get(
+            `http://localhost:3001/api/notification/${user._id}`
+          )
+            .then(function (response) {
+              console.log(response);
+              if (response.data.message === "Success") {
+                setNotifications(response.data.notification.notifications);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
       }
     } catch (e) {
       console.log(e);
@@ -229,7 +270,11 @@ export default function Header() {
   };
   const profileHandler = (e) => {
     e.preventDefault();
-    history.push("/userprofile/" + userId);
+    if (isCustomer) {
+      history.push("/userprofile/" + userId);
+    } else {
+      history.push("/sellerprofile/" + userId);
+    }
   };
   return (
     <div className={classes.root}>
@@ -417,10 +462,63 @@ export default function Header() {
 
         {userId === "" ? (
           <List></List>
-        ) : (
+        ) : isCustomer ? (
           <List>
             <Divider />
             <Link to={"/userprofile/" + userId} onClick={handleDrawerClose}>
+              <ListItem button key="Profile">
+                <ListItemIcon>
+                  <AccountCircleRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Profile" style={{ color: "#000000" }} />
+              </ListItem>
+            </Link>
+            <Link to="/notifications" onClick={handleDrawerClose}>
+              <ListItem button key="Notifications">
+                <ListItemIcon>
+                  <NotificationsActiveIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Notifications"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+            <Link to="/cart" onClick={handleDrawerClose}>
+              <ListItem button key="Cart">
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Cart" style={{ color: "#000000" }} />
+              </ListItem>
+            </Link>
+            <Link to="/orderhistory" onClick={handleDrawerClose}>
+              <ListItem button key="Order History">
+                <ListItemIcon>
+                  <HistoryIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Order History"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+            <Link to="/customerotp" onClick={handleDrawerClose}>
+              <ListItem button key="Verify Account">
+                <ListItemIcon>
+                  <VerifiedUserIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Verify Account"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
+          </List>
+        ) : (
+          <List>
+            <Divider />
+            <Link to={"/sellerprofile/" + userId} onClick={handleDrawerClose}>
               <ListItem button key="Profile">
                 <ListItemIcon>
                   <AccountCircleRoundedIcon />
@@ -450,26 +548,7 @@ export default function Header() {
                 />
               </ListItem>
             </Link>
-            <Link to="/cart" onClick={handleDrawerClose}>
-              <ListItem button key="Cart">
-                <ListItemIcon>
-                  <ShoppingCartIcon />
-                </ListItemIcon>
-                <ListItemText primary="Cart" style={{ color: "#000000" }} />
-              </ListItem>
-            </Link>
-            <Link to="/orderhistory" onClick={handleDrawerClose}>
-              <ListItem button key="Order History">
-                <ListItemIcon>
-                  <HistoryIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Order History"
-                  style={{ color: "#000000" }}
-                />
-              </ListItem>
-            </Link>
-            <Link to="/customerotp" onClick={handleDrawerClose}>
+            <Link to="/sellerotp" onClick={handleDrawerClose}>
               <ListItem button key="Verify Account">
                 <ListItemIcon>
                   <VerifiedUserIcon />
