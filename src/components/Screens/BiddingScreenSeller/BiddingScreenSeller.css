@@ -1,9 +1,10 @@
 .BiddingScreenBody {
-  background: url("http://all4desktop.com/data_images/original/4236532-background-images.jpg");
+  /* background: url("http://all4desktop.com/data_images/original/4236532-background-images.jpg");
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: fixed; */
   color: #262626;
   margin: 0 0;
+  height: 100%;
   padding: 5%;
 }
 .container {
@@ -15,8 +16,9 @@
 }
 @media (min-width: 1200px) {
   .container {
-    max-width: 1140px;
-    margin: 10px;
+    max-width: 95%;
+    margin: auto;
+    margin-bottom: 20px;
   }
   .BiddingScreenLeft {
     max-width: 900px;
@@ -30,6 +32,7 @@
     border-radius: 0 0 5px 5px;
     padding: 25px;
     width: "70%";
+    border: 1px solid grey;
   }
 }
 @media (max-width: 1199px) {
@@ -46,6 +49,7 @@
     background: #f6f6f6;
     border-radius: 0 0 5px 5px;
     padding: 25px;
+    border: 1px solid grey;
   }
 }
 
@@ -53,7 +57,7 @@
   flex: 2;
 }
 .title {
-  background: -webkit-gradient(
+  /* background: -webkit-gradient(
     linear,
     left top,
     right bottom,
@@ -64,7 +68,8 @@
   background: -ms-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
   background: -o-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
   background: linear-gradient(to bottom right, #5195a8 0%, #70eaff 100%);
-  border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0; */
+  background-color: #3f51b5;
   padding: 20px;
   color: #f6f6f6;
 }
