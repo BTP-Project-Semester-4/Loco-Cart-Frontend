@@ -22,9 +22,11 @@ const PlaceOrder = ()=>{
     
     useEffect(()=>{
         try{
-            const decodedToken = jwt.verify(process.env.REACT_APP_JWT_SECRET, localStorage.getItem("CustomerJwt"));
+            console.log(localStorage.getItem("CustomerJwt"))
+            const decodedToken = jwt.verify(localStorage.getItem("CustomerJwt"), process.env.REACT_APP_JWT_SECRET);
             console.log(decodedToken);
-        }catch{
+        }catch(err){
+            console.log(err);
             toast.error(
                 'Please sign in first',
                 {
