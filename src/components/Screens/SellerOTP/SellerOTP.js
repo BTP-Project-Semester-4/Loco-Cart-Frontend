@@ -1,5 +1,5 @@
-import React,{useState, useEffect} from "react";
-import {useHistory} from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,8 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+
+const jwt = require("jsonwebtoken");
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -59,56 +61,62 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SellerOTP() {
   const classes = useStyles();
+  const [id, setid] = useState("");
   const [otp, setOtp] = useState("");
   const history = useHistory();
-  useEffect(()=>{
-    if(localStorage.getItem("sellerjwt") === null){
-      history.push('/sellersignin');
-    }else{
-      fetch('http://localhost:3001/api/seller/sellerotp',{
-      method:"get",
-      headers:{
-        "authorization":"Bearer "+localStorage.getItem("sellerjwt")
-      }
-      })
-      .then(res=>res.json())
-      .then(result=>{
-        console.log(result)
-        if(result.error){
-          if(result.error === "Authorization required")
-          history.push('/sellersignin');
-          else if(result.error === "Already authenticated")
-          history.push('/category');
-        }
-      })
-    }
-    
-  },[])
-
-  const submitHandler = ()=>{
-    if(otp === ""){
-      console.log("Please enter otp")
-    }else{
-      fetch('http://localhost:3001/api/seller/sellerotp',{
-        method:'post',
-        headers:{
-          "Content-Type":"application/json",
-          "authorization":"Bearer "+localStorage.getItem("jwt")
+  useEffect(() => {
+    try {
+      const decoded_token = jwt.verify(
+        localStorage.getItem("sellerjwt"),
+        process.env.REACT_APP_JWT_SECRET
+      );
+      setid(decoded_token._id);
+      fetch("http://localhost:3001/api/seller/verifysellertype", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body:JSON.stringify({
-          otp:otp,
-          timestamp:Date.now()
-        })
-      }
-      ).then(res=>res.json())
-      .then(result=>{
-        console.log(result);
-        if(result.message === "Valid OTP...User Authenticated"){
-          history.push('/category');
-        }
+        body: JSON.stringify({
+          id: decoded_token._id,
+        }),
       })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.isverified) {
+            history.push("/sellerprofile");
+          }
+        });
+    } catch (err) {
+      console.log(err);
+      history.push("/sellersignin");
     }
-  }
+  }, []);
+
+  const submitHandler = () => {
+    if (otp === "") {
+      console.log("Please enter otp");
+    } else {
+      fetch("http://localhost:3001/api/seller/sellerotp", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + localStorage.getItem("sellerjwt"),
+        },
+        body: JSON.stringify({
+          otp: otp,
+          sellerId: id,
+          timestamp: Date.now(),
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+          if (result.message === "Valid OTP...User Authenticated") {
+            history.push("/category");
+          }
+        });
+    }
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -133,7 +141,7 @@ export default function SellerOTP() {
               name="otp"
               autoComplete="otp"
               autoFocus
-              onChange={(e)=>{
+              onChange={(e) => {
                 setOtp(e.target.value);
               }}
             />
