@@ -69,28 +69,30 @@ const useStyles = makeStyles((theme) => ({
 export default function CustomerOTP() {
   const classes = useStyles();
   const [otp, setOtp] = useState("");
+  const [id, setid] = useState("");
   const history = useHistory();
   useEffect(() => {
-    if (localStorage.getItem("jwt") === null) {
-      // history.push("/signin");
-    } else {
-      fetch("http://localhost:3001/api/customer/customerotp", {
-        method: "get",
+    try{
+      const decoded_token = jwt.verify(localStorage.getItem("CustomerJwt"),process.env.REACT_APP_JWT_SECRET);
+      setid(decoded_token._id);
+      fetch("http://localhost:3001/api/customer/verifycustomertype",{
+        method: "post",
         headers: {
-          authorization: "Bearer " + localStorage.getItem("jwt"),
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          id : decoded_token._id,
+        }),
+      }).then(res => res.json())
+      .then(result => {
+        if(result.isverified){
+           history.push('/category');
+        }
       })
-        .then((res) => res.json())
-        .then((result) => {
-          console.log(result);
-          if (result.error) {
-            if (result.error === "Authorization required")
-              history.push("/signin");
-            else if (result.error === "Already authenticated")
-              history.push("/category");
-          }
-        });
-    }
+    }catch(err){
+      console.log(err);
+      history.push('/signin')
+    } 
   }, []);
 
   const submitHandler = () => {
@@ -106,6 +108,7 @@ export default function CustomerOTP() {
         body: JSON.stringify({
           otp: otp,
           timestamp: Date.now(),
+          id : id
         }),
       })
         .then((res) => res.json())
