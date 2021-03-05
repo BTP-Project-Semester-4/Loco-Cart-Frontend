@@ -22,44 +22,35 @@ const Footer = () => {
                 <li>
                   <a href="/aboutus">About Us</a>
                 </li>
+                <li>
+                  <a href="/feedback">Feedback</a>
+                </li>
               </ul>
             </div>
             <div class="footer-col">
               <h4>Connect with Us</h4>
-              <a
-                href="https://www.linkedin.com/in/amit-kumar-upadhyay-054b07193/"
-                className="linkdin social"
-              >
+              <a href="/aboutus" className="linkdin social">
                 <FontAwesomeIcon
                   icon={faLinkedin}
                   size="2x"
-                  style={{ marginRight: "10px", color: "#bbbbbb" }}
+                  style={{ color: "#bbbbbb" }}
                 />
               </a>
-              <a
-                href="https://www.facebook.com/profile.php?id=100009546061383"
-                className="facebook social"
-              >
+              <a href="/aboutus" className="facebook social">
                 <FontAwesomeIcon
                   icon={faFacebook}
                   size="2x"
-                  style={{ marginRight: "10px", color: "#bbbbbb" }}
+                  style={{ color: "#bbbbbb" }}
                 />
               </a>
-              <a
-                href="https://twitter.com/AmitKum01184222"
-                className="twitter social"
-              >
+              <a href="/aboutus" className="twitter social">
                 <FontAwesomeIcon
                   icon={faTwitter}
                   size="2x"
-                  style={{ marginRight: "10px", color: "#bbbbbb" }}
+                  style={{ color: "#bbbbbb" }}
                 />
               </a>
-              <a
-                href="https://www.instagram.com/u_amit65/"
-                className="instagram social"
-              >
+              <a href="/aboutus" className="instagram social">
                 <FontAwesomeIcon
                   icon={faInstagram}
                   size="2x"
@@ -68,27 +59,27 @@ const Footer = () => {
               </a>
             </div>
             <div class="footer-col">
-              <h4>Get Help</h4>
+              <h4>Important links</h4>
               <ul>
                 <li>
-                  <a href="/userprofile">Your Account</a>
+                  <a href="/"> Home Screen</a>
                 </li>
                 <li>
-                  <a href="/signin"> Customer Login</a>
+                  <a href="/category">Category</a>
                 </li>
                 <li>
-                  <a href="/signin">Sign Up</a>
+                  <a href="/feedback">Feedback</a>
                 </li>
               </ul>
             </div>
             <div class="footer-col">
-              <h4>Make Money</h4>
+              <h4>Login</h4>
               <ul>
                 <li>
-                  <a href="selling">Sell Anything</a>
+                  <a href="/signin">Customer Login</a>
                 </li>
                 <li>
-                  <a href="sellersignin">Seller Login</a>
+                  <a href="/sellersignin">Seller Login</a>
                 </li>
               </ul>
             </div>
