@@ -407,7 +407,7 @@ const ReviewCard = () => {
                   Site is definitely one of the best website designs we’ve seen
                   in a while. Website tend to be highly effective in engaging
                   users. Taking advantage of positive reviews on recommendation
-                  platforms/sites is a great strategy for finding customer.
+                  platforms/sites is a great strategy for finding customer. <br/>
                   Thank You !<br /> ✨
                 </p>
               </div>
