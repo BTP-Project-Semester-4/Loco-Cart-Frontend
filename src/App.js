@@ -22,6 +22,7 @@ import AboutUs from "./components/Screens/AboutUs/aboutus";
 import AddProduct from "./components/Screens/AddProduct/AddProduct";
 import Feedback from "./components/Screens/SiteFeedback/Feedback.jsx";
 import Notifications from "./components/Screens/Notification/Bes.jsx";
+import BiddingScreenSeller from "./components/Screens/BiddingScreenSeller/BiddingScreenSeller";
 function App() {
   return (
     <BrowserRouter>
@@ -53,8 +54,9 @@ function App() {
             <Route path="/product/:id" component={Productdesc} />
             <Route path="/aboutus" component={AboutUs} />
             <Route path="/addproduct" component={AddProduct} />
-            <Route path="/feedback" component={Feedback}/>
-            <Route path="/notifications" component={Notifications}/>
+            <Route path="/feedback" component={Feedback} />
+            <Route path="/notifications" component={Notifications} />
+            <Route path="/BiddingSeller" component={BiddingScreenSeller} />
             <Route component={NotFound} />
           </Switch>
         </main>
