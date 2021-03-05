@@ -2,6 +2,7 @@ import React from "react";
 import "./BiddingScreenSeller.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import GavelIcon from "@material-ui/icons/Gavel";
 export default function BiddingScreenSeller() {
   return (
     <div className="BiddingScreenBody">
@@ -118,7 +119,9 @@ export default function BiddingScreenSeller() {
                 </div>
                 <div style={{ float: "right" }}>
                   <Button variant="contained" color="primary">
-                    Bid Now
+                    <p>
+                      <GavelIcon /> Bid Now
+                    </p>
                   </Button>
                 </div>
               </div>
@@ -240,7 +243,9 @@ export default function BiddingScreenSeller() {
                 </div>
                 <div style={{ float: "right" }}>
                   <Button variant="contained" color="primary">
-                    Bid Now
+                    <p>
+                      <GavelIcon /> Bid Now
+                    </p>
                   </Button>
                 </div>
               </div>
