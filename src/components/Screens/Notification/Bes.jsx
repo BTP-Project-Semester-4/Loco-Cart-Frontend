@@ -1,12 +1,10 @@
 import React from "react";
 import "./Besa.css";
-import amit from "./amit.png";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const jwt = require("jsonwebtoken");
-const env = require("dotenv");
 
 toast.configure();
 
