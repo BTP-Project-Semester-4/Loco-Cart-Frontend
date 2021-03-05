@@ -93,6 +93,7 @@
 .review{
     background-color: white;
     border-radius: 25px;
+    border : 1px solid gray;
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
@@ -125,4 +126,12 @@
 .review-text{
     padding:10px;
     text-align: left;
+}
+
+table {
+    border: 1px solid black;
+}
+
+td{
+    width: 200px;
 }
