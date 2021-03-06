@@ -2,12 +2,29 @@ import React from "react";
 import "./BiddingScreenSeller.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import GavelIcon from "@material-ui/icons/Gavel";
+import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
 export default function BiddingScreenSeller() {
+  const [dateTime, setDateTime] = React.useState(new Date());
+  const id = setInterval(() => setDateTime(new Date()), 1000);
   return (
     <div className="BiddingScreenBody">
       <div class="container">
-        <div class="title">
-          <h2 className="BiddingScreenh2">Order Id: 12345</h2>
+        <div class="title" style={{ display: "flex" }}>
+          <div style={{ width: "30%" }}>
+            <h2 className="BiddingScreenh2">Order Id: 12345</h2>
+          </div>
+          <div style={{ width: "70%" }}>
+            <div style={{ float: "right" }}>
+              <var>
+                <AccessAlarmIcon />
+              </var>{" "}
+              <sup>{`${dateTime.toLocaleTimeString()}`}</sup>
+            </div>
+          </div>
         </div>
         <div class="d-flex">
           <div style={{ display: "block" }}>
@@ -93,7 +110,7 @@ export default function BiddingScreenSeller() {
                 <div>
                   <p style={{ float: "left" }}>Expiration Time</p>
                 </div>
-                <div style={{ float: "right" }}>14: 00</div>
+                <div style={{ float: "right" }}>14:00</div>
               </div>
             </div>
           </div>
@@ -118,7 +135,9 @@ export default function BiddingScreenSeller() {
                 </div>
                 <div style={{ float: "right" }}>
                   <Button variant="contained" color="primary">
-                    Bid Now
+                    <p>
+                      <GavelIcon /> Bid Now
+                    </p>
                   </Button>
                 </div>
               </div>
@@ -240,7 +259,9 @@ export default function BiddingScreenSeller() {
                 </div>
                 <div style={{ float: "right" }}>
                   <Button variant="contained" color="primary">
-                    Bid Now
+                    <p>
+                      <GavelIcon /> Bid Now
+                    </p>
                   </Button>
                 </div>
               </div>
