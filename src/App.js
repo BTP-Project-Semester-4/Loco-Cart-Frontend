@@ -23,12 +23,12 @@ import AddProduct from "./components/Screens/AddProduct/AddProduct";
 import Feedback from "./components/Screens/SiteFeedback/Feedback.jsx";
 import Notifications from "./components/Screens/Notification/Bes.jsx";
 import BiddingScreenSeller from "./components/Screens/BiddingScreenSeller/BiddingScreenSeller";
+import AllSellers from "./components/Screens/AllSellers/AllSellers";
 function App() {
   return (
     <BrowserRouter>
       <div className="grid-container">
         <header>
-          {/* <Nav /> */}
           <Header />
         </header>
         <main>
@@ -57,6 +57,7 @@ function App() {
             <Route path="/feedback" component={Feedback} />
             <Route path="/notifications" component={Notifications} />
             <Route path="/BiddingSeller" component={BiddingScreenSeller} />
+            <Route path="/allsellers/:id" component={AllSellers} />
             <Route component={NotFound} />
           </Switch>
         </main>
