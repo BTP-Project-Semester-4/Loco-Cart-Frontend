@@ -83,6 +83,7 @@ const SellerProfile = (props) => {
       .then((result) => {
         if (result.message === "Success") {
           setFirstName(result.seller.firstName);
+          setLastName(result.seller.lastName);
           setEmail(result.seller.email);
           setPic(result.seller.profilePictureUrl);
           setPhoneNo(result.seller.contactNo);
@@ -159,7 +160,7 @@ const SellerProfile = (props) => {
             <img className="userImage" src={pic} />
           </Grid>
           <Grid item xs={12} sm={12} md={8} lg={8} className="userDetail">
-            <h1 className="name">{firstName}</h1>
+            <h1 className="name">{firstName+" "+lastName}</h1>
             <h3 className="location">{city + ", " + state + ", " + country}</h3>
             <p className="interest">Category: {category}</p>
           </Grid>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./productdescription.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Axios from "axios";
 import Rating from "@material-ui/lab/Rating";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -13,6 +13,7 @@ import CompanyLogo from "./../../../images/LocoCart.PNG";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { FaCommentsDollar } from "react-icons/fa";
+import TextField from '@material-ui/core/TextField';
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -43,73 +44,6 @@ let four = new Set();
 let five = new Set();
 let total = new Set();
 
-const ChartContainer = () => (
-  <div class="reviews-container">
-    <h2>Reviews</h2>
-    <div class="rreview">
-      <span class="icon-container">
-        5 <i class="fas fa-star" style={{ color: "orange" }}></i>
-      </span>
-      <div class="progress">
-        <BorderLinearProgress
-          variant="determinate"
-          value={(five.size / total.size) * 100}
-        />
-      </div>
-      <span class="percent">{five.size}</span>
-    </div>
-
-    <div class="rreview">
-      <span class="icon-container">
-        4 <i class="fas fa-star" style={{ color: "orange" }}></i>
-      </span>
-      <div class="progress">
-        <BorderLinearProgress
-          variant="determinate"
-          value={(four.size / total.size) * 100}
-        />
-      </div>
-      <span class="percent">{four.size}</span>
-    </div>
-    <div class="rreview">
-      <span class="icon-container">
-        3 <i class="fas fa-star" style={{ color: "orange" }}></i>
-      </span>
-      <div class="progress">
-        <BorderLinearProgress
-          variant="determinate"
-          value={(three.size / total.size) * 100}
-        />
-      </div>
-      <span class="percent">{three.size}</span>
-    </div>
-    <div class="rreview">
-      <span class="icon-container">
-        2 <i class="fas fa-star" style={{ color: "orange" }}></i>
-      </span>
-      <div class="progress">
-        <BorderLinearProgress
-          variant="determinate"
-          value={(two.size / total.size) * 100}
-        />
-      </div>
-      <span class="percent">{two.size}</span>
-    </div>
-    <div class="rreview">
-      <span class="icon-container">
-        1 <i class="fas fa-star" style={{ color: "orange" }}></i>
-      </span>
-      <div class="progress">
-        <BorderLinearProgress
-          variant="determinate"
-          value={(one.size / total.size) * 100}
-        />
-      </div>
-      <span class="percent">{one.size}</span>
-    </div>
-  </div>
-);
-
 const baseYear = 2000;
 const generateData = () => {
   const data = {
@@ -139,14 +73,21 @@ const Productdesc = (props) => {
   const [product, setProduct] = React.useState("");
   const [comments, setComments] = React.useState([]);
   const [objectKey, setObjectKey] = React.useState();
-
+  const history = useHistory();
   const [comment, setComment] = React.useState("");
   const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(0);
 
   const [isLoaging, setIsLoaging] = React.useState(true);
-  var userId = "";
+  const [userId, setUserId] = React.useState("");
   const [UserName, setUserName] = React.useState("");
+  const [oneCount, setOneCount] = React.useState(new Set());
+  const [twoCount, setTwoCount] = React.useState(new Set());
+  const [threeCount, setThreeCount] = React.useState(new Set());
+  const [fourCount, setFourCount] = React.useState(new Set());
+  const [fiveCount, setFiveCount] = React.useState(new Set());
+  const [totalCount, setTotalCount] = React.useState(new Set());
+  const [quantity, setQuantity] = React.useState(1);
 
   if (hover < 0 && value === 0) {
     setHover(0);
@@ -160,69 +101,80 @@ const Productdesc = (props) => {
   });
   const classes = useStyles();
 
-  Axios.post("http://localhost:3001/api/product/searchbyid", {
-    id: props.match.params.id,
-  }).then((result) => {
-    if (result) setIsLoaging(false);
-    for (var key in result.data.products.Sellers) {
-      var obj = result.data.products.Sellers[key];
-      if (miniiPrice > obj.SellerPrice) {
-        setminiiPrice(obj.SellerPrice);
-        setdiscription(obj.Description);
-        setIImage(obj.Image);
-        setname(result.data.products.Name);
-        setcategory(result.data.products.Category);
-        setsellerId(obj.SellerId);
-        setRating(obj.Rating.$numberDecimal);
-        setComments(obj.Comments);
-        setObjectKey(key);
-      }
-      console.log(result);
-    }
-  });
+  const ChartContainer = () => (
+    <div class="reviews-container">
+      <h2>Reviews</h2>
+      <div class="rreview">
+        <span class="icon-container">
+          5 <i class="fas fa-star" style={{ color: "orange" }}></i>
+        </span>
+        <div class="progress">
+          <BorderLinearProgress
+            variant="determinate"
+            value={(fiveCount.size / totalCount.size) * 100}
+          />
+        </div>
+        <span class="percent">{fiveCount.size}</span>
+      </div>
+  
+      <div class="rreview">
+        <span class="icon-container">
+          4 <i class="fas fa-star" style={{ color: "orange" }}></i>
+        </span>
+        <div class="progress">
+          <BorderLinearProgress
+            variant="determinate"
+            value={(fourCount.size / totalCount.size) * 100}
+          />
+        </div>
+        <span class="percent">{fourCount.size}</span>
+      </div>
+      <div class="rreview">
+        <span class="icon-container">
+          3 <i class="fas fa-star" style={{ color: "orange" }}></i>
+        </span>
+        <div class="progress">
+          <BorderLinearProgress
+            variant="determinate"
+            value={(threeCount.size / totalCount.size) * 100}
+          />
+        </div>
+        <span class="percent">{threeCount.size}</span>
+      </div>
+      <div class="rreview">
+        <span class="icon-container">
+          2 <i class="fas fa-star" style={{ color: "orange" }}></i>
+        </span>
+        <div class="progress">
+          <BorderLinearProgress
+            variant="determinate"
+            value={(twoCount.size / totalCount.size) * 100}
+          />
+        </div>
+        <span class="percent">{twoCount.size}</span>
+      </div>
+      <div class="rreview">
+        <span class="icon-container">
+          1 <i class="fas fa-star" style={{ color: "orange" }}></i>
+        </span>
+        <div class="progress">
+          <BorderLinearProgress
+            variant="determinate"
+            value={(oneCount.size / totalCount.size) * 100}
+          />
+        </div>
+        <span class="percent">{oneCount.size}</span>
+      </div>
+    </div>
+  );
 
-  for (var key in comments) {
-    var obj = comments[key];
-    if (obj.Rating.$numberDecimal <= 1) {
-      one.add(obj._id);
-      total.add(obj._id);
-    } else if (
-      obj.Rating.$numberDecimal <= 2 &&
-      obj.Rating.$numberDecimal > 1
-    ) {
-      two.add(obj._id);
-      total.add(obj._id);
-    } else if (
-      obj.Rating.$numberDecimal <= 3 &&
-      obj.Rating.$numberDecimal > 2
-    ) {
-      three.add(obj._id);
-      total.add(obj._id);
-    } else if (
-      obj.Rating.$numberDecimal <= 4 &&
-      obj.Rating.$numberDecimal > 3
-    ) {
-      four.add(obj._id);
-      total.add(obj._id);
-    } else if (
-      obj.Rating.$numberDecimal <= 5 &&
-      obj.Rating.$numberDecimal > 4
-    ) {
-      five.add(obj._id);
-      total.add(obj._id);
-    }
-  }
   useEffect(async () => {
     try {
       const jwtToken = localStorage.getItem("CustomerJwt");
       const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
       // console.log(user);
-      userId = user._id;
-    } catch (e) {
-      console.log(e);
-    }
-
-    Axios.get(`http://localhost:3001/api/customer/${userId}`)
+      setUserId(user._id);
+      Axios.get(`http://localhost:3001/api/customer/${user._id}`)
       .then(function (response) {
         console.log(response);
         const customerName =
@@ -235,7 +187,115 @@ const Productdesc = (props) => {
       .catch(function (error) {
         console.log(error);
       });
+
+      Axios.post("http://localhost:3001/api/product/searchbyid", {
+        id: props.match.params.id,
+      }).then((result) => {
+        console.log(result.data.products.Sellers)
+        if (result) setIsLoaging(false);
+        var minprice = 10000000;
+        var minindex = -1;
+        for (var key in result.data.products.Sellers) {
+          var obj = result.data.products.Sellers[key];
+          console.log(obj.SellerPrice)
+          if (minprice > obj.SellerPrice) {
+            minprice = obj.SellerPrice;
+            minindex = key;
+          }
+        }
+        const minSeller = result.data.products.Sellers[minindex];
+        setminiiPrice(minprice);
+        setdiscription(minSeller.Description);
+        setIImage(minSeller.Image);
+        setname(result.data.products.Name);
+        setcategory(result.data.products.Category);
+        setsellerId(minSeller.SellerId);
+        setRating(minSeller.Rating.$numberDecimal);
+        setComments(minSeller.Comments);
+        setObjectKey(minindex);
+        for (var key in minSeller.Comments) {
+          var obj = minSeller.Comments[key];
+          if (obj.Rating.$numberDecimal <= 1) {
+            one.add(obj._id);
+            total.add(obj._id);
+          } else if (
+            obj.Rating.$numberDecimal <= 2 &&
+            obj.Rating.$numberDecimal > 1
+          ) {
+            two.add(obj._id);
+            total.add(obj._id);
+          } else if (
+            obj.Rating.$numberDecimal <= 3 &&
+            obj.Rating.$numberDecimal > 2
+          ) {
+            three.add(obj._id);
+            total.add(obj._id);
+          } else if (
+            obj.Rating.$numberDecimal <= 4 &&
+            obj.Rating.$numberDecimal > 3
+          ) {
+            four.add(obj._id);
+            total.add(obj._id);
+          } else if (
+            obj.Rating.$numberDecimal <= 5 &&
+            obj.Rating.$numberDecimal > 4
+          ) {
+            five.add(obj._id);
+            total.add(obj._id);
+          }
+        }
+        setOneCount(one);
+        setTwoCount(two);
+        setThreeCount(three);
+        setFourCount(four);
+        setFiveCount(five);
+        setTotalCount(total);
+      });
+
+    } catch (e) {
+      console.log(e);
+      history.push('/signin');
+    }
+
+    
+
   }, []);
+
+  const addToCartHandler = ()=>{
+    if(quantity!==""){
+      fetch(
+        "http://localhost:3001/api/customer/addtocart",
+        {
+          method:"post",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            customerId: userId,
+            productId: props.match.params.id,
+            productName: name,
+            quantity: quantity
+          })
+        }
+      ).then(res=>res.json())
+      .then(result=>{
+        if(result.message==="Success"){
+          toast.success("Successfully added to cart !",{
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }else{
+          toast.error("Some error occured !", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      })
+    }else{
+      toast.error("Please enter a quantity !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  }
+
   const onCommentHandler = (e) => {
     e.preventDefault();
     const url = `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`;
@@ -280,26 +340,6 @@ const Productdesc = (props) => {
     <div style={{ height: "100%", width: "100%" }}>
       {isLoaging && (
         <div style={{ height: "100%", width: "100%" }}>
-          {/* <div
-            style={{
-              display: "block",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <div style={{ margin: "auto", left: "50%", top: "30%" }}>
-              <div>
-                <img
-                  src={CompanyLogo}
-                  alt="lococart"
-                  style={{ width: "300px", height: "300px" }}
-                />
-              </div>
-              <div>
-                <CircularProgress />
-              </div>
-            </div>
-          </div> */}
           <div style={{ marginBottom: "25%" }}>
             <div
               className="LOGO"
@@ -396,11 +436,25 @@ const Productdesc = (props) => {
                   <div className="ProductDiscButtonDiv">
                     <ul>
                       <li>
-                        <Link to="/cart">
-                          <button class="button button2">ADD TO CART</button>
-                        </Link>
+                        <label>Enter quantity</label>
+                        <input
+                        placeholder="Enter quantity"
+                        type="number"
+                        value={quantity}
+                        onChange={(e)=>{if(e.target.value>0){
+                          setQuantity(e.target.value)
+                        }}}
+                        style={{
+                          marginBottom:"10px",
+                          maxWidth:"90%"
+                        }}
+                        ></input>
+                        <button className="button button2"
+                        onClick={()=>{addToCartHandler()}}>
+                        ADD TO CART
+                        </button>
                         <Link to={"/sellerprofile/" + sellerId}>
-                          <button class="button button2">SELLER PROFILE</button>
+                          <button className="button button2">SELLER PROFILE</button>
                         </Link>
                       </li>
                     </ul>
@@ -472,11 +526,6 @@ const Productdesc = (props) => {
                     stars
                   </i>
                 </p>
-                {/* <input
-            className="ProductDescriptionReviewHeading"
-            placeholder="heading"
-            style={{ width: "100%" }}
-          /> */}
                 <textarea
                   style={{ width: "100%" }}
                   rows="8"
