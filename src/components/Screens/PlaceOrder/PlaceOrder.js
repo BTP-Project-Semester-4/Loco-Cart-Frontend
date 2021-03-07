@@ -18,13 +18,23 @@ toast.configure();
 
 const PlaceOrder = ()=>{
     const [status, setStatus] = useState(0);
+    const [addressLine1, setAddressLine1] = useState("");
+    const [addressLine2, setAddressLine2] = useState("");
+    const [city, setCity] = useState("");
+    const [pinCode, setPinCode] = useState("");
+    const [id, setId] = useState("");
+    const [itemDetails, setItemDetails] = useState([]);
+    const [sellerDetails, setSellerDetails] = useState({});
+    const [minPrice, setMinPrice] = useState(undefined);
+    const [otp, setOtp] = useState("");
+    const [otpIp, setOtpIp] = useState("");
     const history = useHistory();
     
     useEffect(()=>{
         try{
             console.log(localStorage.getItem("CustomerJwt"))
             const decodedToken = jwt.verify(localStorage.getItem("CustomerJwt"), process.env.REACT_APP_JWT_SECRET);
-            console.log(decodedToken);
+            setId(decodedToken._id);
         }catch(err){
             console.log(err);
             toast.error(
@@ -42,6 +52,229 @@ const PlaceOrder = ()=>{
             history.push('/signin');
         }
     },[]);
+
+    const setAddressHandler = ()=>{
+        if(addressLine1!==""){
+            if(addressLine2!==""){
+                if(city!==""){
+                    if(pinCode!==""){
+                        //ADDRESS INPUTS ARE VALID
+                        fetch(
+                            'http://localhost:3001/api/bid/getinitialbestseller',
+                            {
+                                method:"post",
+                                headers:{
+                                    "Content-Type":"application/json"
+                                },
+                                body:JSON.stringify({
+                                    city: city,
+                                    id: id
+                                })
+                            }
+                        ).then(res=>res.json())
+                        .then(result=>{
+                            if(result.message==="Success"){
+                                console.log(result)
+                                setSellerDetails(result.seller);
+                                setItemDetails(result.itemDetails);
+                                setMinPrice(result.minPrice);
+                                setStatus(1);
+                            }else if(result.message==="No seller available"){
+                                toast.error(
+                                    'No seller available for the given set of products....Please try again later',
+                                    {
+                                    position: "top-right",
+                                    autoClose: 2000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined
+                                    }
+                                );
+                            }else if(result.message==="Cart empty"){
+                                toast.error(
+                                    'Your cart is empty',
+                                    {
+                                    position: "top-right",
+                                    autoClose: 2000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined
+                                    }
+                                );
+                            }else{
+                                toast.error(
+                                    'Some error occured',
+                                    {
+                                    position: "top-right",
+                                    autoClose: 2000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined
+                                    }
+                                );
+                            }
+                        })
+                    }else{
+                        toast.error(
+                            'Please enter pin code',
+                            {
+                            position: "top-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined
+                            }
+                        );
+                    }
+                }else{
+                    toast.error(
+                        'Please enter city name',
+                        {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined
+                        }
+                    );
+                }
+            }else{
+                toast.error(
+                    'Please enter address line 2',
+                    {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                    }
+                );
+            }
+        }else{
+            toast.error(
+                'Please enter address line 1',
+                {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+                }
+            );
+        }
+    }
+
+    const sendOtpHandler = ()=>{
+        fetch(
+            'http://localhost:3001/api/bid/getotp',
+            {
+                method:"post",
+                "headers":{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    customerId: id
+                })
+            }
+        ).then(res=>res.json())
+        .then(result=>{
+            console.log(result);
+            if(result.message==="Success"){
+                setOtp(result.otp);
+                setStatus(2);
+            }else{
+                toast.error(
+                    'Some error occured',
+                    {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                    }
+                );
+            }
+        })
+    }
+
+    const placeOrderHandler = ()=>{
+        if(otpIp==otp){
+            var items = [];
+            itemDetails.forEach(it=>{
+                items.push({
+                    itemId: it.id,
+                    quantity: it.quantity
+                })
+            });
+            console.log(items)
+            fetch(
+                'http://localhost:3001/api/bid/placeorder',
+                {
+                    method:"post",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify({
+                        customerId: id,
+                        initialSellerId: sellerDetails.sellerId,
+                        price: minPrice,
+                        itemList: items,
+                        addressLine1: addressLine1,
+                        addressLine2: addressLine2,
+                        city: city
+                    })
+                }
+            ).then(res=>res.json())
+            .then(result=>{
+                console.log(result)
+                if(result.message==="Success"){
+                    setStatus(3);
+                }else{
+                    toast.error(
+                        'Some error occured',
+                        {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined
+                        }
+                    );
+                }
+            })
+        }else{
+            toast.error(
+                'Invalid OTP',
+                {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+                }
+            ); 
+        }
+    }
 
     return(
         <div className="place_order_all_content">
@@ -174,6 +407,8 @@ const PlaceOrder = ()=>{
                             <OutlinedInput
                                 id="outlined-adornment-amount"
                                 labelWidth={110}
+                                value={addressLine1}
+                                onChange={(e)=>{setAddressLine1(e.target.value)}}
                             />
                         </FormControl>
                         </div>
@@ -185,6 +420,8 @@ const PlaceOrder = ()=>{
                             <OutlinedInput
                                 id="outlined-adornment-amount"
                                 labelWidth={110}
+                                value={addressLine2}
+                                onChange={(e)=>{setAddressLine2(e.target.value)}}
                             />
                         </FormControl>
                         </div>
@@ -196,6 +433,8 @@ const PlaceOrder = ()=>{
                             <OutlinedInput
                                 id="outlined-adornment-amount"
                                 labelWidth={75}
+                                value={city}
+                                onChange={(e)=>{setCity(e.target.value)}}
                             />
                         </FormControl>
                         </div>
@@ -207,6 +446,9 @@ const PlaceOrder = ()=>{
                             <OutlinedInput
                                 id="outlined-adornment-amount"
                                 labelWidth={65}
+                                type="number"
+                                value={pinCode}
+                                onChange={(e)=>{setPinCode(e.target.value)}}
                             />
                         </FormControl>
                         </div>
@@ -219,7 +461,7 @@ const PlaceOrder = ()=>{
                         fontSize:"1rem"
                     }}
                     onClick={()=>{
-                        setStatus(1);
+                        setAddressHandler();
                     }}>
                         SAVE AND PROCEED
                     </Button>
@@ -231,89 +473,45 @@ const PlaceOrder = ()=>{
                 <div>
                     <h1 className="step">STEP 2 OF 3</h1>
                     <p className="message">LIST OF PRODUCTS IN THE CART</p>
-                    <Grid container>
-                        <Grid item xs={12} sm={6} md={6} lg={4}>
-                            <img src="https://images.unsplash.com/photo-1592878904946-b3cd8ae243d0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=801&q=80"
-                            className="product_image"/>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6} lg={8}
-                        >
-                            <h3 className="product_detail">FORMAL COAT</h3>
-                            <p className="product_detail">CATEGORY : CLOTHING AND APPARELS</p>
-                            <p className="product_detail">MINIMUM PRICE WITHOUT BID : ₹3500</p>
-                            <p className="product_detail">QUANTITY : 1</p>
-                            <p className="product_detail_total_price">TOTAL PRICE : ₹3500</p>
-                        </Grid>
-                    </Grid>
-                    <div 
-                    style={{backgroundColor:"#538df6",height:"0.5px",width:"95%",margin:"auto",marginTop:"5px"}}>
-                    </div>
-                    <Grid container>
-                        <Grid item xs={12} sm={6} md={6} lg={4}>
-                            <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8d2F0Y2h8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            className="product_image"/>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6} lg={8}
-                        >
-                            <h3 className="product_detail">WATCH</h3>
-                            <p className="product_detail">CATEGORY : CLOTHING AND APPARELS</p>
-                            <p className="product_detail">MINIMUM PRICE WITHOUT BID : ₹5000</p>
-                            <p className="product_detail">QUANTITY : 2</p>
-                            <p className="product_detail_total_price">TOTAL PRICE : ₹10000</p>
-                        </Grid>
-                    </Grid>
-                    <div 
-                    style={{backgroundColor:"#538df6",height:"0.5px",width:"95%",margin:"auto",marginTop:"5px"}}>
-                    </div>
-                    <Grid container>
-                        <Grid item xs={12} sm={6} md={6} lg={4}>
-                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjN8fGZvcm1hbCUyMHNob2VzfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            className="product_image"/>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6} lg={8}
-                        >
-                            <h3 className="product_detail">SPORTS SHOES</h3>
-                            <p className="product_detail">CATEGORY : FOOTWEAR</p>
-                            <p className="product_detail">MINIMUM PRICE WITHOUT BID : ₹8500</p>
-                            <p className="product_detail">QUANTITY : 1</p>
-                            <p className="product_detail_total_price">TOTAL PRICE : ₹8500</p>
-                        </Grid>
-                    </Grid>
-                    <div 
-                    style={{backgroundColor:"#538df6",height:"0.5px",width:"95%",margin:"auto",marginTop:"5px"}}>
-                    </div>
-                    <Grid container>
-                        <Grid item xs={12} sm={6} md={6} lg={4}>
-                            <img src="https://images.unsplash.com/photo-1578808244173-0479a163eb8d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
-                            className="product_image"/>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6} lg={8}
-                        >
-                            <h3 className="product_detail">SMART PHONE</h3>
-                            <p className="product_detail">CATEGORY : ELECTRONICS</p>
-                            <p className="product_detail">MINIMUM PRICE WITHOUT BID : ₹13500</p>
-                            <p className="product_detail">QUANTITY : 1</p>
-                            <p className="product_detail_total_price">TOTAL PRICE : ₹13500</p>
-                        </Grid>
-                    </Grid>
-                    <div 
-                    style={{backgroundColor:"#538df6",height:"0.5px",width:"95%",margin:"auto",marginTop:"5px"}}>
-                    </div>
-                    <h3 className="total_price">TOTAL PRICE OF ALL ITEMS : ₹35500</h3>
+                    {
+                        itemDetails.map(item=>{
+                            return<div>
+                            <Grid container>
+                                <Grid item xs={12} sm={6} md={6} lg={4}>
+                                    <img src={item.image}
+                                    className="product_image"/>
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6} lg={8}
+                                >
+                                    <h3 className="product_detail">{item.name}</h3>
+                                    <p className="product_detail">CATEGORY : {item.category}</p>
+                                    <p className="product_detail">MINIMUM PRICE WITHOUT BID : ₹{item.minPrice}</p>
+                                    <p className="product_detail">QUANTITY : {item.quantity}</p>
+                                    <p className="product_detail_total_price">TOTAL PRICE : ₹{item.totalPrice}</p>
+                                </Grid>
+                            </Grid>
+                            <div 
+                            style={{backgroundColor:"#538df6",height:"0.5px",width:"95%",margin:"auto",marginTop:"5px"}}>
+                            </div>
+                            </div>
+                        })
+                    }
+                    
+                    <h3 className="total_price">TOTAL PRICE OF ALL ITEMS : ₹{minPrice}</h3>
                     <p className="note">Note : This is the maximum price that you may pay for your order and it may fall whenever a new seller makes a bid.</p>
                     <h3 className="total_price">SELLER WITH LOWEST PRICE BEFORE BIDDING PHASE</h3>
                     <Grid container>
                         <Grid item xs={12} sm={12} sm={6} lg={4}>
-                        <img src="https://avatars0.githubusercontent.com/u/67575900?s=400&u=a87b16f58b6cf169801a1f7c97237b039dc2bf76&v=4"
+                        <img src={sellerDetails.image}
                             className="product_image"/>
                         </Grid>
                         <Grid item xs={12} sm={6} md={6} lg={8}
                         >
-                            <h3 className="product_detail">PRERIT RETAILERS</h3>
-                            <p className="product_detail">CITY : PATNA, INDIA</p>
-                            <p className="product_detail">ADDRESS : STREET 10, PATNA</p>
-                            <p className="product_detail">INTEREST : CLOTHING, ELECTRONICS</p>
-                            <p className="product_detail">ORDERS DELIVERED TILL NOW : 125</p>
+                            <h3 className="product_detail">{sellerDetails.firstName} {sellerDetails.lastName}</h3>
+                            <p className="product_detail">CITY : {sellerDetails.city}</p>
+                            <p className="product_detail">ADDRESS : {sellerDetails.address}</p>
+                            <p className="product_detail">INTEREST : {sellerDetails.interest}</p>
+                            {/* <p className="product_detail">ORDERS DELIVERED TILL NOW : 125</p> */}
                         </Grid>
                     </Grid>
                     <Button variant="contained" color="primary"
@@ -338,7 +536,7 @@ const PlaceOrder = ()=>{
                     }}
                     onClick={
                         ()=>{
-                            setStatus(2);
+                            sendOtpHandler();
                         }
                     }>
                         NEXT
@@ -356,6 +554,8 @@ const PlaceOrder = ()=>{
                             <OutlinedInput
                                 id="outlined-adornment-amount"
                                 labelWidth={85}
+                                value={otpIp}
+                                onChange={(e)=>{setOtpIp(e.target.value)}}
                             />
                         </FormControl>
                         </div>
@@ -381,7 +581,7 @@ const PlaceOrder = ()=>{
                     }}
                     onClick={
                         ()=>{
-                            setStatus(3);
+                            placeOrderHandler();
                         }
                     }>
                         SUBMIT
