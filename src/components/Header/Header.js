@@ -261,6 +261,7 @@ export default function Header() {
   const logoutHandler = (e) => {
     e.preventDefault();
     localStorage.removeItem("CustomerJwt");
+    localStorage.removeItem("sellerjwt");
     history.push("/");
     window.location.reload(false);
   };
