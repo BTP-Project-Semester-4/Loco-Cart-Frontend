@@ -13,6 +13,7 @@ import CompanyLogo from "./../../../images/LocoCart.PNG";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { FaCommentsDollar } from "react-icons/fa";
+import TextField from '@material-ui/core/TextField';
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -86,6 +87,7 @@ const Productdesc = (props) => {
   const [fourCount, setFourCount] = React.useState(new Set());
   const [fiveCount, setFiveCount] = React.useState(new Set());
   const [totalCount, setTotalCount] = React.useState(new Set());
+  const [quantity, setQuantity] = React.useState(1);
 
   if (hover < 0 && value === 0) {
     setHover(0);
@@ -258,6 +260,42 @@ const Productdesc = (props) => {
     
 
   }, []);
+
+  const addToCartHandler = ()=>{
+    if(quantity!==""){
+      fetch(
+        "http://localhost:3001/api/customer/addtocart",
+        {
+          method:"post",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            customerId: userId,
+            productId: props.match.params.id,
+            productName: name,
+            quantity: quantity
+          })
+        }
+      ).then(res=>res.json())
+      .then(result=>{
+        if(result.message==="Success"){
+          toast.success("Successfully added to cart !",{
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }else{
+          toast.error("Some error occured !", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      })
+    }else{
+      toast.error("Please enter a quantity !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  }
+
   const onCommentHandler = (e) => {
     e.preventDefault();
     const url = `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`;
@@ -302,26 +340,6 @@ const Productdesc = (props) => {
     <div style={{ height: "100%", width: "100%" }}>
       {isLoaging && (
         <div style={{ height: "100%", width: "100%" }}>
-          {/* <div
-            style={{
-              display: "block",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <div style={{ margin: "auto", left: "50%", top: "30%" }}>
-              <div>
-                <img
-                  src={CompanyLogo}
-                  alt="lococart"
-                  style={{ width: "300px", height: "300px" }}
-                />
-              </div>
-              <div>
-                <CircularProgress />
-              </div>
-            </div>
-          </div> */}
           <div style={{ marginBottom: "25%" }}>
             <div
               className="LOGO"
@@ -418,11 +436,25 @@ const Productdesc = (props) => {
                   <div className="ProductDiscButtonDiv">
                     <ul>
                       <li>
-                        <Link to="/cart">
-                          <button class="button button2">ADD TO CART</button>
-                        </Link>
+                        <label>Enter quantity</label>
+                        <input
+                        placeholder="Enter quantity"
+                        type="number"
+                        value={quantity}
+                        onChange={(e)=>{if(e.target.value>0){
+                          setQuantity(e.target.value)
+                        }}}
+                        style={{
+                          marginBottom:"10px",
+                          maxWidth:"90%"
+                        }}
+                        ></input>
+                        <button className="button button2"
+                        onClick={()=>{addToCartHandler()}}>
+                        ADD TO CART
+                        </button>
                         <Link to={"/sellerprofile/" + sellerId}>
-                          <button class="button button2">SELLER PROFILE</button>
+                          <button className="button button2">SELLER PROFILE</button>
                         </Link>
                       </li>
                     </ul>
@@ -494,11 +526,6 @@ const Productdesc = (props) => {
                     stars
                   </i>
                 </p>
-                {/* <input
-            className="ProductDescriptionReviewHeading"
-            placeholder="heading"
-            style={{ width: "100%" }}
-          /> */}
                 <textarea
                   style={{ width: "100%" }}
                   rows="8"
