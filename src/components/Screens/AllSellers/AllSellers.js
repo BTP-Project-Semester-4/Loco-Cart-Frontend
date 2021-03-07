@@ -3,13 +3,21 @@ import Axios from "axios";
 import Rating from "@material-ui/lab/Rating";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import RateReviewIcon from "@material-ui/icons/RateReview";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 const jwt = require("jsonwebtoken");
 
 export default function AllSellers(props) {
+  const history = useHistory();
   const [userId, setUserId] = useState("");
   const [productname, setProductname] = useState("");
   const [allItems, setAllItems] = useState([]);
+
+  const viewDetails = (idd) => {
+      console.log(idd);
+      localStorage.setItem("IDD",idd);
+      history.push("/sellerproduct/"+props.match.params.id);
+  }
+
   var arr = [];
   useEffect(async () => {
     try {
@@ -31,11 +39,11 @@ export default function AllSellers(props) {
     } catch (e) {
       console.log(e);
     }
-    console.log(allItems);
   }, []);
   return (
     <div style={{ width: "100%", marginTop: "20px", marginBottom: "10px" }}>
       {allItems.map((seller) => (
+        
         <div
           style={{
             width: "90%",
@@ -46,6 +54,7 @@ export default function AllSellers(props) {
             display: "flex",
             marginBottom: "10px",
           }}
+
         >
           <div style={{ width: "20%" }}>
             <img
@@ -87,7 +96,7 @@ export default function AllSellers(props) {
                 style={{ width: "100%", display: "flex", paddingRight: "20px" }}
               >
                 <div style={{ color: "green", width: "20%" }}>
-                  <h2>₹14</h2>
+                  <h2>{seller.SellerPrice}</h2>
                 </div>
                 <div style={{ width: "80%" }}>
                   <div style={{ float: "right" }}>
@@ -109,9 +118,7 @@ export default function AllSellers(props) {
                     paddingRight: "20px",
                   }}
                 >
-                  <Link to="/cart">
-                    <button class="button button2">VIEW DETAILS</button>
-                  </Link>
+                <button class="button button2" onClick={(e) => viewDetails(seller.SellerId)}>VIEW DETAILS</button>
                 </div>
               </div>
             </div>

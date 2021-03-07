@@ -18,6 +18,7 @@ import CartScreen from "./components/Screens/Cart/CartScreen";
 import PlaceOrder from "./components/Screens/PlaceOrder/PlaceOrder";
 import Header from "./components/Header/Header";
 import Productdesc from "./components/Screens/ProductDescription/productdescription.jsx";
+import Productdesc2 from "./components/Screens/ProductDescription/otherSellerProductDiscription";
 import AboutUs from "./components/Screens/AboutUs/aboutus";
 import AddProduct from "./components/Screens/AddProduct/AddProduct";
 import Feedback from "./components/Screens/SiteFeedback/Feedback.jsx";
@@ -54,6 +55,7 @@ function App() {
             <Route path="/placeorder" component={PlaceOrder} />
             <Route path="/search/:id" component={SearchProduct} />
             <Route path="/product/:id" component={Productdesc} />
+            <Route path="/sellerproduct/:id" component={Productdesc2} />
             <Route path="/aboutus" component={AboutUs} />
             <Route path="/addproduct" component={AddProduct} />
             <Route path="/feedback" component={Feedback} />

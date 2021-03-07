@@ -16,6 +16,7 @@ import Input from "@material-ui/core/Input";
 import Axios from "axios";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import Rating from "@material-ui/lab/Rating";
 
 const useStyles = makeStyles({
   list: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles({
 });
 
 function MediaCard(props) {
+  const [rating, setRating] = React.useState(1.1);
   const [id, setid] = React.useState(props._id);
   const [miniPrice, setminiPrice] = React.useState(100000000);
   const [discription, setdiscription] = React.useState("Product");
@@ -37,6 +39,7 @@ function MediaCard(props) {
       setminiPrice(obj.SellerPrice);
       setdiscription(obj.Description);
       setimage(obj.Image);
+      setRating(obj.Rating.$numberDecimal);
     }
   }
   const history = useHistory();
@@ -77,11 +80,13 @@ function MediaCard(props) {
               <div class="ssfooter">
                 <ul class="stars1">
                     
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
+                  <Rating
+                    name="read-only"
+                    value={rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                  {"(" + rating + ")"}
                       
                 </ul>
               </div>
