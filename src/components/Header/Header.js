@@ -30,6 +30,7 @@ import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import { Dropdown } from "react-bootstrap";
 import InputBase from "@material-ui/core/InputBase";
 import Button from "@material-ui/core/Button";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
@@ -261,6 +262,7 @@ export default function Header() {
   const logoutHandler = (e) => {
     e.preventDefault();
     localStorage.removeItem("CustomerJwt");
+    localStorage.removeItem("sellerjwt");
     history.push("/");
     window.location.reload(false);
   };
@@ -524,6 +526,17 @@ export default function Header() {
                   <AccountCircleRoundedIcon />
                 </ListItemIcon>
                 <ListItemText primary="Profile" style={{ color: "#000000" }} />
+              </ListItem>
+            </Link>
+            <Link to="/sellerproducts" onClick={handleDrawerClose}>
+              <ListItem button key="YourProducts">
+                <ListItemIcon>
+                  <ListAltIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Your Products"
+                  style={{ color: "#000000" }}
+                />
               </ListItem>
             </Link>
             <Link to="/notifications" onClick={handleDrawerClose}>
