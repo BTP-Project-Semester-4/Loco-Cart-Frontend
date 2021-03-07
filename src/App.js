@@ -25,6 +25,7 @@ import Notifications from "./components/Screens/Notification/Bes.jsx";
 import BiddingScreenSeller from "./components/Screens/BiddingScreenSeller/BiddingScreenSeller";
 import AllSellers from "./components/Screens/AllSellers/AllSellers";
 import SellerProducts from "./components/Screens/SellerProducts/SellerProducts";
+import EditProfile from "./components/Screens/EditProfile/EditProfile";
 function App() {
   return (
     <BrowserRouter>
@@ -60,6 +61,7 @@ function App() {
             <Route path="/BiddingSeller" component={BiddingScreenSeller} />
             <Route path="/allsellers/:id" component={AllSellers} />
             <Route path="/sellerproducts" component={SellerProducts} />
+            <Route path="/editprofile" component={EditProfile}/>
             <Route component={NotFound} />
           </Switch>
         </main>
