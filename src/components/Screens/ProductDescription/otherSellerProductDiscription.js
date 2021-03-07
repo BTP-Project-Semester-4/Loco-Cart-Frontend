@@ -62,7 +62,7 @@ const generateData = () => {
   return data;
 };
 
-const Productdesc = (props) => {
+const Productdesc2 = (props) => {
   const [miniiPrice, setminiiPrice] = React.useState(10000000);
   const [discription, setdiscription] = React.useState("Loading");
   const [IImage, setIImage] = React.useState("Loading...");
@@ -198,7 +198,7 @@ const Productdesc = (props) => {
         for (var key in result.data.products.Sellers) {
           var obj = result.data.products.Sellers[key];
           console.log(obj.SellerPrice)
-          if (minprice > obj.SellerPrice) {
+          if (localStorage.getItem("IDD") == obj.SellerId) {
             minprice = obj.SellerPrice;
             minindex = key;
           }
@@ -566,4 +566,4 @@ const Productdesc = (props) => {
     </div>
   );
 };
-export default Productdesc;
+export default Productdesc2;

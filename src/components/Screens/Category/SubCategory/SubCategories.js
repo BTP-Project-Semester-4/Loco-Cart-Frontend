@@ -11,6 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
+import Rating from "@material-ui/lab/Rating";
 import MailIcon from "@material-ui/icons/Mail";
 import Input from "@material-ui/core/Input";
 import Axios from "axios";
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
 });
 
 function MediaCard(props) {
+  const [rating, setRating] = React.useState(1.1);
   const [id, setid] = React.useState(props._id);
   const [miniPrice, setminiPrice] = React.useState(100000000);
   const [discription, setdiscription] = React.useState("Product");
@@ -36,6 +38,7 @@ function MediaCard(props) {
       setminiPrice(obj.SellerPrice);
       setdiscription(obj.Description);
       setimage(obj.Image);
+      setRating(obj.Rating.$numberDecimal);
     }
   }
 
@@ -78,12 +81,14 @@ function MediaCard(props) {
               <div class="ssfooter stars1">
                 <ul class="stars1">
                   
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                  
+                  <Rating
+                    name="read-only"
+                    value={rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                  {"(" + rating + ")"}
+
                 </ul>
               </div>
             </div>
