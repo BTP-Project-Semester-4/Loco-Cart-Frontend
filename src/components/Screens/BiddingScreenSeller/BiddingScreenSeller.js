@@ -13,7 +13,7 @@ export default function BiddingScreenSeller() {
   return (
     <div className="BiddingScreenBody">
       <div class="container">
-        <div class="title" style={{ display: "flex" }}>
+        <div class="BiddingSellerTitle" style={{ display: "flex" }}>
           <div style={{ width: "30%" }}>
             <h2 className="BiddingScreenh2">Order Id: 12345</h2>
           </div>
@@ -147,7 +147,7 @@ export default function BiddingScreenSeller() {
       </div>
       {/* Second container */}
       <div class="container">
-        <div class="title">
+        <div class="BiddingSellerTitle">
           <h2 className="BiddingScreenh2">Order Id: 12345</h2>
         </div>
         <div class="d-flex">

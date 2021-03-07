@@ -129,8 +129,6 @@ const UserProfile = (props)=>{
             }
         })
 
-        console.log(props.location.pathname.substring(13));
-
         Axios.post(
             "http://localhost:3001/api/customerpastorder/customer_past_order"
             ,
