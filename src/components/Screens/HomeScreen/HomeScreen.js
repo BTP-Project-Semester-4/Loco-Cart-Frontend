@@ -15,6 +15,7 @@ import prerit from "./../../../images/Prerit.jpeg";
 import LocoCart from "./../../../images/LocoCart.PNG";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Rating from "@material-ui/lab/Rating";
 
 function getModalStyle() {
   const top = 50;
@@ -284,6 +285,7 @@ const Corousal = () => {
 };
 
 function MediaCard(props) {
+  const [rating, setRating] = React.useState(1.1);
   const [id, setid] = React.useState(props._id);
   const [miniPrice, setminiPrice] = React.useState(100000000);
   const [discription, setdiscription] = React.useState("Product");
@@ -294,6 +296,7 @@ function MediaCard(props) {
       setminiPrice(obj.SellerPrice);
       setdiscription(obj.Description);
       setimage(obj.Image);
+      setRating(obj.Rating.$numberDecimal);
     }
   }
 
@@ -337,11 +340,13 @@ function MediaCard(props) {
             <span class="price">₹ {miniPrice}</span>
             <div class="ssfooter">
               <ul class="stars1">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
+                  <Rating
+                    name="read-only"
+                    value={rating}
+                    precision={0.1}
+                    readOnly
+                  />
+                  {"(" + rating + ")"}
               </ul>
             </div>
           </div>
