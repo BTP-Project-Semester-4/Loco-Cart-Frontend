@@ -174,7 +174,7 @@ export default function CustomerOTP() {
             <Box mt={3} />
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                 <Link href="window.location = window.location" variant="body2">
                   Resend OTP
                 </Link>
               </Grid>
