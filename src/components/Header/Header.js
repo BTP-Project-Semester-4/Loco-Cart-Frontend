@@ -36,6 +36,8 @@ import { Link, useHistory } from "react-router-dom";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import CategoryIcon from "@material-ui/icons/Category";
 import InfoIcon from "@material-ui/icons/Info";
+import EditIcon from "@material-ui/icons/Edit";
+import AddIcon from "@material-ui/icons/Add";
 const jwt = require("jsonwebtoken");
 const env = require("dotenv");
 env.config();
@@ -475,6 +477,17 @@ export default function Header() {
                 <ListItemText primary="Profile" style={{ color: "#000000" }} />
               </ListItem>
             </Link>
+            <Link to="/editprofile" onClick={handleDrawerClose}>
+              <ListItem button key="Edit profile">
+                <ListItemIcon>
+                  <EditIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Edit Profile"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
             <Link to="/notifications" onClick={handleDrawerClose}>
               <ListItem button key="Notifications">
                 <ListItemIcon>
@@ -494,6 +507,7 @@ export default function Header() {
                 <ListItemText primary="Cart" style={{ color: "#000000" }} />
               </ListItem>
             </Link>
+
             <Link to="/orderhistory" onClick={handleDrawerClose}>
               <ListItem button key="Order History">
                 <ListItemIcon>
@@ -520,12 +534,24 @@ export default function Header() {
         ) : (
           <List>
             <Divider />
+
             <Link to={"/sellerprofile/" + userId} onClick={handleDrawerClose}>
               <ListItem button key="Profile">
                 <ListItemIcon>
                   <AccountCircleRoundedIcon />
                 </ListItemIcon>
                 <ListItemText primary="Profile" style={{ color: "#000000" }} />
+              </ListItem>
+            </Link>
+            <Link to={"/addproduct"} onClick={handleDrawerClose}>
+              <ListItem button key="Add Product">
+                <ListItemIcon>
+                  <AddIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Add Product"
+                  style={{ color: "#000000" }}
+                />
               </ListItem>
             </Link>
             <Link to="/sellerproducts" onClick={handleDrawerClose}>
