@@ -14,7 +14,7 @@ function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-export default function EditProfile() {
+export default function SellerEditProfile() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,15 +29,15 @@ export default function EditProfile() {
   const [userId, setUserId] = useState("");
   useEffect(async () => {
     try {
-      const jwtToken = await localStorage.getItem("CustomerJwt");
+      const jwtToken = await localStorage.getItem("sellerjwt");
       const user = await jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
       if (user) {
         setUserId(user);
         await axios
-          .get(`http://localhost:3001/api/customer/${user._id}`)
+          .get(`http://localhost:3001/api/seller/${user._id}`)
           .then(async (response) => {
             console.log(response);
-            const data = await response.data.customer;
+            const data = await response.data.seller;
             if (data) {
               setFirstName(data.firstName);
               setLastName(data.lastName);
@@ -56,7 +56,7 @@ export default function EditProfile() {
           autoClose: 1500,
         });
         sleep(2000).then(() => {
-          useHistory.push("/signin");
+          useHistory.push("/sellersignin");
         });
       }
     } catch (error) {
@@ -67,13 +67,13 @@ export default function EditProfile() {
     e.preventDefault();
     if (password === ConfirmPassword) {
       const fileType = updatePic["type"];
-      // const validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
-      // if (!validImageTypes.includes(fileType)) {
-      //   toast.error("Invalid Image Type, Retry ?", {
-      //     position: toast.POSITION.TOP_CENTER,
-      //   });
-      //   return;
-      // }
+      //   const validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+      //   if (!validImageTypes.includes(fileType)) {
+      //     toast.error("Invalid Image Type, Retry ?", {
+      //       position: toast.POSITION.TOP_CENTER,
+      //     });
+      //     return;
+      //   }
 
       var fileSize = updatePic["size"];
       if (fileSize > 1000000) {
@@ -88,7 +88,7 @@ export default function EditProfile() {
       });
 
       axios
-        .post(`http://localhost:3001/api/customer/editprofile`, {
+        .post(`http://localhost:3001/api/seller/editprofile`, {
           userId: userId,
           firstName: firstName,
           lastName: lastName,
