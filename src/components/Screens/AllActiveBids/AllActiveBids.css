@@ -1,0 +1,90 @@
+.BiddingScreenBody {
+    /* background: url("http://all4desktop.com/data_images/original/4236532-background-images.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed; */
+    color: #262626;
+    margin: 0 0;
+    height: 100%;
+    padding: 5%;
+  }
+  .container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 95%;
+      margin: auto;
+      margin-bottom: 20px;
+    }
+    .BiddingScreenLeft {
+      max-width: 900px;
+      min-width: 700px;
+      padding: 20px;
+    }
+    .d-flex {
+      display: flex;
+      flex-direction: row;
+      background: #f6f6f6;
+      border-radius: 0 0 5px 5px;
+      padding: 25px;
+      width: "70%";
+      border: 1px solid grey;
+    }
+  }
+  @media (max-width: 1199px) {
+    .container {
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .BiddingScreenLeft {
+      max-width: 100%;
+      padding: 20px;
+    }
+    .d-flex {
+      background: #f6f6f6;
+      border-radius: 0 0 5px 5px;
+      padding: 25px;
+      border: 1px solid grey;
+    }
+  }
+  
+  .Yorder {
+    flex: 2;
+  }
+  .BiddingSellerTitle {
+    /* background: -webkit-gradient(
+      linear,
+      left top,
+      right bottom,
+      color-stop(0, #5195a8),
+      color-stop(100, #70eaff)
+    );
+    background: -moz-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
+    background: -ms-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
+    background: -o-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
+    background: linear-gradient(to bottom right, #5195a8 0%, #70eaff 100%);
+    border-radius: 5px 5px 0 0; */
+    background-color: #3f51b5;
+    padding: 20px;
+    color: #f6f6f6;
+  }
+  .BiddingScreenh2 {
+    margin: 0;
+    padding-left: 15px;
+  }
+  
+  .Yorder {
+    margin-top: 15px;
+    padding: 20px;
+    border: 1px solid #dadada;
+  }
+  
+  .Yorder > div {
+    padding: 15px 0;
+  }
+  

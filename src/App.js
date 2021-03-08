@@ -22,7 +22,7 @@ import AboutUs from "./components/Screens/AboutUs/aboutus";
 import AddProduct from "./components/Screens/AddProduct/AddProduct";
 import Feedback from "./components/Screens/SiteFeedback/Feedback.jsx";
 import Notifications from "./components/Screens/Notification/Bes.jsx";
-import BiddingScreenSeller from "./components/Screens/BiddingScreenSeller/BiddingScreenSeller";
+import AllActiveBids from "./components/Screens/AllActiveBids/AllActiveBids";
 import AllSellers from "./components/Screens/AllSellers/AllSellers";
 import SellerProducts from "./components/Screens/SellerProducts/SellerProducts";
 function App() {
@@ -57,7 +57,7 @@ function App() {
             <Route path="/addproduct" component={AddProduct} />
             <Route path="/feedback" component={Feedback} />
             <Route path="/notifications" component={Notifications} />
-            <Route path="/BiddingSeller" component={BiddingScreenSeller} />
+            <Route path="/allactivebids" component={AllActiveBids} />
             <Route path="/allsellers/:id" component={AllSellers} />
             <Route path="/sellerproducts" component={SellerProducts} />
             <Route component={NotFound} />
