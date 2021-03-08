@@ -28,6 +28,8 @@ import AllSellers from "./components/Screens/AllSellers/AllSellers";
 import SellerProducts from "./components/Screens/SellerProducts/SellerProducts";
 import EditProfile from "./components/Screens/EditProfile/EditProfile";
 import SellerEditProfile from "./components/Screens/SellerEditProfile/SellerEditProfile";
+import BiddingScreenSeller from './components/Screens/BiddingScreenSeller/BiddingScreenSeller';
+
 function App() {
   return (
     <BrowserRouter>
@@ -66,6 +68,7 @@ function App() {
             <Route path="/sellerproducts" component={SellerProducts} />
             <Route path="/editprofile" component={EditProfile} />
             <Route path="/sellereditprofile" component={SellerEditProfile} />
+            <Route path="/bids/:id" component={BiddingScreenSeller} />
             <Route component={NotFound} />
           </Switch>
         </main>
