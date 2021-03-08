@@ -543,6 +543,17 @@ export default function Header() {
                 <ListItemText primary="Profile" style={{ color: "#000000" }} />
               </ListItem>
             </Link>
+            <Link to="/sellereditprofile" onClick={handleDrawerClose}>
+              <ListItem button key="Edit profile">
+                <ListItemIcon>
+                  <EditIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Edit Profile"
+                  style={{ color: "#000000" }}
+                />
+              </ListItem>
+            </Link>
             <Link to={"/addproduct"} onClick={handleDrawerClose}>
               <ListItem button key="Add Product">
                 <ListItemIcon>
