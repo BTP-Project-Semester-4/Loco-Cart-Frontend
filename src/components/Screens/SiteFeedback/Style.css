@@ -1,4 +1,4 @@
-html {
+/* html {
     background: #f4f9f9;
     box-sizing: border-box;
 }
@@ -26,8 +26,6 @@ label {
     margin: 1em 0 .2em;
 }
 
-
-/* single-line text, checkbox, and button */
 
 input,
 select,
@@ -82,8 +80,6 @@ textarea:hover {
 }
 
 
-/* hover and focus states */
-
 input[type=submit]:hover,
 input[type=submit]:focus {
     background: #e85d04;
@@ -92,7 +88,7 @@ input[type=submit]:focus {
 }
 
 @media screen and (min-width:600px) {
-    /*  make the form 2 columns */
+    
     form:after {
         content: '';
         display: block;
@@ -104,4 +100,4 @@ input[type=submit]:focus {
         padding: 1em;
         float: left;
     }
-}
+} */
