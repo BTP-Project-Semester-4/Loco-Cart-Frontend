@@ -91,16 +91,16 @@ const Feedback=()=>{
   <h1 className="feed">FEEDBACK</h1>
   <p className="feed">Please take a moment to get in touch, we will get back to you shortly.</p>
   <div className="columnss">
-    <label htmlFor="the-name">Your Name</label>
+    <div className="the-name">Your Name</div>
     <input type="text" name="name" id="the-name"
       onChange={InputEvent} value={names.name}/>
-    <label htmlFor="the-email">Email Address </label>
+    <div className="the-email">Email Address </div>
     <input type="email" name="email" id="the-email" onChange={InputEvent} />
-    <label htmlFor="the-phone">Phone Number</label>
+    <div className="the-phone">Phone Number</div>
     <input type="tel" name="phone" id="the-phone" onChange={InputEvent} value={names.phone}/>
   </div>
   <div className="columnss">
-    <label htmlFor="the-message">MESSAGE</label>
+    <label className="the-message">MESSAGE</label>
     <textarea name="message" id="the-message" defaultValue={""} onChange={InputEvent} value={names.message}/>
     <input type="submit" defaultValue="Send Message" />
   </div>
