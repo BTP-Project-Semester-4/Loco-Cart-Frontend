@@ -23,11 +23,13 @@ import AboutUs from "./components/Screens/AboutUs/aboutus";
 import AddProduct from "./components/Screens/AddProduct/AddProduct";
 import Feedback from "./components/Screens/SiteFeedback/Feedback.jsx";
 import Notifications from "./components/Screens/Notification/Bes.jsx";
-import BiddingScreenSeller from "./components/Screens/BiddingScreenSeller/BiddingScreenSeller";
+import AllActiveBids from "./components/Screens/AllActiveBids/AllActiveBids";
 import AllSellers from "./components/Screens/AllSellers/AllSellers";
 import SellerProducts from "./components/Screens/SellerProducts/SellerProducts";
 import EditProfile from "./components/Screens/EditProfile/EditProfile";
 import SellerEditProfile from "./components/Screens/SellerEditProfile/SellerEditProfile";
+import BiddingScreenSeller from './components/Screens/BiddingScreenSeller/BiddingScreenSeller';
+
 function App() {
   return (
     <BrowserRouter>
@@ -61,11 +63,12 @@ function App() {
             <Route path="/addproduct" component={AddProduct} />
             <Route path="/feedback" component={Feedback} />
             <Route path="/notifications" component={Notifications} />
-            <Route path="/BiddingSeller" component={BiddingScreenSeller} />
+            <Route path="/allactivebids" component={AllActiveBids} />
             <Route path="/allsellers/:id" component={AllSellers} />
             <Route path="/sellerproducts" component={SellerProducts} />
             <Route path="/editprofile" component={EditProfile} />
             <Route path="/sellereditprofile" component={SellerEditProfile} />
+            <Route path="/bids/:id" component={BiddingScreenSeller} />
             <Route component={NotFound} />
           </Switch>
         </main>
