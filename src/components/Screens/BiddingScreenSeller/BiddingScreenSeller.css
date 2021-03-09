@@ -1,89 +1,54 @@
-.BiddingScreenBody {
-  /* background: url("http://all4desktop.com/data_images/original/4236532-background-images.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed; */
-  color: #262626;
-  margin: 0 0;
-  height: 100%;
-  padding: 5%;
-}
-.container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
-@media (min-width: 1200px) {
-  .container {
-    max-width: 95%;
-    margin: auto;
-    margin-bottom: 20px;
-  }
-  .BiddingScreenLeft {
-    max-width: 900px;
-    min-width: 700px;
-    padding: 20px;
-  }
-  .d-flex {
-    display: flex;
-    flex-direction: row;
-    background: #f6f6f6;
-    border-radius: 0 0 5px 5px;
-    padding: 25px;
-    width: "70%";
-    border: 1px solid grey;
-  }
-}
-@media (max-width: 1199px) {
-  .container {
-    max-width: 90%;
+.bidding_screen_all_content{
+    margin-top: 70px;
+    max-width: 768px;
     margin-left: auto;
     margin-right: auto;
-  }
-  .BiddingScreenLeft {
-    max-width: 100%;
-    padding: 20px;
-  }
-  .d-flex {
-    background: #f6f6f6;
-    border-radius: 0 0 5px 5px;
-    padding: 25px;
-    border: 1px solid grey;
-  }
+    margin-bottom: 20px;
 }
 
-.Yorder {
-  flex: 2;
-}
-.BiddingSellerTitle {
-  /* background: -webkit-gradient(
-    linear,
-    left top,
-    right bottom,
-    color-stop(0, #5195a8),
-    color-stop(100, #70eaff)
-  );
-  background: -moz-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
-  background: -ms-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
-  background: -o-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
-  background: linear-gradient(to bottom right, #5195a8 0%, #70eaff 100%);
-  border-radius: 5px 5px 0 0; */
-  background-color: #3f51b5;
-  padding: 20px;
-  color: #f6f6f6;
-}
-.BiddingScreenh2 {
-  margin: 0;
-  padding-left: 15px;
+.bidding_screen_heading{
+    background-color: #3f51b5;
+    color: white;
+    padding: 10px;
+    border-radius: 15px 15px 0px 0px;
 }
 
-.Yorder {
-  margin-top: 15px;
-  padding: 20px;
-  border: 1px solid #dadada;
+.bidding_screen_body{
+    border: 1px solid rgb(168, 167, 167);
+    padding: 8px;
+    background-color: white;
+    text-align: center;
+    border-radius: 0px 0px 15px 15px;
 }
 
-.Yorder > div {
-  padding: 15px 0;
+.item_details{
+    color: rgb(65, 65, 65);
+    margin-top: 15px;
+}
+
+.bid_summary{
+    margin-top: 10px;
+}
+
+.bid_button{
+    background-color: #3f51b5;
+    color: white;
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    padding-top: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.bid_button:hover{
+    box-shadow: 3px 3px 3px #d4d3d3;
+}
+
+.status_green{
+    color: rgb(2, 207, 2);
+}
+
+.status_red{
+    color: red;
 }

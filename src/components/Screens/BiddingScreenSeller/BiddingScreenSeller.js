@@ -1,274 +1,252 @@
-import React from "react";
-import "./BiddingScreenSeller.css";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import GavelIcon from "@material-ui/icons/Gavel";
-import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
-function sleep(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
-export default function BiddingScreenSeller() {
-  const [dateTime, setDateTime] = React.useState(new Date());
-  const id = setInterval(() => setDateTime(new Date()), 1000);
-  return (
-    <div className="BiddingScreenBody">
-      <div class="container">
-        <div class="BiddingSellerTitle" style={{ display: "flex" }}>
-          <div style={{ width: "30%" }}>
-            <h2 className="BiddingScreenh2">Order Id: 12345</h2>
-          </div>
-          <div style={{ width: "70%" }}>
-            <div style={{ float: "right" }}>
-              <var>
-                <AccessAlarmIcon />
-              </var>{" "}
-              <sup>{`${dateTime.toLocaleTimeString()}`}</sup>
+import {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
+import './BiddingScreenSeller.css';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import GavelIcon from '@material-ui/icons/Gavel';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const jwt = require('jsonwebtoken');
+
+toast.configure();
+
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+export default function BiddingScreenSeller(props){
+    const [bidSummary, setBidSummary] = useState({});
+    const [products, setProducts] = useState([]);
+    const [sellers, setSellers] = useState([]);
+    const [price, setPrice] = useState(0);
+    const [id, setId] = useState(undefined);
+    const [bidId, setBidId] = useState(undefined);
+    const [update, setUpdate] = useState(0);
+    const history = useHistory();
+
+    useEffect(()=>{
+        try{
+            const decodedToken = jwt.verify(localStorage.getItem("sellerjwt"), process.env.REACT_APP_JWT_SECRET);
+            setId(decodedToken._id);
+            console.log(decodedToken)
+            fetch(
+                'http://localhost:3001/api/bid/'+props.match.params.id,
+                {
+                    method:"post",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify({
+                        sellerId: decodedToken._id
+                    })
+                }
+            ).then(res=>res.json())
+            .then(result=>{
+                console.log(result);
+                if(result.message==="Success"){
+                    setBidId(result.bid._id);
+                    setBidSummary({
+                        totalItems: result.products.length,
+                        currentMinBid: result.sellers[0].biddingPrice,
+                        status: (Date.now()-new Date(result.bid.orderedAt))/(1000*60)<180?"Ongoing":"Expired",
+                        bidDate: months[new Date(result.bid.orderedAt).getMonth()]+" "+new Date(result.bid.orderedAt).getDate()+", "+new Date(result.bid.orderedAt).getFullYear(),
+                        timeRemaining: (Date.now()-new Date(result.bid.orderedAt))/(1000*60)<180?180-((Date.now()-new Date(result.bid.orderedAt))/(1000*60)).toFixed(0)+" minutes":"---"
+                    });
+                    setProducts(result.products);
+                    setSellers(result.sellers);
+                }else{
+                    history.push("/error")
+                }
+                
+            })
+        }catch(err){
+            console.log(err);
+            toast.error("Please login first !", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1500,
+            });
+            history.push("/sellersignin")
+        }
+    },[update]);
+
+    const PostBid = ()=>{
+        if(price < bidSummary.currentMinBid){
+            fetch('http://localhost:3001/api/bid/placebid',
+            {
+                method:"post",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    price: price,
+                    sellerId: id,
+                    bidId: bidId
+                })
+            }).then(res=>res.json())
+            .then(result=>{
+                if(result.message==="Success"){
+                    toast.success("Successfully placed bid !", {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 1500,
+                    });
+                    setUpdate(update+1);
+                }else{
+                    toast.error(result.message, {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 1500,
+                    });
+                }
+            })
+        }else{
+            toast.error("Please enter a price lesser than the current minimum bid !", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 2000,
+            });
+        }
+    }
+
+    return(
+        <div style={{paddingLeft:"10px",paddingRight:"10px"}}>
+        <div className="bidding_screen_all_content">
+            <div className="bidding_screen_heading">
+                <h1>BIDDING SCREEN</h1>
             </div>
-          </div>
-        </div>
-        <div class="d-flex">
-          <div style={{ display: "block" }}>
-            <div className="BiddingScreenLeft">
-              <div
+            <div className="bidding_screen_body">
+                <h1 
                 style={{
-                  width: "100%",
-                }}
-              >
-                <b>
-                  <div className="orders" style={{ width: "100%" }}>
-                    <div>
-                      <p style={{ float: "left" }}>Name</p>
-                    </div>
-                    <div style={{ float: "right" }}>Qty</div>
-                  </div>
-                </b>
-              </div>
+                    marginTop:"10px",
+                    marginBottom:"10px"}}
+                >BID SUMMARY</h1>
+                <Grid container
+                style={{padding:"8px"}}>
+                    <Grid item xs={12} sm={12} md={6} md={6}
+                    style={{
+                        textAlign:"left",
+                        borderBottom:"1px solid gray",
+                        padding:"5px",
+                    }}>
+                        <h3 className="bid_summary">TOTAL ITEMS : {bidSummary.totalItems}</h3>
+                        <h3 className="bid_summary">CURRENT MIN BID: ₹{bidSummary.currentMinBid}</h3>
+                        <h3 className="bid_summary">BID STATUS: <span className={bidSummary.status==="Ongoing"?"status_green":"status_red"}>{bidSummary.status}</span></h3>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} md={6}
+                    style={{
+                        textAlign:"left",
+                        borderBottom:"1px solid gray",
+                        padding:"5px",
+                    }}>
+                        <h3 className="bid_summary">BID DATE : {bidSummary.bidDate}</h3>
+                        <h3 className="bid_summary">TIME REMAINING : {bidSummary.timeRemaining}</h3>
+                        {
+                            bidSummary.status==="Ongoing"
+                            ?
+                            <Grid container
+                            style={{marginTop:"10px",marginBottom:"10px"}}>
+                                <Grid item xs={6} sm={6} md={6} lg={6}>
+                                    <TextField
+                                    type="number"
+                                    variant="outlined"
+                                    label="Enter bid amount"
+                                    style={{width:"100%"}}
+                                    value={price}
+                                    onChange={(e)=>{setPrice(Number(e.target.value))}}></TextField>
+                                </Grid>
+                                <Grid
+                                style={{padding:"8px"}} item xs={6} sm={6} md={6} lg={6}
+                                onClick={()=>{PostBid()}}>
+                                    <div
+                                    className="bid_button">
+                                        <GavelIcon></GavelIcon>
+                                        Bid Now
+                                    </div>
+                                </Grid>
+                            </Grid>
+                            :
+                            <div></div>
+                        }
+                        
+                    </Grid>
+                </Grid>
+                
+                <h1>LIST OF ITEMS</h1>
+                
+                {
+                    products.map(data=>{
+                        return(
+                            <Grid container
+                            style={{padding:"5px"}}>
+                                <Grid
+                            style={{
+                                borderBottom:"1.5px solid gray"
+                            }} 
+                            item xs={12} sm={12} md={6} lg={4}>
+                                <img src={data.image}
+                                    style={{
+                                        borderRadius:"10px",
+                                        width:"100%",
+                                        height:"220px",
+                                        marginTop:"10px",
+                                        marginLeft:"auto",
+                                        marginRight:"auto",
+                                    }}
+                                />
+                            </Grid>
+                            <Grid style={{
+                                textAlign:"left",
+                                padding:"10px",
+                                borderBottom:"1.5px solid gray"}} 
+                                item xs={12} sm={12} md={6} lg={8}>
+                                <h2 className="item_details">NAME : {data.name}</h2>
+                                <h2 className="item_details">CATEGORY : {data.category}</h2>
+                                <h2 className="item_details">QUANTITY : {data.quantity}</h2>
+                            </Grid>
+                            </Grid>
+                        )
+                    })
+                }
+                
+                
+                <h1>LIST OF BIDDING SELLERS</h1>
+                {
+                    sellers.map(data=>{
+                        return(
+                            <Grid
+                            style={{maxWidth:"560px",
+                            marginLeft:"auto",
+                            marginRight:"auto",
+                            paddingLeft:"10px",
+                            paddingRight:"10px"}}
+                            container>
+                                <Grid 
+                                style={{borderBottom:"1px solid gray"}} 
+                                item xs={3} sm={3} md={3} lg={3}>
+                                    <img src={data.image}
+                                    style={{
+                                        borderRadius:"50%",
+                                        width:"60px",
+                                        height:"60px",
+                                        marginTop:"10px"
+                                    }}/>
+                                </Grid>
+                                <Grid 
+                                style={{borderBottom:"1px solid gray",
+                                textAlign:"left"}}  
+                                item xs={9} sm={9} md={9} lg={9}>
+                                    <h3
+                                    style={{
+                                        marginTop:"10px"
+                                    }}>{data.name}</h3>
+                                    <h4
+                                    style={{
+                                        marginTop:"10px"
+                                    }}>BIDDING PRICE : ₹{data.biddingPrice}</h4>
+                                </Grid>
+                            </Grid>
+                        )
+                    })
+                }
+                    
             </div>
-            <div className="BiddingScreenLeft">
-              <div
-                style={{
-                  width: "100%",
-                }}
-              >
-                <div className="orders" style={{ width: "100%" }}>
-                  <div>
-                    <p style={{ float: "left" }}>Apsara pencil</p>
-                  </div>
-                  <div style={{ float: "right" }}>100</div>
-                </div>
-              </div>
-            </div>
-            <div className="BiddingScreenLeft">
-              <div
-                style={{
-                  width: "100%",
-                }}
-              >
-                <div className="orders" style={{ width: "100%" }}>
-                  <div>
-                    <p style={{ float: "left" }}>Trimax pen</p>
-                  </div>
-                  <div style={{ float: "right" }}>20</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="Yorder">
-            <div style={{ textAlign: "center" }}>
-              <h3>Bidding Summary</h3>
-            </div>
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <div className="orders" style={{ width: "100%" }}>
-                <div>
-                  <p style={{ float: "left" }}>Present Bid</p>
-                </div>
-                <div style={{ float: "right" }}>Rs. 2000</div>
-              </div>
-            </div>
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <div className="orders" style={{ width: "100%" }}>
-                <div>
-                  <p style={{ float: "left" }}>Expiration Data</p>
-                </div>
-                <div style={{ float: "right" }}>12-11-2020</div>
-              </div>
-            </div>
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <div className="orders" style={{ width: "100%" }}>
-                <div>
-                  <p style={{ float: "left" }}>Expiration Time</p>
-                </div>
-                <div style={{ float: "right" }}>14:00</div>
-              </div>
-            </div>
-          </div>
         </div>
-        <div style={{ backgroundColor: "#ffffff", width: "100%" }}>
-          <div style={{ padding: "10px", display: "flex", width: "100%" }}>
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <div className="orders" style={{ width: "100%" }}>
-                <div>
-                  <p style={{ float: "left", display: "flex" }}>
-                    <h1>Your Bid:</h1>{" "}
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      type="number"
-                    />
-                  </p>
-                </div>
-                <div style={{ float: "right" }}>
-                  <Button variant="contained" color="primary">
-                    <p>
-                      <GavelIcon /> Bid Now
-                    </p>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-      {/* Second container */}
-      <div class="container">
-        <div class="BiddingSellerTitle">
-          <h2 className="BiddingScreenh2">Order Id: 12345</h2>
-        </div>
-        <div class="d-flex">
-          <div style={{ display: "block" }}>
-            <div className="BiddingScreenLeft">
-              <div
-                style={{
-                  width: "100%",
-                }}
-              >
-                <b>
-                  <div className="orders" style={{ width: "100%" }}>
-                    <div>
-                      <p style={{ float: "left" }}>Name</p>
-                    </div>
-                    <div style={{ float: "right" }}>Qty</div>
-                  </div>
-                </b>
-              </div>
-            </div>
-            <div className="BiddingScreenLeft">
-              <div
-                style={{
-                  width: "100%",
-                }}
-              >
-                <div className="orders" style={{ width: "100%" }}>
-                  <div>
-                    <p style={{ float: "left" }}>Apsara pencil</p>
-                  </div>
-                  <div style={{ float: "right" }}>100</div>
-                </div>
-              </div>
-            </div>
-            <div className="BiddingScreenLeft">
-              <div
-                style={{
-                  width: "100%",
-                }}
-              >
-                <div className="orders" style={{ width: "100%" }}>
-                  <div>
-                    <p style={{ float: "left" }}>Trimax pen</p>
-                  </div>
-                  <div style={{ float: "right" }}>20</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="Yorder">
-            <div style={{ textAlign: "center" }}>
-              <h3>Bidding Summary</h3>
-            </div>
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <div className="orders" style={{ width: "100%" }}>
-                <div>
-                  <p style={{ float: "left" }}>Present Bid</p>
-                </div>
-                <div style={{ float: "right" }}>Rs. 2000</div>
-              </div>
-            </div>
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <div className="orders" style={{ width: "100%" }}>
-                <div>
-                  <p style={{ float: "left" }}>Expiration Data</p>
-                </div>
-                <div style={{ float: "right" }}>12-11-2020</div>
-              </div>
-            </div>
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <div className="orders" style={{ width: "100%" }}>
-                <div>
-                  <p style={{ float: "left" }}>Expiration Time</p>
-                </div>
-                <div style={{ float: "right" }}>14: 00</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style={{ backgroundColor: "#ffffff", width: "100%" }}>
-          <div style={{ padding: "10px", display: "flex", width: "100%" }}>
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <div className="orders" style={{ width: "100%" }}>
-                <div>
-                  <p style={{ float: "left", display: "flex" }}>
-                    <h1>Your Bid:</h1>{" "}
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      type="number"
-                    />
-                  </p>
-                </div>
-                <div style={{ float: "right" }}>
-                  <Button variant="contained" color="primary">
-                    <p>
-                      <GavelIcon /> Bid Now
-                    </p>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    )
 }
