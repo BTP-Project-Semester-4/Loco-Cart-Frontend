@@ -1,4 +1,4 @@
-/* html {
+html {
     background: #f4f9f9;
     box-sizing: border-box;
 }
@@ -6,6 +6,7 @@
 * {
     box-sizing: inherit;
 }
+
 .feed {
     text-align: center;
 }
@@ -24,11 +25,25 @@
     padding: 20px;
 }
 
-label {
+.the-name {
     display: block;
     margin: 1em 0 .2em;
 }
 
+.the-email {
+    display: block;
+    margin: 1em 0 .2em;
+}
+
+.the-phone {
+    display: block;
+    margin: 1em 0 .2em;
+}
+
+.the-message {
+    display: block;
+    margin: 1em 0 .2em;
+}
 
 input,
 select,
@@ -82,7 +97,6 @@ textarea:hover {
     background: lavenderBlush;
 }
 
-
 input[type=submit]:hover,
 input[type=submit]:focus {
     background: #e85d04;
@@ -91,7 +105,6 @@ input[type=submit]:focus {
 }
 
 @media screen and (min-width:600px) {
-    
     form:after {
         content: '';
         display: block;
@@ -103,4 +116,4 @@ input[type=submit]:focus {
         padding: 1em;
         float: left;
     }
-} */
+}
