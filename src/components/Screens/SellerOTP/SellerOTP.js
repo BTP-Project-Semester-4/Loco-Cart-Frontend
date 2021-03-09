@@ -158,7 +158,7 @@ export default function SellerOTP() {
             <Box mt={3} />
             <Grid container>
               <Grid item xs>
-                <Link href="window.location = window.location" variant="body2">
+                <Link href="sellerotp" variant="body2">
                   Resend OTP
                 </Link>
               </Grid>
