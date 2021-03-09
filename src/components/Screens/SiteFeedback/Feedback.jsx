@@ -88,8 +88,8 @@ const Feedback=()=>{
         <form onSubmit={onSubmit}>
             
             
-  <h1 style={{textAlign:'center'}}>FEEDBACK</h1>
-  <p style={{textAlign:'center'}}>Please take a moment to get in touch, we will get back to you shortly.</p>
+  <h1 className="feed">FEEDBACK</h1>
+  <p className="feed">Please take a moment to get in touch, we will get back to you shortly.</p>
   <div className="columnss">
     <label htmlFor="the-name">Your Name</label>
     <input type="text" name="name" id="the-name"
