@@ -67,9 +67,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerSigninScreen() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const history = useHistory();
 
   const classes = useStyles();
@@ -77,46 +76,35 @@ export default function CustomerSigninScreen() {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    if (email === "" || password === "") {
+    if (email === "") {
       toast.error("Please fill all fields !", {
         position: toast.POSITION.TOP_CENTER,
       });
     } else {
-      fetch("http://localhost:3001/api/customer/signin", {
+      fetch("http://localhost:3001/api/customer/forgotpassword", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email,
-          password: password,
+          email: email
         }),
       })
         .then((res) => res.json())
         .then((result) => {
           // console.log(result);
-          if (result.message === "Success") {
-            localStorage.setItem("CustomerJwt", result.CustomerToken);
-            if (result.isAuthenticated) {
-              toast.success("Sweet !", {
+          if (result.message === "Mail Send") {
+            // localStorage.setItem("CustomerJwt", result.CustomerToken);
+            // if (result.isAuthenticated) {
+              toast.success("Mail Sent !", {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 1500,
               });
               sleep(2000).then(() => {
-                history.push("/");
+                history.push("/signin");
                 window.location.reload(false);
               });
-            } else {
-              console.log("customer unauthorised");
-              toast.warning("Please Authorize yourself", {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: 2000,
-              });
-              sleep(2300).then(() => {
-                history.push("/customerotp");
-                // window.location.reload(false);
-              });
-            }
+            // } 
           } else {
             toast.error(`${result.message}`, {
               position: toast.POSITION.TOP_CENTER,
@@ -136,7 +124,7 @@ export default function CustomerSigninScreen() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Customer Sign in
+            Enter Your Email
           </Typography>
           <form className={classes.form} noValidate onSubmit={submitHandler}>
             <Grid item xs={12} style={{ marginBottom: "20px" }}>
@@ -151,16 +139,6 @@ export default function CustomerSigninScreen() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
             </Grid>
             <Button
               type="submit"
