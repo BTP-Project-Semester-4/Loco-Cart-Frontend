@@ -44,3 +44,11 @@
 .bid_button:hover{
     box-shadow: 3px 3px 3px #d4d3d3;
 }
+
+.status_green{
+    color: rgb(2, 207, 2);
+}
+
+.status_red{
+    color: red;
+}
