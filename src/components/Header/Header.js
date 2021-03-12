@@ -508,7 +508,7 @@ export default function Header() {
               </ListItem>
             </Link>
 
-            <Link to="/orderhistory" onClick={handleDrawerClose}>
+            <Link to="/mybids" onClick={handleDrawerClose}>
               <ListItem button key="Order History">
                 <ListItemIcon>
                   <HistoryIcon />
