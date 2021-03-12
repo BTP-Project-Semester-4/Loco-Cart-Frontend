@@ -1,0 +1,54 @@
+.bidding_screen_all_content{
+    margin-top: 70px;
+    max-width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+.bidding_screen_heading{
+    background-color: #3f51b5;
+    color: white;
+    padding: 10px;
+    border-radius: 15px 15px 0px 0px;
+}
+
+.bidding_screen_body{
+    border: 1px solid rgb(168, 167, 167);
+    padding: 8px;
+    background-color: white;
+    text-align: center;
+    border-radius: 0px 0px 15px 15px;
+}
+
+.item_details{
+    color: rgb(65, 65, 65);
+    margin-top: 15px;
+}
+
+.bid_summary{
+    margin-top: 10px;
+}
+
+.bid_button{
+    background-color: #3f51b5;
+    color: white;
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    padding-top: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.bid_button:hover{
+    box-shadow: 3px 3px 3px #d4d3d3;
+}
+
+.status_green{
+    color: rgb(2, 207, 2);
+}
+
+.status_red{
+    color: red;
+}
