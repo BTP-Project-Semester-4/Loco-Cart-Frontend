@@ -1,6 +1,6 @@
 import React from "react";
 import {useHistory} from 'react-router-dom';
-import "./AllActiveBids.css";
+import "./CustomerAllBids.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import GavelIcon from "@material-ui/icons/Gavel";
@@ -18,7 +18,7 @@ const months = ["January","February","March","April","May","June","July","August
 // function sleep(time) {
 //   return new Promise((resolve) => setTimeout(resolve, time));
 // }
-export default function AllActiveBids() {
+export default function CustomerAllBids() {
   const [bidArray, setBidArray] = React.useState([]);
   const [itemArray, setItemArray] = React.useState([]);
   //const [dateTime, setDateTime] = React.useState(new Date());
@@ -28,16 +28,16 @@ export default function AllActiveBids() {
 
   React.useEffect(()=>{
     try{
-        const decodedToken = jwt.verify(localStorage.getItem("sellerjwt"), process.env.REACT_APP_JWT_SECRET);
+        const decodedToken = jwt.verify(localStorage.getItem("CustomerJwt"), process.env.REACT_APP_JWT_SECRET);
         fetch(
-            'http://localhost:3001/api/bid/getactivebids',
+            'http://localhost:3001/api/bid/getcustomerbids',
             {
                 method:"post",
                 headers:{
                     "Content-Type":"application/json",
                 },
                 body:JSON.stringify({
-                    id: decodedToken._id
+                    customerId: decodedToken._id,
                 })
             }
         ).then(res=>res.json())
@@ -55,7 +55,7 @@ export default function AllActiveBids() {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 1500,
           });
-        history.push("/sellersignin")
+        history.push("/signin")
     }
   },[]);
 
@@ -132,7 +132,7 @@ export default function AllActiveBids() {
                         {console.log(Date.now()-new Date(data.orderedAt).getTime())}
                         <div className="orders" style={{ width: "100%" }}>
                             <div>
-                            <p style={{ float: "left" }}>Present Bid</p>
+                            <p style={{ float: "left" }}>Lowest Bid</p>
                             </div>
                             <div style={{ float: "right" }}>Rs. {data.bids[data.bids.length-1].biddingPrice}</div>
                         </div>
@@ -158,7 +158,7 @@ export default function AllActiveBids() {
                             <div>
                             <p style={{ float: "left" }}>Expires in</p>
                             </div>
-                            <div style={{ float: "right" }}>{180-((Date.now()-new Date(data.orderedAt))/(1000*60)).toFixed(0)+" minutes"}</div>
+                            <div style={{ float: "right" }}>{(180-((Date.now()-new Date(data.orderedAt))/(1000*60)).toFixed(0))>0?180-((Date.now()-new Date(data.orderedAt))/(1000*60)).toFixed(0)+" minutes":"Expired"}</div>
                         </div>
                         </div>
                     </div>
@@ -174,10 +174,10 @@ export default function AllActiveBids() {
                             <div>
                             </div>
                             <div style={{ float: "right" }}>
-                            <Link to={"/bids/"+data._id}>
+                            <Link to={"/mybids/"+data._id}>
                             <Button variant="contained" color="primary">
                                 <p>
-                                <GavelIcon /> Bid Now
+                                <GavelIcon /> MORE DETAILS
                                 </p>
                             </Button>
                             </Link>

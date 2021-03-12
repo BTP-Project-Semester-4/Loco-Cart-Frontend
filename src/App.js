@@ -30,6 +30,8 @@ import EditProfile from "./components/Screens/EditProfile/EditProfile";
 import SellerEditProfile from "./components/Screens/SellerEditProfile/SellerEditProfile";
 import BiddingScreenSeller from './components/Screens/BiddingScreenSeller/BiddingScreenSeller';
 import ForgotPassword from "./components/Screens/CustomerForgotPassword/ForgotPassword";
+import CustomerAllBids from './components/Screens/CustomerAllBids/CustomerAllBids';
+import CustomerBiddingScreen from './components/Screens/CustomerBiddingScreen/CustomerBiddingScreen';
 
 function App() {
   return (
@@ -71,6 +73,8 @@ function App() {
             <Route path="/sellereditprofile" component={SellerEditProfile} />
             <Route path="/forgotpassword" component={ForgotPassword}/>
             <Route path="/bids/:id" component={BiddingScreenSeller} />
+            <Route path="/mybids" exact component={CustomerAllBids}/>
+            <Route path="/mybids/:id" component={CustomerBiddingScreen}/>
             <Route component={NotFound} />
           </Switch>
         </main>

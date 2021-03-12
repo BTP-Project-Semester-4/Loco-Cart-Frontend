@@ -25,8 +25,45 @@ export default function EditProfile() {
   const [country, setCountry] = useState("");
   const [password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
-  const [updatePic, setUpdatePic] = useState("");
+  const [updatePic, setUpdatePic] = useState(undefined);
+  const [url, setUrl] = useState("");
   const [userId, setUserId] = useState("");
+  const history = useHistory();
+
+  useEffect(()=>{
+    if(url!==""){
+      axios
+        .post(`http://localhost:3001/api/customer/editprofile`, {
+          userId: userId,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          contactNo: contactNo,
+          address: address,
+          city: city,
+          state: state,
+          country: country,
+          password: password,
+          profilePicUrl: url,
+        })
+        .then(async (response) => {
+          console.log(response);
+          if (response.data.message === "Success") {
+            toast.success("Sweet", {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 1500,
+            });
+          } else {
+            toast.warning(response.data.message, {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 1500,
+            });
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  },[url]);
+
   useEffect(async () => {
     try {
       const jwtToken = await localStorage.getItem("CustomerJwt");
@@ -56,11 +93,18 @@ export default function EditProfile() {
           autoClose: 1500,
         });
         sleep(2000).then(() => {
-          useHistory.push("/signin");
+          history.push("/signin");
         });
       }
     } catch (error) {
       console.log(error);
+      toast.error("please signin to continue", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1500,
+      });
+      sleep(2000).then(() => {
+        history.push("/signin");
+      });
     }
   }, []);
   const submitHandler = (e) => {
@@ -87,34 +131,41 @@ export default function EditProfile() {
         position: toast.POSITION.TOP_CENTER,
       });
 
-      axios
-        .post(`http://localhost:3001/api/customer/editprofile`, {
-          userId: userId,
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          contactNo: contactNo,
-          address: address,
-          city: city,
-          state: state,
-          country: country,
-          password: password,
-        })
-        .then(async (response) => {
-          console.log(response);
-          if (response.data.message === "Success") {
-            toast.success("Sweet", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1500,
-            });
-          } else {
-            toast.warning(response.data.message, {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1500,
-            });
+      const data = new FormData();
+      data.append("file",updatePic);
+      data.append("upload_preset",process.env.REACT_APP_UPLOAD_PRESET);
+      data.append("cloud_name",process.env.REACT_APP_CLOUD_NAME);
+      fetch(
+          process.env.REACT_APP_IMAGE_API,
+          {
+              method:"post",
+              body: data
           }
-        })
-        .catch((err) => console.error(err));
+      )
+      .then(
+          res=>res.json()
+      )
+      .then(
+          data=>{
+              setUrl(data.url);
+              if(data.url === undefined){
+                  toast.error(
+                      'Error occured while uploading image',
+                      {
+                      position: "top-right",
+                      autoClose: 2000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined
+                      }
+                  );
+              }else{
+                  console.log(data.url);
+              }
+          }
+      )
     } else {
       toast.error("password in not equal to  confirm password", {
         position: toast.POSITION.TOP_CENTER,
