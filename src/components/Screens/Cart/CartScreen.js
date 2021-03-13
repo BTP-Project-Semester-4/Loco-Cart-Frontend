@@ -132,7 +132,8 @@ export default function CartScreen() {
             </div>
           </div>
           <div class="CartScreensummary-checkout">
-            <button className="CartScreenButton CartScreencheckout-cta">
+            <button className="CartScreenButton CartScreencheckout-cta"
+            onClick={()=>{history.push("/placeorder")}}>
               BID NOW
             </button>
           </div>
