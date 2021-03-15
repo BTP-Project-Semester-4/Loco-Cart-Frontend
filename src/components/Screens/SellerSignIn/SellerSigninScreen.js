@@ -81,7 +81,7 @@ export default function SellerSigninScreen() {
         position: toast.POSITION.TOP_CENTER,
       });
     } else {
-      fetch("http://localhost:3001/api/seller/signin", {
+      fetch(process.env.REACT_APP_BACKEND_API + "seller/signin", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
