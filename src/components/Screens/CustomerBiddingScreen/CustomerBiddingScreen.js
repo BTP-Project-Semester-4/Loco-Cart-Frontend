@@ -29,7 +29,7 @@ export default function CustomerBiddingScreen(props){
             setId(decodedToken._id);
             console.log(decodedToken)
             fetch(
-                'http://localhost:3001/api/bid/customer/'+props.match.params.id,
+                process.env.REACT_APP_BACKEND_API + 'bid/customer/'+props.match.params.id,
                 {
                     method:"post",
                     headers:{

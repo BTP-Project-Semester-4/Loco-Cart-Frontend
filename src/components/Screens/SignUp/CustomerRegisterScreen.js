@@ -150,7 +150,7 @@ export default function CustomerRegisterScreen() {
         });
       } else {
         if (password.length > 8 && password === confirmPassword) {
-          fetch("http://localhost:3001/api/customer/register", {
+          fetch(process.env.REACT_APP_BACKEND_API + "customer/register", {
             method: "post",
             headers: {
               "Content-Type": "application/json",

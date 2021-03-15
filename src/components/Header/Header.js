@@ -178,7 +178,7 @@ export default function Header() {
           setUserId(user._id);
           console.log(user);
           const resp = await Axios.get(
-            `http://localhost:3001/api/seller/${user._id}`
+            process.env.REACT_APP_BACKEND_API + `seller/${user._id}`
           )
             .then(function (response) {
               console.log(response);
@@ -192,7 +192,7 @@ export default function Header() {
             });
 
           const responce = await Axios.get(
-            `http://localhost:3001/api/notification/${user._id}`
+            process.env.REACT_APP_BACKEND_API + `notification/${user._id}`
           )
             .then(function (response) {
               console.log(response);
@@ -213,7 +213,7 @@ export default function Header() {
           setUserId(user._id);
           console.log(user);
           const resp = await Axios.get(
-            `http://localhost:3001/api/customer/${user._id}`
+            process.env.REACT_APP_BACKEND_API + `customer/${user._id}`
           )
             .then(function (response) {
               console.log(response);
@@ -226,7 +226,7 @@ export default function Header() {
             });
 
           const responce = await Axios.get(
-            `http://localhost:3001/api/notification/${user._id}`
+            process.env.REACT_APP_BACKEND_API + `notification/${user._id}`
           )
             .then(function (response) {
               console.log(response);
@@ -250,7 +250,7 @@ export default function Header() {
 
   function searchProduct(e) {
     setSearchKeyword(e.target.value);
-    Axios.post("http://localhost:3001/api/product/search", {
+    Axios.post(process.env.REACT_APP_BACKEND_API + "product/search", {
       name: searchKeyword,
     }).then((result) => {
       setProductSearch(result.data.products);

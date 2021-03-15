@@ -71,7 +71,7 @@ const SellerProfile = (props) => {
     );
 
     fetch(
-      `http://localhost:3001/api/seller/${user._id}`,
+      process.env.REACT_APP_BACKEND_API + `seller/${user._id}`,
       {
         method: "get",
         headers: {
@@ -98,7 +98,7 @@ const SellerProfile = (props) => {
       });
 
       Axios.post(
-        "http://localhost:3001/api/sellerpastorder/seller_past_order"
+        process.env.REACT_APP_BACKEND_API + "sellerpastorder/seller_past_order"
           ,
       {sellerId : user._id})
       .then((result) => {
