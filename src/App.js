@@ -28,10 +28,11 @@ import AllSellers from "./components/Screens/AllSellers/AllSellers";
 import SellerProducts from "./components/Screens/SellerProducts/SellerProducts";
 import EditProfile from "./components/Screens/EditProfile/EditProfile";
 import SellerEditProfile from "./components/Screens/SellerEditProfile/SellerEditProfile";
-import BiddingScreenSeller from './components/Screens/BiddingScreenSeller/BiddingScreenSeller';
+import BiddingScreenSeller from "./components/Screens/BiddingScreenSeller/BiddingScreenSeller";
 import ForgotPassword from "./components/Screens/CustomerForgotPassword/ForgotPassword";
-import CustomerAllBids from './components/Screens/CustomerAllBids/CustomerAllBids';
-import CustomerBiddingScreen from './components/Screens/CustomerBiddingScreen/CustomerBiddingScreen';
+import CustomerAllBids from "./components/Screens/CustomerAllBids/CustomerAllBids";
+import CustomerBiddingScreen from "./components/Screens/CustomerBiddingScreen/CustomerBiddingScreen";
+import LoadingScreen from "./components/Screens/LoadingScreen/LoadingScreen";
 
 function App() {
   return (
@@ -71,10 +72,11 @@ function App() {
             <Route path="/sellerproducts" component={SellerProducts} />
             <Route path="/editprofile" component={EditProfile} />
             <Route path="/sellereditprofile" component={SellerEditProfile} />
-            <Route path="/forgotpassword" component={ForgotPassword}/>
+            <Route path="/forgotpassword" component={ForgotPassword} />
             <Route path="/bids/:id" component={BiddingScreenSeller} />
-            <Route path="/mybids" exact component={CustomerAllBids}/>
-            <Route path="/mybids/:id" component={CustomerBiddingScreen}/>
+            <Route path="/mybids" exact component={CustomerAllBids} />
+            <Route path="/mybids/:id" component={CustomerBiddingScreen} />
+            <Route path="/loading" component={LoadingScreen} />
             <Route component={NotFound} />
           </Switch>
         </main>
