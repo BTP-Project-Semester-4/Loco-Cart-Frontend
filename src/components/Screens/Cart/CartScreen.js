@@ -34,7 +34,7 @@ export default function CartScreen() {
         });
         // history.push("/signin");
       } else {
-        Axios.get(`http://localhost:3001/api/customer/getcart/${userId}`, {
+        Axios.get(process.env.REACT_APP_BACKEND_API + `customer/getcart/${userId}`, {
           id: userId,
         }).then((result) => {
           // console.log(result);

@@ -29,7 +29,7 @@ export default function BiddingScreenSeller(props){
             setId(decodedToken._id);
             console.log(decodedToken)
             fetch(
-                'http://localhost:3001/api/bid/'+props.match.params.id,
+                process.env.REACT_APP_BACKEND_API + 'bid/'+props.match.params.id,
                 {
                     method:"post",
                     headers:{
@@ -70,7 +70,7 @@ export default function BiddingScreenSeller(props){
 
     const PostBid = ()=>{
         if(price < bidSummary.currentMinBid){
-            fetch('http://localhost:3001/api/bid/placebid',
+            fetch(process.env.REACT_APP_BACKEND_API + 'bid/placebid',
             {
                 method:"post",
                 headers:{

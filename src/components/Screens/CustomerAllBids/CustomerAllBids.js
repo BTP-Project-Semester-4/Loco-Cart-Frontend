@@ -30,7 +30,7 @@ export default function CustomerAllBids() {
     try{
         const decodedToken = jwt.verify(localStorage.getItem("CustomerJwt"), process.env.REACT_APP_JWT_SECRET);
         fetch(
-            'http://localhost:3001/api/bid/getcustomerbids',
+            process.env.REACT_APP_BACKEND_API + 'bid/getcustomerbids',
             {
                 method:"post",
                 headers:{

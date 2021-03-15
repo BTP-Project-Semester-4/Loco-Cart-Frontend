@@ -30,7 +30,7 @@ export default function AllActiveBids() {
     try{
         const decodedToken = jwt.verify(localStorage.getItem("sellerjwt"), process.env.REACT_APP_JWT_SECRET);
         fetch(
-            'http://localhost:3001/api/bid/getactivebids',
+            process.env.REACT_APP_BACKEND_API + 'bid/getactivebids',
             {
                 method:"post",
                 headers:{
