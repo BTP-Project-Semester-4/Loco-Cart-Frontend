@@ -15,7 +15,7 @@ export default function SellerProducts() {
       const user = await jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
       if (user) {
         const reps = await Axios.get(
-          `http://localhost:3001/api/seller_product/${user._id}`
+          process.env.REACT_APP_BACKEND_API + `seller_product/${user._id}`
         ).then((result) => {
           console.log(result);
           setAllItems(result.data.sellerProducts);

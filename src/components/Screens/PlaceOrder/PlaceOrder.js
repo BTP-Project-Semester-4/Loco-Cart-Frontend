@@ -60,7 +60,7 @@ const PlaceOrder = ()=>{
                     if(pinCode!==""){
                         //ADDRESS INPUTS ARE VALID
                         fetch(
-                            'http://localhost:3001/api/bid/getinitialbestseller',
+                            process.env.REACT_APP_BACKEND_API + 'bid/getinitialbestseller',
                             {
                                 method:"post",
                                 headers:{
@@ -180,7 +180,7 @@ const PlaceOrder = ()=>{
 
     const sendOtpHandler = ()=>{
         fetch(
-            'http://localhost:3001/api/bid/getotp',
+            process.env.REACT_APP_BACKEND_API + 'bid/getotp',
             {
                 method:"post",
                 "headers":{
@@ -224,7 +224,7 @@ const PlaceOrder = ()=>{
             });
             console.log(items)
             fetch(
-                'http://localhost:3001/api/bid/placeorder',
+                process.env.REACT_APP_BACKEND_API + 'bid/placeorder',
                 {
                     method:"post",
                     headers:{

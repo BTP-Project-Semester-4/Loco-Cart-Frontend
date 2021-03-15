@@ -112,7 +112,7 @@ export function SubCategories(props) {
   const category = props.match.params.id;
 
   const [Products, setProducts] = React.useState([]);
-  const address = "http://localhost:3001/api/categoryproducts/" + category;
+  const address = process.env.REACT_APP_BACKEND_API + "categoryproducts/" + category;
 
   useEffect(() => {
     Axios.get(address).then((result) => {

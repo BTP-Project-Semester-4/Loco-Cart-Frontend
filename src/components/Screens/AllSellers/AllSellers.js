@@ -22,7 +22,7 @@ export default function AllSellers(props) {
   useEffect(async () => {
     try {
       const reps = await Axios.post(
-        "http://localhost:3001/api/product/searchbyid",
+        process.env.REACT_APP_BACKEND_API + "product/searchbyid",
         {
           id: props.match.params.id,
         }
