@@ -14,6 +14,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LoadingScreen from '../LoadingScreen/LoadingScreen'
 
 toast.configure();
 
@@ -68,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CustomerSigninScreen() {
+  const [Loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -77,10 +79,13 @@ export default function CustomerSigninScreen() {
   const submitHandler = (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     if (email === "" || password === "") {
       toast.error("Please fill all fields !", {
         position: toast.POSITION.TOP_CENTER,
       });
+      setLoading(false);
     } else {
       fetch(process.env.REACT_APP_BACKEND_API + "customer/signin", {
         method: "post",
@@ -94,6 +99,8 @@ export default function CustomerSigninScreen() {
       })
         .then((res) => res.json())
         .then((result) => {
+          
+           setLoading(false);
           // console.log(result);
           if (result.message === "Success") {
             localStorage.setItem("CustomerJwt", result.CustomerToken);
@@ -127,6 +134,9 @@ export default function CustomerSigninScreen() {
   };
 
   return (
+    <>
+    {Loading && <LoadingScreen />}
+    {!Loading && 
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -191,5 +201,7 @@ export default function CustomerSigninScreen() {
         </div>
       </Grid>
     </Grid>
+    }
+    </>
   );
 }
