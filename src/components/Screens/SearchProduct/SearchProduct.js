@@ -119,7 +119,7 @@ export function SearchProduct(props) {
   localStorage.setItem("LastSearched", props.match.params.id);
 
   const [Products, setProducts] = React.useState([]);
-  const address = "http://localhost:3001/api/product/search";
+  const address = process.env.REACT_APP_BACKEND_API + "product/search";
 
   useEffect(() => {
     Axios.post(address, { name: search }).then((result) => {

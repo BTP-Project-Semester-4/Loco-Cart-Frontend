@@ -514,7 +514,7 @@ export default function HomeScreen() {
   );
 
   const [Products, setProducts] = React.useState([]);
-  const address = "http://localhost:3001/api/product/allproducts";
+  const address = process.env.REACT_APP_BACKEND_API + "product/allproducts";
   React.useEffect(() => {
     Axios.post(address).then((result) => {
       console.log(result);

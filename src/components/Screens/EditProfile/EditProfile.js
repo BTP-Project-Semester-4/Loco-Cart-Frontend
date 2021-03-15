@@ -33,7 +33,7 @@ export default function EditProfile() {
   useEffect(()=>{
     if(url!==""){
       axios
-        .post(`http://localhost:3001/api/customer/editprofile`, {
+        .post(process.env.REACT_APP_BACKEND_API + `customer/editprofile`, {
           userId: userId,
           firstName: firstName,
           lastName: lastName,
@@ -71,7 +71,7 @@ export default function EditProfile() {
       if (user) {
         setUserId(user);
         await axios
-          .get(`http://localhost:3001/api/customer/${user._id}`)
+          .get(process.env.REACT_APP_BACKEND_API + `customer/${user._id}`)
           .then(async (response) => {
             console.log(response);
             const data = await response.data.customer;

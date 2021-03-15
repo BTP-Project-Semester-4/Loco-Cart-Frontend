@@ -71,7 +71,7 @@ export default function SellerOTP() {
         process.env.REACT_APP_JWT_SECRET
       );
       setid(decoded_token._id);
-      fetch("http://localhost:3001/api/seller/verifysellertype", {
+      fetch(process.env.REACT_APP_BACKEND_API + "seller/verifysellertype", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +96,7 @@ export default function SellerOTP() {
     if (otp === "") {
       console.log("Please enter otp");
     } else {
-      fetch("http://localhost:3001/api/seller/sellerotp", {
+      fetch(process.env.REACT_APP_BACKEND_API + "seller/sellerotp", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
