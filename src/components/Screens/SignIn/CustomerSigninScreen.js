@@ -82,7 +82,7 @@ export default function CustomerSigninScreen() {
         position: toast.POSITION.TOP_CENTER,
       });
     } else {
-      fetch("http://localhost:3001/api/customer/signin", {
+      fetch(process.env.REACT_APP_BACKEND_API + "customer/signin", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
