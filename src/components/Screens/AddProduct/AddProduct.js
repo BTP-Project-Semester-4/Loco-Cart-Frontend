@@ -52,7 +52,7 @@ const AddProduct = ()=>{
     useEffect(()=>{
         if(query !== ""){
             fetch(
-                "http://localhost:3001/api/product/search",
+                process.env.REACT_APP_BACKEND_API + "product/search",
                 {
                     method: "post",
                     headers: {
@@ -74,7 +74,7 @@ const AddProduct = ()=>{
     useEffect(()=>{
         if(url !== ""){
             fetch(
-                'http://localhost:3001/api/product/addproduct',
+                process.env.REACT_APP_BACKEND_API + 'product/addproduct',
                 {
                     method: "post",
                     headers: {

@@ -105,7 +105,7 @@ const UserProfile = (props)=>{
 
     useEffect(()=>{
         fetch(
-            `http://localhost:3001/api/customer/${props.location.pathname.substring(13)}`
+            process.env.REACT_APP_BACKEND_API + `customer/${props.location.pathname.substring(13)}`
             ,{
                 method:"get",
                 headers: {
@@ -130,7 +130,7 @@ const UserProfile = (props)=>{
         })
 
         Axios.post(
-            "http://localhost:3001/api/customerpastorder/customer_past_order"
+            process.env.REACT_APP_BACKEND_API + "customerpastorder/customer_past_order"
             ,
         {customerId : props.location.pathname.substring(13)})
         .then((result) => {

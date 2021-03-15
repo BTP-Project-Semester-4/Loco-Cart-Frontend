@@ -156,7 +156,7 @@ export default function CustomerRegisterScreen() {
           position: toast.POSITION.TOP_CENTER,
         });
       } else if (password.length > 8 && password === confirmPassword) {
-        fetch("http://localhost:3001/api/seller/register", {
+        fetch(process.env.REACT_APP_BACKEND_API + "seller/register", {
           method: "post",
           headers: {
             "Content-Type": "application/json",

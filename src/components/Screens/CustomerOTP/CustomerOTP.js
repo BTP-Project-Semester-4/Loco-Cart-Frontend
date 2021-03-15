@@ -75,7 +75,7 @@ export default function CustomerOTP() {
     try{
       const decoded_token = jwt.verify(localStorage.getItem("CustomerJwt"),process.env.REACT_APP_JWT_SECRET);
       setid(decoded_token._id);
-      fetch("http://localhost:3001/api/customer/verifycustomertype",{
+      fetch(process.env.REACT_APP_BACKEND_API + "customer/verifycustomertype",{
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export default function CustomerOTP() {
     if (otp === "") {
       console.log("Please enter otp");
     } else {
-      fetch("http://localhost:3001/api/customer/customerotp", {
+      fetch(process.env.REACT_APP_BACKEND_API + "customer/customerotp", {
         method: "post",
         headers: {
           "Content-Type": "application/json",

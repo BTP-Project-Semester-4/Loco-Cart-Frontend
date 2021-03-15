@@ -34,7 +34,7 @@ export default function SellerEditProfile() {
       if (user) {
         setUserId(user);
         await axios
-          .get(`http://localhost:3001/api/seller/${user._id}`)
+          .get(process.env.REACT_APP_BACKEND_API + `seller/${user._id}`)
           .then(async (response) => {
             console.log(response);
             const data = await response.data.seller;
@@ -88,7 +88,7 @@ export default function SellerEditProfile() {
       });
 
       axios
-        .post(`http://localhost:3001/api/seller/editprofile`, {
+        .post(process.env.REACT_APP_BACKEND_API + `seller/editprofile`, {
           userId: userId,
           firstName: firstName,
           lastName: lastName,
