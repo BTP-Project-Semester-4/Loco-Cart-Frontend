@@ -24,9 +24,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import SearchIcon from "@material-ui/icons/Search";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import ChatIcon from "@material-ui/icons/Chat";
-import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import { Dropdown } from "react-bootstrap";
 import InputBase from "@material-ui/core/InputBase";
 import Button from "@material-ui/core/Button";
@@ -161,7 +159,6 @@ export default function Header() {
   };
   const [userId, setUserId] = useState("");
   const [UserName, setUserName] = useState("");
-  const [notifications, setNotifications] = React.useState([]);
   const [isCustomer, setIsCustomer] = useState(true);
   React.useEffect(async () => {
     showLococart();
@@ -190,19 +187,6 @@ export default function Header() {
             .catch(function (error) {
               console.log(error);
             });
-
-          const responce = await Axios.get(
-            process.env.REACT_APP_BACKEND_API + `notification/${user._id}`
-          )
-            .then(function (response) {
-              console.log(response);
-              if (response.data.message === "Success") {
-                setNotifications(response.data.notification.notifications);
-              }
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
         }
       } else {
         const user = await jwt.verify(
@@ -220,19 +204,6 @@ export default function Header() {
               const customerName = response.data.customer.firstName;
               setUserName(response.data.customer.firstName);
               console.log("CustomerName: " + customerName);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-
-          const responce = await Axios.get(
-            process.env.REACT_APP_BACKEND_API + `notification/${user._id}`
-          )
-            .then(function (response) {
-              console.log(response);
-              if (response.data.message === "Success") {
-                setNotifications(response.data.notification.notifications);
-              }
             })
             .catch(function (error) {
               console.log(error);
@@ -267,10 +238,6 @@ export default function Header() {
     localStorage.removeItem("sellerjwt");
     history.push("/");
     window.location.reload(false);
-  };
-  const notificationHandler = (e) => {
-    e.preventDefault();
-    history.push("/notifications");
   };
   const profileHandler = (e) => {
     e.preventDefault();
@@ -398,37 +365,6 @@ export default function Header() {
               <Button
                 color="inherit"
                 style={{ marginLeft: "auto" }}
-                onClick={notificationHandler}
-              >
-                <NotificationsIcon
-                  style={{ color: "#ffffff", marginTop: "2px" }}
-                />
-                {notifications.length === 0 ? (
-                  <span />
-                ) : (
-                  <span
-                    style={{
-                      transform: "translateX(-13px) translateY(-9px)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderRadius: "50%",
-                        backgroundColor: "red",
-                        paddingLeft: "8px",
-                        paddingRight: "8px",
-                        fontSize: "11px",
-                      }}
-                      className="badge"
-                    >
-                      {notifications.length}
-                    </div>
-                  </span>
-                )}
-              </Button>
-              <Button
-                color="inherit"
-                style={{ marginLeft: "auto" }}
                 onClick={logoutHandler}
               >
                 Logout
@@ -484,17 +420,6 @@ export default function Header() {
                 </ListItemIcon>
                 <ListItemText
                   primary="Edit Profile"
-                  style={{ color: "#000000" }}
-                />
-              </ListItem>
-            </Link>
-            <Link to="/notifications" onClick={handleDrawerClose}>
-              <ListItem button key="Notifications">
-                <ListItemIcon>
-                  <NotificationsActiveIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Notifications"
                   style={{ color: "#000000" }}
                 />
               </ListItem>
@@ -572,17 +497,6 @@ export default function Header() {
                 </ListItemIcon>
                 <ListItemText
                   primary="Your Products"
-                  style={{ color: "#000000" }}
-                />
-              </ListItem>
-            </Link>
-            <Link to="/notifications" onClick={handleDrawerClose}>
-              <ListItem button key="Notifications">
-                <ListItemIcon>
-                  <NotificationsActiveIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Notifications"
                   style={{ color: "#000000" }}
                 />
               </ListItem>
