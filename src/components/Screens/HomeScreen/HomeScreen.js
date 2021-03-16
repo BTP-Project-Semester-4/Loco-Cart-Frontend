@@ -14,6 +14,9 @@ import prerit from "./../../../images/Prerit.jpeg";
 import LocoCart from "./../../../images/LocoCart.PNG";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Rating from "@material-ui/lab/Rating";
+import { toast } from "react-toastify";
+const jwt = require("jsonwebtoken");
+toast.configure();
 
 function getModalStyle() {
   const top = 50;
@@ -297,6 +300,51 @@ function MediaCard(props) {
     }
   }
 
+  const addToCartHandler = () => {
+    console.log("OKK");
+    var user = "111";
+    try {
+      const jwtToken = localStorage.getItem("CustomerJwt");
+      user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      }
+      catch(e) {
+        console.log(e);
+      };
+    if(1){
+      console.log(user);
+      fetch(
+        process.env.REACT_APP_BACKEND_API + "customer/addtocart",
+        {
+          method:"post",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            customerId: user._id,
+            productId: id,
+            productName: props.Name,
+            quantity: 1
+          })
+        }
+      ).then(res=>res.json())
+      .then(result=>{
+        if(result.message==="Success"){
+          toast.success("Successfully added to cart !",{
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }else{
+          toast.error("Some error occured !", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      })
+    }else{
+      toast.error("Please enter a quantity !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  }
+
   return (
     <>
       {
@@ -354,6 +402,7 @@ function MediaCard(props) {
             className="addtocart"
             disableElevation
             style={{ height: "40px", width: "90%", marginBottom: "8px" }}
+            onClick={addToCartHandler}
           >
             <p style={{ fontSize: "1.2rem" }}>🛒 Add to Cart 🛒</p>
           </Button>
