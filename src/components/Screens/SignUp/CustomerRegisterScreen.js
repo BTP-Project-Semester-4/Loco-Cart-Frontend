@@ -15,6 +15,7 @@ import { Container, TextField } from "@material-ui/core";
 import "./otherDetails/otherDetails.modules.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 toast.configure();
 
@@ -89,6 +90,7 @@ export default function CustomerRegisterScreen() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+  const [Loading, setLoading] = useState(false);
 
   function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
@@ -150,6 +152,7 @@ export default function CustomerRegisterScreen() {
         });
       } else {
         if (password.length > 8 && password === confirmPassword) {
+          setLoading(true);
           fetch(process.env.REACT_APP_BACKEND_API + "customer/register", {
             method: "post",
             headers: {
@@ -169,6 +172,7 @@ export default function CustomerRegisterScreen() {
           })
             .then((res) => res.json())
             .then((result) => {
+              setLoading(false);
               console.log(result);
               if (result.message === "Success") {
                 toast.success("Sweet !", {
@@ -196,6 +200,7 @@ export default function CustomerRegisterScreen() {
 
   return (
     <div>
+    {Loading && <LoadingScreen />}
       {!otherDetails ? (
         <div>
           <Grid container component="main" className={classes.root}>
