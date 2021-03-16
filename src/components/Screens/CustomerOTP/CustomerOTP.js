@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import jwt from "jsonwebtoken";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 toast.configure();
 
 function sleep(time) {
@@ -71,34 +71,44 @@ export default function CustomerOTP() {
   const [otp, setOtp] = useState("");
   const [id, setid] = useState("");
   const history = useHistory();
+
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    try{
-      const decoded_token = jwt.verify(localStorage.getItem("CustomerJwt"),process.env.REACT_APP_JWT_SECRET);
+    try {
+      setLoading(true);
+      const decoded_token = jwt.verify(
+        localStorage.getItem("CustomerJwt"),
+        process.env.REACT_APP_JWT_SECRET
+      );
       setid(decoded_token._id);
-      fetch(process.env.REACT_APP_BACKEND_API + "customer/verifycustomertype",{
+      fetch(process.env.REACT_APP_BACKEND_API + "customer/verifycustomertype", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id : decoded_token._id,
+          id: decoded_token._id,
         }),
-      }).then(res => res.json())
-      .then(result => {
-        if(result.isverified){
-           history.push('/category');
-        }
       })
-    }catch(err){
+        .then((res) => res.json())
+        .then((result) => {
+          setLoading(false);
+          if (result.isverified) {
+            history.push("/category");
+          }
+        });
+    } catch (err) {
+      setLoading(false);
       console.log(err);
-      history.push('/signin')
-    } 
+      history.push("/signin");
+    }
   }, []);
 
   const submitHandler = () => {
     if (otp === "") {
       console.log("Please enter otp");
     } else {
+      setLoading(true);
       fetch(process.env.REACT_APP_BACKEND_API + "customer/customerotp", {
         method: "post",
         headers: {
@@ -108,14 +118,13 @@ export default function CustomerOTP() {
         body: JSON.stringify({
           otp: otp,
           timestamp: Date.now(),
-          id : id
+          id: id,
         }),
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log(result);
+          setLoading(false);
           if (result.message === "Valid OTP...User Authenticated") {
-            // localStorage.setItem("jwt", result.token);
             toast.success("Sweet !", {
               position: toast.POSITION.TOP_CENTER,
               autoClose: 1500,
@@ -133,63 +142,76 @@ export default function CustomerOTP() {
         });
     }
   };
-  console.log("Customer otp page");
   return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Customer OTP
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="otp"
-              label="Enter the 6 digit OTP sent to your email id"
-              name="otp"
-              autoComplete="otp"
-              autoFocus
-              onChange={(e) => {
-                setOtp(e.target.value);
-              }}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={submitHandler}
-            >
-              Submit OTP
-            </Button>
-            {/* <div id="my-signin2"></div> */}
-            <Box mt={3} />
-            <Grid container>
-              <Grid item xs>
-                 <Link href="customerotp" variant="body2">
-                  Resend OTP
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
-        </div>
-      </Grid>
-    </Grid>
+    <>
+      {loading && <LoadingScreen />}
+
+      {!loading && (
+        <Grid container component="main" className={classes.root}>
+          <CssBaseline />
+          <Grid item xs={false} sm={4} md={7} className={classes.image} />
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={5}
+            component={Paper}
+            elevation={6}
+            square
+          >
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Customer OTP
+              </Typography>
+              <form className={classes.form} noValidate>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="otp"
+                  label="Enter the 6 digit OTP sent to your email id"
+                  name="otp"
+                  autoComplete="otp"
+                  autoFocus
+                  onChange={(e) => {
+                    setOtp(e.target.value);
+                  }}
+                />
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={submitHandler}
+                >
+                  Submit OTP
+                </Button>
+                {/* <div id="my-signin2"></div> */}
+                <Box mt={3} />
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="customerotp" variant="body2">
+                      Resend OTP
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="/signup" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+                <Box mt={5}>
+                  <Copyright />
+                </Box>
+              </form>
+            </div>
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 }
