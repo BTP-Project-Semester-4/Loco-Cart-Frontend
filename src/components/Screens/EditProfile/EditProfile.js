@@ -115,7 +115,42 @@ export default function EditProfile() {
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
-    if (password === ConfirmPassword) {
+    console.log(password);
+    console.log(ConfirmPassword)
+
+    if(updatePic == undefined){
+      axios
+      .post(`http://localhost:3001/api/customer/editprofile`, {
+        userId: userId,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        contactNo: contactNo,
+        address: address,
+        city: city,
+        state: state,
+        country: country,
+        password: password,
+      })
+      .then(async (response) => {
+        console.log(response);
+        setLoading(false);
+        if (response.data.message === "Success") {
+          toast.success("Sweet", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1500,
+          });
+        } else {
+          toast.warning(response.data.message, {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1500,
+          });
+        }
+    })
+    .catch((err) => console.error(err));
+    return;
+    }
+    else if (password === ConfirmPassword) {
       const fileType = updatePic["type"];
 
       var fileSize = updatePic["size"];
