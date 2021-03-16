@@ -334,7 +334,7 @@ function MediaCard(props) {
                 ? discription.substring(0, 17) + "..."
                 : discription}
             </div>
-            <span class="price">₹ {miniPrice}</span>
+            <span class="price" style={{fontSize: "18px"}}>₹ {miniPrice}</span>
             <div class="ssfooter">
               <ul class="stars1">
                 <Rating
