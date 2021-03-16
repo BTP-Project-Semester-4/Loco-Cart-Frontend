@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import "./Homescreen.scss";
-import { Media } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import "../Category/SubCategory/subcategory.scss";
 import Axios from "axios";
@@ -14,7 +13,6 @@ import vijay from "./../../../images/Vijay.jpeg";
 import prerit from "./../../../images/Prerit.jpeg";
 import LocoCart from "./../../../images/LocoCart.PNG";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import Rating from "@material-ui/lab/Rating";
 
 function getModalStyle() {
@@ -35,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     background: "#fff",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    // borderRadius: "25px"
   },
 }));
 
@@ -340,13 +337,13 @@ function MediaCard(props) {
             <span class="price">₹ {miniPrice}</span>
             <div class="ssfooter">
               <ul class="stars1">
-                  <Rating
-                    name="read-only"
-                    value={rating}
-                    precision={0.1}
-                    readOnly
-                  />
-                  {"(" + rating + ")"}
+                <Rating
+                  name="read-only"
+                  value={rating}
+                  precision={0.1}
+                  readOnly
+                />
+                {"(" + rating + ")"}
               </ul>
             </div>
           </div>
@@ -412,7 +409,8 @@ const ReviewCard = () => {
                   Site is definitely one of the best website designs we’ve seen
                   in a while. Website tend to be highly effective in engaging
                   users. Taking advantage of positive reviews on recommendation
-                  platforms/sites is a great strategy for finding customer. <br/>
+                  platforms/sites is a great strategy for finding customer.{" "}
+                  <br />
                   Thank You !<br /> ✨
                 </p>
               </div>
