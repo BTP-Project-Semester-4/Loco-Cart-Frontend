@@ -16,6 +16,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import Input from "@material-ui/core/Input";
 import Axios from "axios";
 import { useEffect } from "react";
+import LoadingScreen from '../../LoadingScreen/LoadingScreen'
 
 const useStyles = makeStyles({
   list: {
@@ -109,6 +110,7 @@ function MediaCard(props) {
 }
 
 export function SubCategories(props) {
+  const [Loading, setLoading] = React.useState(true);
   const category = props.match.params.id;
 
   const [Products, setProducts] = React.useState([]);
@@ -118,6 +120,7 @@ export function SubCategories(props) {
     Axios.get(address).then((result) => {
       console.log(result);
       setProducts(result.data.products);
+      setLoading(false);
     });
   }, []);
 
@@ -212,6 +215,8 @@ export function SubCategories(props) {
     </div>
   );
 
+            
+
   if (
     category === "Stationery" ||
     category === "Grocery" ||
@@ -222,6 +227,7 @@ export function SubCategories(props) {
   )
     return (
       <>
+        {Loading && <LoadingScreen/>}
         <div
           style={{
             height: "60px",
@@ -268,6 +274,7 @@ export function SubCategories(props) {
       </>
     );
   else {
+    setLoading(false);
     return (
       <>
         <h1>Page Not Found</h1>

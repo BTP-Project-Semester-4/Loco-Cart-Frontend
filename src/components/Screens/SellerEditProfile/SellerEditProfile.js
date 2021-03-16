@@ -7,14 +7,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router";
 import Button from "@material-ui/core/Button";
 import { Input } from "@material-ui/core";
+import LoadingScreen from '../LoadingScreen/LoadingScreen'
 const jwt = require("jsonwebtoken");
 toast.configure();
+
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
 export default function SellerEditProfile() {
+  const [Loading, setLoading] = useState(true)
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -54,7 +57,9 @@ export default function SellerEditProfile() {
         toast.error("please signin to continue", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 1500,
+          
         });
+        setLoading(false);
         sleep(2000).then(() => {
           useHistory.push("/sellersignin");
         });
