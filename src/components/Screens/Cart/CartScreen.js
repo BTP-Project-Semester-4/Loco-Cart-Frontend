@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Axios from "axios";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
+import TextField from "@material-ui/core/TextField";
 const jwt = require("jsonwebtoken");
 const env = require("dotenv");
 
@@ -112,6 +113,34 @@ export default function CartScreen() {
       console.log(e);
     }
   }, []);
+
+  const updateQty = (productId, qty) => {
+    Axios.post(
+      process.env.REACT_APP_BACKEND_API + "customer/updatevalueofcart",
+      {
+        customerId: userid,
+        productId: productId,
+        qty: qty,
+      }
+    )
+      .then((res) => {
+        console.log(res);
+        if (res.data.message === "Success") {
+          toast.success("quantity updated successfully !!!", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1000,
+          });
+          sleep(1200).then(() => {
+            window.location.reload(false);
+          });
+        } else {
+          toast.error("Something went wrong !!!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+  };
   return (
     <>
       {loading && <LoadingScreen />}
@@ -149,11 +178,12 @@ export default function CartScreen() {
                   </div>
                 </div>
                 <div class="CartScreenquantity">
-                  <input
-                    type="number"
+                  <TextField
+                    variant="outlined"
                     value={item.quantity}
-                    min="1"
-                    class="CartScreenquantity-field CartScreenInput"
+                    onChange={(e) => {
+                      updateQty(item.id, e.target.value);
+                    }}
                   />
                 </div>
                 <div class="CartScreensubtotal">
