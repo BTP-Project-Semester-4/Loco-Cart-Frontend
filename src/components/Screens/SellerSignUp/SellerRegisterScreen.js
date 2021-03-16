@@ -208,6 +208,8 @@ export default function CustomerRegisterScreen() {
     <div>
     {Loading && <LoadingScreen />}
       {!otherDetails ? (
+        <div>
+      {!Loading &&
         <Grid container component="main" className={classes.root}>
           <CssBaseline />
           <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -322,8 +324,11 @@ export default function CustomerRegisterScreen() {
             </div>
           </Grid>
         </Grid>
+      }
+        </div>
       ) : (
         <div>
+        {!Loading &&
           <Container
             className="container z-depth-5 otherSellerDetailsContainer"
             style={{ padding: "10px" }}
@@ -420,6 +425,7 @@ export default function CustomerRegisterScreen() {
               </Button>
             </form>
           </Container>
+        }
         </div>
       )}
     </div>

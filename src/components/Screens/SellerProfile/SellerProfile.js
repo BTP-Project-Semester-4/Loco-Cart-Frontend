@@ -115,7 +115,7 @@ const SellerProfile = (props) => {
         console.log(props);
         return(
             <>
-            {Loading && <LoadingScreen />}
+            
              <Grid container xs={12} sm={12} md={12} lg={12} className="review">
                 <Grid item xs={12} sm={12} md={4} lg={4}>
                     <img src="https://avatars0.githubusercontent.com/u/67575900?s=400&u=a87b16f58b6cf169801a1f7c97237b039dc2bf76&v=4"
@@ -157,6 +157,8 @@ const SellerProfile = (props) => {
 
   return (
     <>
+     {Loading && <LoadingScreen />}
+     {!Loading && 
     <Grid container className="all_content">
       <Grid item xs={12} sm={12} md={12} lg={12} className="intro">
         <Grid container>
@@ -249,6 +251,7 @@ const SellerProfile = (props) => {
         </Grid>
       </Grid>
     </Grid>
+     }
        <Modal
             open={open}
             onClose={handleClose}
