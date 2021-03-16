@@ -36,22 +36,72 @@ export default function CartScreen() {
         });
         setLoading(false);
       } else {
-        Axios.get(
-          process.env.REACT_APP_BACKEND_API + `customer/getcart/${userId}`,
-          {
-            id: userId,
-          }
-        ).then((result) => {
-          setLoading(false);
-          if (result.data.message === "Success") {
-            setCartItems(result.data.itemList);
-            setTotalPrice(result.data.totalPrice);
-          } else {
-            toast.warning("Your cart it empty!", {
-              position: toast.POSITION.TOP_CENTER,
-            });
-          }
-        });
+
+
+        Axios.get( process.env.REACT_APP_BACKEND_API + `customer/${userId}` ).then((result) => {
+          console.log(result.data.customer.city);
+                  fetch(
+                      process.env.REACT_APP_BACKEND_API + 'bid/getinitialbestseller',
+                      {
+                          method:"post",
+                          headers:{
+                              "Content-Type":"application/json"
+                          },
+                          body:JSON.stringify({
+                              city: result.data.customer.city,
+                              id: userId
+                          })
+                      }
+                  ).then(res=>res.json())
+                  .then(result=>{
+                    setLoading(false);
+                      if(result.message==="Success"){
+                          console.log(result)
+                          setTotalPrice(result.minPrice);
+                          setCartItems(result.itemDetails);
+                      }else if(result.message==="No seller available"){
+                          toast.error(
+                              'No seller available for the given set of products....Please try again later',
+                              {
+                              position: "top-right",
+                              autoClose: 2000,
+                              hideProgressBar: false,
+                              closeOnClick: true,
+                              pauseOnHover: true,
+                              draggable: true,
+                              progress: undefined
+                              }
+                          );
+                      }else if(result.message==="Cart empty"){
+                          toast.error(
+                              'Your cart is empty',
+                              {
+                              position: "top-right",
+                              autoClose: 2000,
+                              hideProgressBar: false,
+                              closeOnClick: true,
+                              pauseOnHover: true,
+                              draggable: true,
+                              progress: undefined
+                              }
+                          );
+                      }else{
+                          toast.error(
+                              'Some error occured',
+                              {
+                              position: "top-right",
+                              autoClose: 2000,
+                              hideProgressBar: false,
+                              closeOnClick: true,
+                              pauseOnHover: true,
+                              draggable: true,
+                              progress: undefined
+                              }
+                          );
+                      }
+                  })
+        })
+
       }
     } catch (e) {
       console.log(e);
@@ -75,34 +125,35 @@ export default function CartScreen() {
                 <div class="CartScreenitem">
                   <div class="CartScreenproduct-image">
                     <img
-                      src={item.Image}
+                      src={item.image}
                       alt="Placholder Image 2"
                       class="CartScreenproduct-frame CartScreenImg"
                     />
                   </div>
                   <div class="CartScreenproduct-details">
                     <h1>
-                      <a href="#">{item.productName}</a>
+                      <a href="#">{item.name}</a>
                     </h1>
                     <p>
                       <strong>{item.Description}</strong>
                     </p>
-                    <h2>Price: ₹{item.Price}</h2>
+                    <h2>Price: ₹{item.minPrice}</h2>
                     <p style={{ color: "#ffffff" }}>
-                      {(totalQuantity = totalQuantity + item.Quantity)}
+                      {(totalQuantity = totalQuantity + item.quantity)}
+                      
                     </p>
                   </div>
                 </div>
                 <div class="CartScreenquantity">
                   <input
                     type="number"
-                    value={item.Quantity}
+                    value={item.quantity}
                     min="1"
                     class="CartScreenquantity-field CartScreenInput"
                   />
                 </div>
                 <div class="CartScreensubtotal">
-                  <h3>₹{item.Quantity * item.Price}</h3>
+                  <h3>₹{item.quantity * item.minPrice}</h3>
                 </div>
                 <div class="CartScreenremove">
                   <button className="CartScreenButton CartScreenRemoveButton">
