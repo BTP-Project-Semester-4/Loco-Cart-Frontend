@@ -17,6 +17,8 @@ import Axios from "axios";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Rating from "@material-ui/lab/Rating";
+import LoadingScreen from '../LoadingScreen/LoadingScreen'
+import { Last } from "react-bootstrap/esm/PageItem";
 
 const useStyles = makeStyles({
   list: {
@@ -114,6 +116,7 @@ export function SearchProduct(props) {
       window.location.reload();
     }
   };
+  const [Loading, setLoading] = React.useState(true);
   const search = props.match.params.id;
   const [lastsearched, setlastsearched] = React.useState(props.match.params.id);
   localStorage.setItem("LastSearched", props.match.params.id);
@@ -125,6 +128,7 @@ export function SearchProduct(props) {
     Axios.post(address, { name: search }).then((result) => {
       console.log(result);
       setProducts(result.data.products);
+      setLoading(false);
     });
   }, []);
 
@@ -223,6 +227,9 @@ export function SearchProduct(props) {
     <>
       {lastsearched != localStorage.getItem("LastSearched") &&
         window.location.reload(false)}
+      {Loading && <LoadingScreen />}
+      {!Loading && 
+      <>
       <div
         style={{
           height: "60px",
@@ -268,6 +275,8 @@ export function SearchProduct(props) {
           );
         })}
       </div>
+      </>
+      }
     </>
   );
 }
