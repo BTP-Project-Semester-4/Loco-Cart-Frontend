@@ -13,6 +13,10 @@ const env = require("dotenv");
 env.config();
 toast.configure();
 
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 export default function CartScreen() {
   const history = useHistory();
   const [cartItems, setCartItems] = useState([]);
@@ -21,6 +25,7 @@ export default function CartScreen() {
   const [loading, setLoading] = useState(true);
 
   var userId = "";
+  const [userid, setUserid] = useState("");
   var totalQuantity = 0;
 
   useEffect(async () => {
@@ -29,79 +34,75 @@ export default function CartScreen() {
       const jwtToken = await localStorage.getItem("CustomerJwt");
       const user = await jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
       userId = user._id;
-
+      // await setUserid(user._id);
+      console.log(userId);
       if (userId === "") {
         toast.error("Please sign in to continue !!!", {
           position: toast.POSITION.TOP_CENTER,
         });
         setLoading(false);
       } else {
-
-
-        Axios.get( process.env.REACT_APP_BACKEND_API + `customer/${userId}` ).then((result) => {
+        setUserid(user._id);
+        Axios.get(
+          process.env.REACT_APP_BACKEND_API + `customer/${userId}`
+        ).then((result) => {
           console.log(result.data.customer.city);
-                  fetch(
-                      process.env.REACT_APP_BACKEND_API + 'bid/getinitialbestseller',
-                      {
-                          method:"post",
-                          headers:{
-                              "Content-Type":"application/json"
-                          },
-                          body:JSON.stringify({
-                              city: result.data.customer.city,
-                              id: userId
-                          })
-                      }
-                  ).then(res=>res.json())
-                  .then(result=>{
-                    setLoading(false);
-                      if(result.message==="Success"){
-                          console.log(result)
-                          setTotalPrice(result.minPrice);
-                          setCartItems(result.itemDetails);
-                      }else if(result.message==="No seller available"){
-                          toast.error(
-                              'No seller available for the given set of products....Please try again later',
-                              {
-                              position: "top-right",
-                              autoClose: 2000,
-                              hideProgressBar: false,
-                              closeOnClick: true,
-                              pauseOnHover: true,
-                              draggable: true,
-                              progress: undefined
-                              }
-                          );
-                      }else if(result.message==="Cart empty"){
-                          toast.error(
-                              'Your cart is empty',
-                              {
-                              position: "top-right",
-                              autoClose: 2000,
-                              hideProgressBar: false,
-                              closeOnClick: true,
-                              pauseOnHover: true,
-                              draggable: true,
-                              progress: undefined
-                              }
-                          );
-                      }else{
-                          toast.error(
-                              'Some error occured',
-                              {
-                              position: "top-right",
-                              autoClose: 2000,
-                              hideProgressBar: false,
-                              closeOnClick: true,
-                              pauseOnHover: true,
-                              draggable: true,
-                              progress: undefined
-                              }
-                          );
-                      }
-                  })
-        })
-
+          fetch(
+            process.env.REACT_APP_BACKEND_API + "bid/getinitialbestseller",
+            {
+              method: "post",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                city: result.data.customer.city,
+                id: userId,
+              }),
+            }
+          )
+            .then((res) => res.json())
+            .then((result) => {
+              setLoading(false);
+              if (result.message === "Success") {
+                console.log(result);
+                setTotalPrice(result.minPrice);
+                setCartItems(result.itemDetails);
+              } else if (result.message === "No seller available") {
+                toast.error(
+                  "No seller available for the given set of products....Please try again later",
+                  {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  }
+                );
+              } else if (result.message === "Cart empty") {
+                toast.error("Your cart is empty", {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              } else {
+                toast.error("Some error occured", {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }
+            });
+        });
       }
     } catch (e) {
       console.log(e);
@@ -140,7 +141,6 @@ export default function CartScreen() {
                     <h2>Price: ₹{item.minPrice}</h2>
                     <p style={{ color: "#ffffff" }}>
                       {(totalQuantity = totalQuantity + item.quantity)}
-                      
                     </p>
                   </div>
                 </div>
@@ -156,7 +156,41 @@ export default function CartScreen() {
                   <h3>₹{item.quantity * item.minPrice}</h3>
                 </div>
                 <div class="CartScreenremove">
-                  <button className="CartScreenButton CartScreenRemoveButton">
+                  <button
+                    className="CartScreenButton CartScreenRemoveButton"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      console.log(userId + " " + item.id);
+                      Axios.post(
+                        process.env.REACT_APP_BACKEND_API +
+                          "customer/removefromcart",
+                        {
+                          customerId: userid,
+                          productId: item.id,
+                        }
+                      )
+                        .then((res) => {
+                          console.log(res);
+                          if (res.data.message === "Success") {
+                            toast.success(
+                              "Item removed from cart successfully !!!",
+                              {
+                                position: toast.POSITION.TOP_CENTER,
+                                autoClose: 1000,
+                              }
+                            );
+                            sleep(1200).then(() => {
+                              window.location.reload(false);
+                            });
+                          } else {
+                            toast.error("Something went wrong !!!", {
+                              position: toast.POSITION.TOP_CENTER,
+                            });
+                          }
+                        })
+                        .catch((err) => console.error(err));
+                    }}
+                  >
                     Remove
                   </button>
                 </div>
