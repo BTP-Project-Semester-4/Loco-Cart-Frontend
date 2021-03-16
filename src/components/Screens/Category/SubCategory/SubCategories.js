@@ -228,6 +228,7 @@ export function SubCategories(props) {
     return (
       <>
         {Loading && <LoadingScreen/>}
+        {!Loading && <>
         <div
           style={{
             height: "60px",
@@ -271,6 +272,8 @@ export function SubCategories(props) {
             );
           })}
         </div>
+          </>
+        }
       </>
     );
   else {

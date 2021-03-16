@@ -228,6 +228,8 @@ export function SearchProduct(props) {
       {lastsearched != localStorage.getItem("LastSearched") &&
         window.location.reload(false)}
       {Loading && <LoadingScreen />}
+      {!Loading && 
+      <>
       <div
         style={{
           height: "60px",
@@ -273,6 +275,8 @@ export function SearchProduct(props) {
           );
         })}
       </div>
+      </>
+      }
     </>
   );
 }
