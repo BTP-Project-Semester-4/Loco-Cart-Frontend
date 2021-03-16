@@ -12,6 +12,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { FaWindowClose } from "react-icons/fa";
 import Axios from 'axios';
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
+
 
 function getModalStyle() {
     const top = 50;
@@ -38,6 +40,7 @@ function getModalStyle() {
 
 
 const UserProfile = (props)=>{
+    const [Loading, setLoading] = useState(true);
     const classes = useStyles();
     const history = useHistory();
     const [firstName, setFirstName] = useState("Loading...");
@@ -115,6 +118,7 @@ const UserProfile = (props)=>{
         )
         .then(res=>res.json())
         .then(result=>{
+            setLoading(false);
             if(result.message === "Success"){
                 setFirstName(result.customer.firstName);
                 setLastName(result.customer.lastName);
@@ -141,7 +145,8 @@ const UserProfile = (props)=>{
     },[]);
     return(
         <>
-
+        {Loading && <LoadingScreen />}
+        {!Loading && 
         <Grid container className="all_content">
             <Grid item xs={12} sm={12} md={12} lg={12} className="intro">
             <Grid container>
@@ -191,6 +196,7 @@ const UserProfile = (props)=>{
                 </Grid>
             </Grid>
         </Grid>
+        }
 
         <Modal
             open={open}
