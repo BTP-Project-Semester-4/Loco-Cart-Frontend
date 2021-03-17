@@ -15,6 +15,7 @@ import { Container, TextField } from "@material-ui/core";
 import "./otherDetails/otherDetails.modules.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 toast.configure();
 
@@ -89,6 +90,7 @@ export default function CustomerRegisterScreen() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+  const [Loading, setLoading] = useState(false);
 
   function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
@@ -150,7 +152,8 @@ export default function CustomerRegisterScreen() {
         });
       } else {
         if (password.length > 8 && password === confirmPassword) {
-          fetch("http://localhost:3001/api/customer/register", {
+          setLoading(true);
+          fetch(process.env.REACT_APP_BACKEND_API + "customer/register", {
             method: "post",
             headers: {
               "Content-Type": "application/json",
@@ -169,6 +172,7 @@ export default function CustomerRegisterScreen() {
           })
             .then((res) => res.json())
             .then((result) => {
+              setLoading(false);
               console.log(result);
               if (result.message === "Success") {
                 toast.success("Sweet !", {
@@ -196,8 +200,12 @@ export default function CustomerRegisterScreen() {
 
   return (
     <div>
+    {Loading && <LoadingScreen />}
       {!otherDetails ? (
+        
+      
         <div>
+        { !Loading &&
           <Grid container component="main" className={classes.root}>
             <CssBaseline />
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -312,9 +320,12 @@ export default function CustomerRegisterScreen() {
               </div>
             </Grid>
           </Grid>
+        }
         </div>
+        
       ) : (
         <div>
+        { !Loading &&
           <Container
             className="container z-depth-5 otherSellerDetailsContainer"
             style={{ padding: "10px" }}
@@ -395,6 +406,7 @@ export default function CustomerRegisterScreen() {
               </Button>
             </form>
           </Container>
+        }
         </div>
       )}
     </div>

@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { FaWindowClose } from "react-icons/fa";
 import Axios from 'axios';
+import LoadingScreen from '../LoadingScreen/LoadingScreen'
 
 function getModalStyle() {
     const top = 50;
@@ -36,7 +37,8 @@ function getModalStyle() {
   }));
 
 const SellerProfile = (props) => {
-  
+
+  const [Loading, setLoading] = useState(true);
   const classes = useStyles();
   const history = useHistory();
   const [firstName, setFirstName] = useState("Loading...");
@@ -71,7 +73,7 @@ const SellerProfile = (props) => {
     );
 
     fetch(
-      `http://localhost:3001/api/seller/${user._id}`,
+      process.env.REACT_APP_BACKEND_API + `seller/${user._id}`,
       {
         method: "get",
         headers: {
@@ -81,6 +83,7 @@ const SellerProfile = (props) => {
     )
       .then((res) => res.json())
       .then((result) => {
+        setLoading(false);
         if (result.message === "Success") {
           setFirstName(result.seller.firstName);
           setLastName(result.seller.lastName);
@@ -98,7 +101,7 @@ const SellerProfile = (props) => {
       });
 
       Axios.post(
-        "http://localhost:3001/api/sellerpastorder/seller_past_order"
+        process.env.REACT_APP_BACKEND_API + "sellerpastorder/seller_past_order"
           ,
       {sellerId : user._id})
       .then((result) => {
@@ -112,6 +115,7 @@ const SellerProfile = (props) => {
         console.log(props);
         return(
             <>
+            
              <Grid container xs={12} sm={12} md={12} lg={12} className="review">
                 <Grid item xs={12} sm={12} md={4} lg={4}>
                     <img src="https://avatars0.githubusercontent.com/u/67575900?s=400&u=a87b16f58b6cf169801a1f7c97237b039dc2bf76&v=4"
@@ -153,6 +157,8 @@ const SellerProfile = (props) => {
 
   return (
     <>
+     {Loading && <LoadingScreen />}
+     {!Loading && 
     <Grid container className="all_content">
       <Grid item xs={12} sm={12} md={12} lg={12} className="intro">
         <Grid container>
@@ -245,6 +251,7 @@ const SellerProfile = (props) => {
         </Grid>
       </Grid>
     </Grid>
+     }
        <Modal
             open={open}
             onClose={handleClose}

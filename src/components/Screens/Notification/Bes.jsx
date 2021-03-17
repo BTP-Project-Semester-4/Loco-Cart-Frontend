@@ -25,7 +25,7 @@ const Notifications = () => {
       if (user) {
         console.log(user);
         const resp = await Axios.get(
-          `http://localhost:3001/api/notification/${user._id}`
+          process.env.REACT_APP_BACKEND_API + `notification/${user._id}`
         )
           .then(function (response) {
             console.log(response);

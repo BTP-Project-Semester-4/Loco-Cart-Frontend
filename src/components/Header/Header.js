@@ -24,9 +24,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import SearchIcon from "@material-ui/icons/Search";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import ChatIcon from "@material-ui/icons/Chat";
-import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import { Dropdown } from "react-bootstrap";
 import InputBase from "@material-ui/core/InputBase";
 import Button from "@material-ui/core/Button";
@@ -161,7 +159,6 @@ export default function Header() {
   };
   const [userId, setUserId] = useState("");
   const [UserName, setUserName] = useState("");
-  const [notifications, setNotifications] = React.useState([]);
   const [isCustomer, setIsCustomer] = useState(true);
   React.useEffect(async () => {
     showLococart();
@@ -178,7 +175,7 @@ export default function Header() {
           setUserId(user._id);
           console.log(user);
           const resp = await Axios.get(
-            `http://localhost:3001/api/seller/${user._id}`
+            process.env.REACT_APP_BACKEND_API + `seller/${user._id}`
           )
             .then(function (response) {
               console.log(response);
@@ -186,19 +183,6 @@ export default function Header() {
               setUserName(response.data.seller.firstName);
               console.log("Seller: " + customerName);
               setIsCustomer(false);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-
-          const responce = await Axios.get(
-            `http://localhost:3001/api/notification/${user._id}`
-          )
-            .then(function (response) {
-              console.log(response);
-              if (response.data.message === "Success") {
-                setNotifications(response.data.notification.notifications);
-              }
             })
             .catch(function (error) {
               console.log(error);
@@ -213,26 +197,13 @@ export default function Header() {
           setUserId(user._id);
           console.log(user);
           const resp = await Axios.get(
-            `http://localhost:3001/api/customer/${user._id}`
+            process.env.REACT_APP_BACKEND_API + `customer/${user._id}`
           )
             .then(function (response) {
               console.log(response);
               const customerName = response.data.customer.firstName;
               setUserName(response.data.customer.firstName);
               console.log("CustomerName: " + customerName);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-
-          const responce = await Axios.get(
-            `http://localhost:3001/api/notification/${user._id}`
-          )
-            .then(function (response) {
-              console.log(response);
-              if (response.data.message === "Success") {
-                setNotifications(response.data.notification.notifications);
-              }
             })
             .catch(function (error) {
               console.log(error);
@@ -250,7 +221,7 @@ export default function Header() {
 
   function searchProduct(e) {
     setSearchKeyword(e.target.value);
-    Axios.post("http://localhost:3001/api/product/search", {
+    Axios.post(process.env.REACT_APP_BACKEND_API + "product/search", {
       name: searchKeyword,
     }).then((result) => {
       setProductSearch(result.data.products);
@@ -267,10 +238,6 @@ export default function Header() {
     localStorage.removeItem("sellerjwt");
     history.push("/");
     window.location.reload(false);
-  };
-  const notificationHandler = (e) => {
-    e.preventDefault();
-    history.push("/notifications");
   };
   const profileHandler = (e) => {
     e.preventDefault();
@@ -398,37 +365,6 @@ export default function Header() {
               <Button
                 color="inherit"
                 style={{ marginLeft: "auto" }}
-                onClick={notificationHandler}
-              >
-                <NotificationsIcon
-                  style={{ color: "#ffffff", marginTop: "2px" }}
-                />
-                {notifications.length === 0 ? (
-                  <span />
-                ) : (
-                  <span
-                    style={{
-                      transform: "translateX(-13px) translateY(-9px)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderRadius: "50%",
-                        backgroundColor: "red",
-                        paddingLeft: "8px",
-                        paddingRight: "8px",
-                        fontSize: "11px",
-                      }}
-                      className="badge"
-                    >
-                      {notifications.length}
-                    </div>
-                  </span>
-                )}
-              </Button>
-              <Button
-                color="inherit"
-                style={{ marginLeft: "auto" }}
                 onClick={logoutHandler}
               >
                 Logout
@@ -484,17 +420,6 @@ export default function Header() {
                 </ListItemIcon>
                 <ListItemText
                   primary="Edit Profile"
-                  style={{ color: "#000000" }}
-                />
-              </ListItem>
-            </Link>
-            <Link to="/notifications" onClick={handleDrawerClose}>
-              <ListItem button key="Notifications">
-                <ListItemIcon>
-                  <NotificationsActiveIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Notifications"
                   style={{ color: "#000000" }}
                 />
               </ListItem>
@@ -576,18 +501,7 @@ export default function Header() {
                 />
               </ListItem>
             </Link>
-            <Link to="/notifications" onClick={handleDrawerClose}>
-              <ListItem button key="Notifications">
-                <ListItemIcon>
-                  <NotificationsActiveIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Notifications"
-                  style={{ color: "#000000" }}
-                />
-              </ListItem>
-            </Link>
-            <Link to="/allactivebids" onClick={handleDrawerClose}>
+            <Link to="/biddingSeller" onClick={handleDrawerClose}>
               <ListItem button key="Bid Products">
                 <ListItemIcon>
                   <GavelIcon />

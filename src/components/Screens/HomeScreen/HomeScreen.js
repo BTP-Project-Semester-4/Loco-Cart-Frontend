@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import "./Homescreen.scss";
-import { Media } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import "../Category/SubCategory/subcategory.scss";
 import Axios from "axios";
@@ -14,8 +13,10 @@ import vijay from "./../../../images/Vijay.jpeg";
 import prerit from "./../../../images/Prerit.jpeg";
 import LocoCart from "./../../../images/LocoCart.PNG";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import Rating from "@material-ui/lab/Rating";
+import { toast } from "react-toastify";
+const jwt = require("jsonwebtoken");
+toast.configure();
 
 function getModalStyle() {
   const top = 50;
@@ -35,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
     background: "#fff",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    // borderRadius: "25px"
   },
 }));
 
@@ -300,6 +300,51 @@ function MediaCard(props) {
     }
   }
 
+  const addToCartHandler = () => {
+    console.log("OKK");
+    var user = "111";
+    try {
+      const jwtToken = localStorage.getItem("CustomerJwt");
+      user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      }
+      catch(e) {
+        console.log(e);
+      };
+    if(1){
+      console.log(user);
+      fetch(
+        process.env.REACT_APP_BACKEND_API + "customer/addtocart",
+        {
+          method:"post",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            customerId: user._id,
+            productId: id,
+            productName: props.Name,
+            quantity: 1
+          })
+        }
+      ).then(res=>res.json())
+      .then(result=>{
+        if(result.message==="Success"){
+          toast.success("Successfully added to cart !",{
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }else{
+          toast.error("Some error occured !", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      })
+    }else{
+      toast.error("Please enter a quantity !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  }
+
   return (
     <>
       {
@@ -337,16 +382,16 @@ function MediaCard(props) {
                 ? discription.substring(0, 17) + "..."
                 : discription}
             </div>
-            <span class="price">₹ {miniPrice}</span>
+            <span class="price" style={{fontSize: "18px"}}>₹ {miniPrice}</span>
             <div class="ssfooter">
               <ul class="stars1">
-                  <Rating
-                    name="read-only"
-                    value={rating}
-                    precision={0.1}
-                    readOnly
-                  />
-                  {"(" + rating + ")"}
+                <Rating
+                  name="read-only"
+                  value={rating}
+                  precision={0.1}
+                  readOnly
+                />
+                {"(" + rating + ")"}
               </ul>
             </div>
           </div>
@@ -357,6 +402,7 @@ function MediaCard(props) {
             className="addtocart"
             disableElevation
             style={{ height: "40px", width: "90%", marginBottom: "8px" }}
+            onClick={addToCartHandler}
           >
             <p style={{ fontSize: "1.2rem" }}>🛒 Add to Cart 🛒</p>
           </Button>
@@ -412,7 +458,8 @@ const ReviewCard = () => {
                   Site is definitely one of the best website designs we’ve seen
                   in a while. Website tend to be highly effective in engaging
                   users. Taking advantage of positive reviews on recommendation
-                  platforms/sites is a great strategy for finding customer. <br/>
+                  platforms/sites is a great strategy for finding customer.{" "}
+                  <br />
                   Thank You !<br /> ✨
                 </p>
               </div>
@@ -514,7 +561,7 @@ export default function HomeScreen() {
   );
 
   const [Products, setProducts] = React.useState([]);
-  const address = "http://localhost:3001/api/product/allproducts";
+  const address = process.env.REACT_APP_BACKEND_API + "product/allproducts";
   React.useEffect(() => {
     Axios.post(address).then((result) => {
       console.log(result);
