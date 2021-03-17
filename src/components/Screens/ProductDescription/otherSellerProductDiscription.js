@@ -174,7 +174,7 @@ const Productdesc2 = (props) => {
       const user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
       // console.log(user);
       setUserId(user._id);
-      Axios.get(`http://localhost:3001/api/customer/${user._id}`)
+      Axios.get(process.env.REACT_APP_BACKEND_API + `customer/${user._id}`)
       .then(function (response) {
         console.log(response);
         const customerName =
@@ -188,7 +188,7 @@ const Productdesc2 = (props) => {
         console.log(error);
       });
 
-      Axios.post("http://localhost:3001/api/product/searchbyid", {
+      Axios.post(process.env.REACT_APP_BACKEND_API + "product/searchbyid", {
         id: props.match.params.id,
       }).then((result) => {
         console.log(result.data.products.Sellers)
@@ -264,7 +264,7 @@ const Productdesc2 = (props) => {
   const addToCartHandler = ()=>{
     if(quantity!==""){
       fetch(
-        "http://localhost:3001/api/customer/addtocart",
+        process.env.REACT_APP_BACKEND_API + "customer/addtocart",
         {
           method:"post",
           headers:{
@@ -298,11 +298,11 @@ const Productdesc2 = (props) => {
 
   const onCommentHandler = (e) => {
     e.preventDefault();
-    const url = `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`;
+    const url = process.env.REACT_APP_BACKEND_API + `reviewandcomment/${props.match.params.id}`;
     console.log("onCommentHandler");
     if (userId) {
       Axios.post(
-        `http://localhost:3001/api/reviewandcomment/${props.match.params.id}`,
+        process.env.REACT_APP_BACKEND_API + `reviewandcomment/${props.match.params.id}`,
         {
           id: objectKey,
           name: UserName,

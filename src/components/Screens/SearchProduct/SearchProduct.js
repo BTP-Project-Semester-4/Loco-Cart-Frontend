@@ -17,6 +17,11 @@ import Axios from "axios";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Rating from "@material-ui/lab/Rating";
+import LoadingScreen from '../LoadingScreen/LoadingScreen'
+import { Last } from "react-bootstrap/esm/PageItem";
+import { toast } from "react-toastify";
+const jwt = require("jsonwebtoken");
+toast.configure();
 
 const useStyles = makeStyles({
   list: {
@@ -43,6 +48,51 @@ function MediaCard(props) {
     }
   }
   const history = useHistory();
+
+   const addToCartHandler = () => {
+    console.log("OKK");
+    var user = "111";
+    try {
+      const jwtToken = localStorage.getItem("CustomerJwt");
+      user = jwt.verify(jwtToken, process.env.REACT_APP_JWT_SECRET);
+      }
+      catch(e) {
+        console.log(e);
+      };
+    if(1){
+      console.log(user);
+      fetch(
+        process.env.REACT_APP_BACKEND_API + "customer/addtocart",
+        {
+          method:"post",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            customerId: user._id,
+            productId: id,
+            productName: props.Name,
+            quantity: 1
+          })
+        }
+      ).then(res=>res.json())
+      .then(result=>{
+        if(result.message==="Success"){
+          toast.success("Successfully added to cart !",{
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }else{
+          toast.error("Some error occured !", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      })
+    }else{
+      toast.error("Please enter a quantity !", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  }
 
   return (
     <>
@@ -98,6 +148,7 @@ function MediaCard(props) {
               className="addtocart"
               disableElevation
               style={{ height: "40px", width: "90%", marginBottom: "8px" }}
+              onClick={addToCartHandler}
             >
               <p style={{ fontSize: "1.2rem" }}>🛒 Add to Cart 🛒</p>
             </Button>
@@ -114,17 +165,19 @@ export function SearchProduct(props) {
       window.location.reload();
     }
   };
+  const [Loading, setLoading] = React.useState(true);
   const search = props.match.params.id;
   const [lastsearched, setlastsearched] = React.useState(props.match.params.id);
   localStorage.setItem("LastSearched", props.match.params.id);
 
   const [Products, setProducts] = React.useState([]);
-  const address = "http://localhost:3001/api/product/search";
+  const address = process.env.REACT_APP_BACKEND_API + "product/search";
 
   useEffect(() => {
     Axios.post(address, { name: search }).then((result) => {
       console.log(result);
       setProducts(result.data.products);
+      setLoading(false);
     });
   }, []);
 
@@ -223,6 +276,9 @@ export function SearchProduct(props) {
     <>
       {lastsearched != localStorage.getItem("LastSearched") &&
         window.location.reload(false)}
+      {Loading && <LoadingScreen />}
+      {!Loading && 
+      <>
       <div
         style={{
           height: "60px",
@@ -268,6 +324,8 @@ export function SearchProduct(props) {
           );
         })}
       </div>
+      </>
+      }
     </>
   );
 }
