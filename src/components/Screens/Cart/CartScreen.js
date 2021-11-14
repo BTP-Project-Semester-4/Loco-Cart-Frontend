@@ -22,7 +22,7 @@ export default function CartScreen() {
   const history = useHistory();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const [NoSeller, setNoSeller] = useState(false);
   const [loading, setLoading] = useState(true);
 
   var userId = "";
@@ -79,8 +79,12 @@ export default function CartScreen() {
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
-                  }
+                 }      
                 );
+                setTotalPrice(result.minPrice);
+                setCartItems(result.itemDetails);
+                setNoSeller(true);
+                console.log(result.itemDetails);
               } else if (result.message === "Cart empty") {
                 toast.error("Your cart is empty", {
                   position: "top-right",
@@ -155,7 +159,7 @@ export default function CartScreen() {
                 <div class="CartScreenitem">
                   <div class="CartScreenproduct-image">
                     <img
-                      src={item.image}
+                      src={NoSeller ? item.image[1].Image : item.image}
                       alt="Placholder Image 2"
                       class="CartScreenproduct-frame CartScreenImg"
                     />
@@ -167,7 +171,7 @@ export default function CartScreen() {
                     <p>
                       <strong>{item.Description}</strong>
                     </p>
-                    <h2>Price: ₹{item.minPrice}</h2>
+                    <h2>Price: ₹{NoSeller ? item.image[1].SellerPrice : item.minPrice}</h2>
                     <p style={{ color: "#ffffff" }}>
                       {(totalQuantity = totalQuantity + item.quantity)}
                     </p>
@@ -183,7 +187,7 @@ export default function CartScreen() {
                   />
                 </div>
                 <div class="CartScreensubtotal">
-                  <h3>₹{item.quantity * item.minPrice}</h3>
+                  <h3>₹ {NoSeller ? item.quantity * item.image[1].SellerPrice : item.quantity * item.minPrice}</h3>
                 </div>
                 <div class="CartScreenremove">
                   <button
