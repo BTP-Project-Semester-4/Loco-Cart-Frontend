@@ -585,6 +585,7 @@ export default function Header() {
               <ListItemText primary="About Us" style={{ color: "#000000" }} />
             </ListItem>
           </Link>
+          {/* 
           <Link to="/logout" onClick={handleDrawerClose}>
             <ListItem button key="Logout">
               <ListItemIcon>
@@ -593,6 +594,7 @@ export default function Header() {
               <ListItemText primary="Logout" style={{ color: "#000000" }} />
             </ListItem>
           </Link>
+           */}
         </List>
       </Drawer>
     </div>
