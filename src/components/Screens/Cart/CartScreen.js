@@ -79,7 +79,7 @@ export default function CartScreen() {
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
-                 }      
+                  }
                 );
                 setTotalPrice(result.minPrice);
                 setCartItems(result.itemDetails);
@@ -171,7 +171,10 @@ export default function CartScreen() {
                     <p>
                       <strong>{item.Description}</strong>
                     </p>
-                    <h2>Price: ₹{NoSeller ? item.image[1].SellerPrice : item.minPrice}</h2>
+                    <h2>
+                      Price: ₹
+                      {NoSeller ? item.image[1].SellerPrice : item.minPrice}
+                    </h2>
                     <p style={{ color: "#ffffff" }}>
                       {(totalQuantity = totalQuantity + item.quantity)}
                     </p>
@@ -187,7 +190,12 @@ export default function CartScreen() {
                   />
                 </div>
                 <div class="CartScreensubtotal">
-                  <h3>₹ {NoSeller ? item.quantity * item.image[1].SellerPrice : item.quantity * item.minPrice}</h3>
+                  <h3>
+                    ₹{" "}
+                    {NoSeller
+                      ? item.quantity * item.image[1].SellerPrice
+                      : item.quantity * item.minPrice}
+                  </h3>
                 </div>
                 <div class="CartScreenremove">
                   <button
@@ -234,7 +242,7 @@ export default function CartScreen() {
           <aside className="CartScreenAside">
             <div class="CartScreensummary">
               <div class="CartScreensummary-total-items">
-                <span class="CartScreentotal-items"></span> BIDDING SUMMARY
+                <span class="CartScreentotal-items"></span> ORDER SUMMARY
               </div>
               <div class="CartScreensummary-subtotal">
                 <div class="CartScreensubtotal-title">Products</div>
@@ -262,14 +270,18 @@ export default function CartScreen() {
                 </div>
               </div>
               <div class="CartScreensummary-checkout">
-                <button
-                  className="CartScreenButton CartScreencheckout-cta"
-                  onClick={() => {
-                    history.push("/placeorder");
-                  }}
-                >
-                  BID NOW
-                </button>
+                {NoSeller ? (
+                  <p style={{ color: "red" }}>No seller available</p>
+                ) : (
+                  <button
+                    className="CartScreenButton CartScreencheckout-cta"
+                    onClick={() => {
+                      history.push("/placeorder");
+                    }}
+                  >
+                    ORDER NOW
+                  </button>
+                )}
               </div>
             </div>
           </aside>
