@@ -52,70 +52,20 @@ const UserProfile = (props) => {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [pastOrder, setPastOrder] = React.useState([]);
+  const [items, setitems] = useState(0);
 
   const handleOpen = () => {
     setOpen(true);
   };
 
+  function modalPass(idx) {
+    setitems(idx);
+    setOpen(true);
+  }
+
   const handleClose = () => {
     setOpen(false);
   };
-
-  const PastOrderCard = (props) => {
-    console.log(props);
-    return (
-      <>
-        <Grid container xs={12} sm={12} md={12} lg={12} className="review">
-          <Grid item xs={12} sm={12} md={4} lg={4}>
-            <img
-              src="https://avatars0.githubusercontent.com/u/67575900?s=400&u=a87b16f58b6cf169801a1f7c97237b039dc2bf76&v=4"
-              className="seller-img"
-            />
-            <h3 className="seller-name">Prerit Retailers</h3>
-            <p className="seller-rating">Rated 5</p>
-            <StarIcon color="primary" />
-          </Grid>
-          <Grid item xs={12} sm={12} md={8} lg={8}>
-            <div style={{ margin: "auto" }}>
-              <div style={{ float: "right", marginRight: "4%" }}>
-                🟢 Ordered On : Mar 3, 2021
-              </div>
-              <div>
-                <br />
-                <br />
-                <Button color="primary" variant="outlined">
-                  Total Cart Value : ₹ 1562.00 /-
-                </Button>
-                <div class="stars1">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  endIcon={<Icon>send</Icon>}
-                  onClick={handleOpen}
-                >
-                  More Details
-                </Button>
-                <br />
-                <br />
-                You Have Saved 5% On This Order. ! Happy Shopping 🛍️
-              </div>
-            </div>
-          </Grid>
-        </Grid>
-      </>
-    );
-  };
-
-  const jwt = require("jsonwebtoken");
-
-  toast.configure();
-
   const months = [
     "January",
     "February",
@@ -130,8 +80,82 @@ const UserProfile = (props) => {
     "November",
     "December",
   ];
+
   const [bidArray, setBidArray] = useState([]);
   const [itemArray, setItemArray] = useState([]);
+
+  const PastOrderCard = (data) => {
+    const [sellerName, setsellerName] = useState("Loading ...");
+    console.log(data);
+    useEffect(() => {
+      Axios.get(
+        process.env.REACT_APP_BACKEND_API +
+          "seller/" +
+          data.bids[data.bids.length - 1].sellerId
+      ).then((result) => {
+        console.log(result);
+        setsellerName(result.data.seller.firstName);
+      });
+    }, []);
+    return (
+      <>
+        <Grid container xs={12} sm={12} md={12} lg={12} className="review">
+          <Grid item xs={12} sm={12} md={4} lg={4}>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSalXmLejwMeXC8Hb1wY0Vx7tSYCpcEpzLvrg&usqp=CAU"
+              className="seller-img"
+            />
+            <h3 className="seller-name">{sellerName} Retailers</h3>
+            <p className="seller-rating"></p>
+            {/* <StarIcon color="primary" /> */}
+          </Grid>
+          <Grid item xs={12} sm={12} md={8} lg={8}>
+            <div style={{ margin: "auto" }}>
+              <div style={{ float: "right", marginRight: "4%" }}>
+                🟢 Ordered On :{" "}
+                {months[new Date(data.orderedAt).getMonth()] +
+                  " " +
+                  new Date(data.orderedAt).getDate() +
+                  ", " +
+                  new Date(data.orderedAt).getFullYear()}
+              </div>
+              <div>
+                <br />
+                <br />
+                <Button color="primary" variant="outlined">
+                  Total Cart Value :{" "}
+                  {data.bids[data.bids.length - 1].biddingPrice}
+                </Button>
+                {/* <div class="stars1">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div> */}
+                <br />
+                <br />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  endIcon={<Icon>send</Icon>}
+                  onClick={(e) => modalPass(data.index)}
+                >
+                  More Details
+                </Button>
+                <br />
+                Happy Shopping 🛍️
+              </div>
+            </div>
+          </Grid>
+        </Grid>
+      </>
+    );
+  };
+
+  const jwt = require("jsonwebtoken");
+
+  toast.configure();
 
   const [ready, setReady] = useState(0);
   const decodedToken = jwt.verify(
@@ -184,6 +208,7 @@ const UserProfile = (props) => {
           setBidArray(result.bids);
           setItemArray(result.bidItems);
           setReady(1);
+          console.log(result);
         }
       });
 
@@ -248,20 +273,16 @@ const UserProfile = (props) => {
                     overflowX: "hidden",
                   }}
                 >
-                  <PastOrderCard />
-                  <PastOrderCard />
-                  <PastOrderCard />
-                  <PastOrderCard />
-                  <PastOrderCard />
-                  <PastOrderCard />
-                  <PastOrderCard />
+                  {bidArray.map((items, index) => {
+                    items.index = index;
+                    return <PastOrderCard {...items} />;
+                  })}
                 </div>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       )}
-
       <Modal
         open={open}
         onClose={handleClose}
@@ -305,38 +326,15 @@ const UserProfile = (props) => {
                   <th>Name</th>
                   <th>Qty</th>
                 </tr>
-                <tr>
-                  <td>Peter</td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>Lois</td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>Peter</td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>Lois</td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>Peter</td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>Lois</td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>Peter</td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>Lois</td>
-                  <td>2</td>
-                </tr>
+                {console.log(items)}
+                {itemArray[items].map((val) => {
+                  return (
+                    <tr>
+                      <td>{val.name}</td>
+                      <td>{val.quantity}</td>
+                    </tr>
+                  );
+                })}
               </table>
             </div>
           </div>
