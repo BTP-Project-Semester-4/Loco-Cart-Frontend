@@ -27,12 +27,13 @@ export default function EditProfile() {
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [updatePic, setUpdatePic] = useState(undefined);
   const [url, setUrl] = useState("");
+  const [pastUrl, setPastUrl] = useState("");
   const [userId, setUserId] = useState("");
   const history = useHistory();
   const [loading, setLoading] = useState(true);
-
+  // const [profileUrl, setProfileUrl] = useState("");
   useEffect(() => {
-    if (url !== "") {
+    if (url !== pastUrl && url != "") {
       setLoading(true);
       axios
         .post(process.env.REACT_APP_BACKEND_API + `customer/editprofile`, {
@@ -87,7 +88,10 @@ export default function EditProfile() {
               setCity(data.city);
               setState(data.state);
               setCountry(data.country);
+              setUrl(data.profilePictureUrl);
+              setPastUrl(data.profilePicUrl);
             }
+            console.log("url " + url);
           })
           .catch((err) => console.error(err));
       } else {
@@ -116,41 +120,40 @@ export default function EditProfile() {
     e.preventDefault();
     setLoading(true);
     console.log(password);
-    console.log(ConfirmPassword)
+    console.log(ConfirmPassword);
 
-    if(updatePic == undefined){
+    if (updatePic == undefined) {
       axios
-      .post(`http://localhost:3001/api/customer/editprofile`, {
-        userId: userId,
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        contactNo: contactNo,
-        address: address,
-        city: city,
-        state: state,
-        country: country,
-        password: password,
-      })
-      .then(async (response) => {
-        console.log(response);
-        setLoading(false);
-        if (response.data.message === "Success") {
-          toast.success("Sweet", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1500,
-          });
-        } else {
-          toast.warning(response.data.message, {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1500,
-          });
-        }
-    })
-    .catch((err) => console.error(err));
-    return;
-    }
-    else if (password === ConfirmPassword) {
+        .post(`http://localhost:3001/api/customer/editprofile`, {
+          userId: userId,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          contactNo: contactNo,
+          address: address,
+          city: city,
+          state: state,
+          country: country,
+          password: password,
+        })
+        .then(async (response) => {
+          console.log(response);
+          setLoading(false);
+          if (response.data.message === "Success") {
+            toast.success("Sweet", {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 1500,
+            });
+          } else {
+            toast.warning(response.data.message, {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 1500,
+            });
+          }
+        })
+        .catch((err) => console.error(err));
+      return;
+    } else if (password === ConfirmPassword) {
       const fileType = updatePic["type"];
 
       var fileSize = updatePic["size"];
@@ -219,6 +222,17 @@ export default function EditProfile() {
             </div>
             <div style={{ width: "80%", margin: "auto" }}>
               <form onSubmit={submitHandler}>
+                <div style={{ width: "100%", textAlign: "center" }}>
+                  <img
+                    src={url}
+                    style={{
+                      textAlign: "center",
+                      borderRadius: "50%",
+                      height: "200px",
+                      width: "200px",
+                    }}
+                  />
+                </div>
                 <div style={{ display: "flex" }}>
                   <div
                     style={{
