@@ -327,14 +327,15 @@ const UserProfile = (props) => {
                   <th>Qty</th>
                 </tr>
                 {console.log(items)}
-                {itemArray[items].map((val) => {
-                  return (
-                    <tr>
-                      <td>{val.name}</td>
-                      <td>{val.quantity}</td>
-                    </tr>
-                  );
-                })}
+                {items < itemArray.length &&
+                  itemArray[items].map((val) => {
+                    return (
+                      <tr>
+                        <td>{val.name}</td>
+                        <td>{val.quantity}</td>
+                      </tr>
+                    );
+                  })}
               </table>
             </div>
           </div>
