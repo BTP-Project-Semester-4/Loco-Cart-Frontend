@@ -247,6 +247,10 @@ export default function Header() {
       history.push("/sellerprofile/" + userId);
     }
   };
+  const cartHandler = (e) => {
+    e.preventDefault();
+    history.push("/cart");
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -362,6 +366,20 @@ export default function Header() {
                   style={{ color: "#ffffff", marginTop: "2px" }}
                 />
               </Button>
+              {isCustomer ? (
+                <Button
+                  color="inherit"
+                  style={{ marginLeft: "auto" }}
+                  onClick={profileHandler}
+                >
+                  <ShoppingCartIcon
+                    style={{ color: "#ffffff", marginTop: "2px" }}
+                  />
+                </Button>
+              ) : (
+                <div></div>
+              )}
+
               <Button
                 color="inherit"
                 style={{ marginLeft: "auto" }}
