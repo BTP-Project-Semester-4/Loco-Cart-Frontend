@@ -1,5 +1,5 @@
 <h1 align="center" style="">LOCOCART</h1>
-
+   
 <h4 align="center">A bidding based ecommerce system which unlike all other ecommerce websites/apps provides the customer the luxury of getting the best price of any set of products in his/her city using the bidding feature.
 </h4>
 <p align="center">
