@@ -1,5 +1,5 @@
 <h1 align="center" style="">LOCOCART</h1>
-   
+<h3 align="center" style="">Contributors: <a href="https://github.com/nalin-programmer/">@nalin-programmer</a> <a href="https://github.com/prerit2001/">@prerit2001</a> <a href="https://github.com/vijayjoshi16/">@vijayjoshi16</a> <a href="https://github.com/mit1275/">@mit1275</a></h3>
 <h4 align="center">A bidding based ecommerce system which unlike all other ecommerce websites/apps provides the customer the luxury of getting the best price of any set of products in his/her city using the bidding feature.
 </h4>
 <p align="center">
@@ -77,3 +77,4 @@ EXPRESS JS DOCUMENTATION
 https://expressjs.com/en/guide/routing.html
 </li>
 </ul>
+
