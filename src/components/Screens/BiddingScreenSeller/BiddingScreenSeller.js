@@ -171,7 +171,6 @@ export default function BiddingScreenSeller(props) {
                   xs={12}
                   sm={12}
                   md={6}
-                  md={6}
                   style={{
                     textAlign: "left",
                     borderBottom: "1px solid gray",

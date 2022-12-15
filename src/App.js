@@ -33,6 +33,7 @@ import ForgotPassword from "./components/Screens/CustomerForgotPassword/ForgotPa
 import CustomerAllBids from "./components/Screens/CustomerAllBids/CustomerAllBids";
 import CustomerBiddingScreen from "./components/Screens/CustomerBiddingScreen/CustomerBiddingScreen";
 import LoadingScreen from "./components/Screens/LoadingScreen/LoadingScreen";
+import SingleSeller from "./components/Screens/AllSellers/SingleSeller";
 
 function App() {
   return (
@@ -50,6 +51,8 @@ function App() {
               component={SellerRegisterScreen}
               exact
             />
+            <Route path="/biddingSeller" component={BiddingScreenSeller} />
+            <Route path="/seller/:id" component={SingleSeller}/>
             <Route path="/signin" component={CustomerSigninScreen} exact />
             <Route path="/signup" component={CustomerRegisterScreen} exact />
             <Route path="/cart" component={CartScreen} />

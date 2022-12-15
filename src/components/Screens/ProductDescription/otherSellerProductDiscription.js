@@ -15,6 +15,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { FaCommentsDollar } from "react-icons/fa";
 import TextField from '@material-ui/core/TextField';
 
+var a;
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
     height: 10,
@@ -204,6 +205,7 @@ const Productdesc2 = (props) => {
           }
         }
         const minSeller = result.data.products.Sellers[minindex];
+        a=minSeller.SellerId;
         setminiiPrice(minprice);
         setdiscription(minSeller.Description);
         setIImage(minSeller.Image);
@@ -453,7 +455,7 @@ const Productdesc2 = (props) => {
                         onClick={()=>{addToCartHandler()}}>
                         ADD TO CART
                         </button>
-                        <Link to={"/sellerprofile/" + sellerId}>
+                        <Link to={"/seller/" + a}>
                           <button className="button button2">SELLER PROFILE</button>
                         </Link>
                         <Link to={"/allsellers/" + props.match.params.id}>

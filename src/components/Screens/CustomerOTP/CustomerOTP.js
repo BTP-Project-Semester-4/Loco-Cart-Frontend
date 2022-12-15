@@ -74,12 +74,16 @@ export default function CustomerOTP() {
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    console.log("hi");
     try {
-      setLoading(true);
+      // setLoading(true);
+      console.log(process.env.REACT_APP_JWT_SECRET);
+      console.log(localStorage.getItem("CustomerJwt"));
       const decoded_token = jwt.verify(
         localStorage.getItem("CustomerJwt"),
         process.env.REACT_APP_JWT_SECRET
       );
+      console.log(decoded_token);
       setid(decoded_token._id);
       fetch(process.env.REACT_APP_BACKEND_API + "customer/verifycustomertype", {
         method: "post",

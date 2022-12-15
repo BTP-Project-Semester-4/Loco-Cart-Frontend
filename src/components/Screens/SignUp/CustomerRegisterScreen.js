@@ -114,7 +114,7 @@ export default function CustomerRegisterScreen() {
           position: toast.POSITION.TOP_CENTER,
         });
       } else {
-        if (password.length < 8) {
+        if (password.length <5) {
           toast.warning(
             "password is too weak (Mininmum length of 8 charecters)",
             {
@@ -146,12 +146,12 @@ export default function CustomerRegisterScreen() {
         position: toast.POSITION.TOP_CENTER,
       });
     } else {
-      if (contactNo.length !== 10) {
+      if (contactNo.length<8) {
         toast.error("Please enter correct contact number !", {
           position: toast.POSITION.TOP_CENTER,
         });
       } else {
-        if (password.length > 8 && password === confirmPassword) {
+        if (password.length > 5 && password === confirmPassword) {
           setLoading(true);
           fetch(process.env.REACT_APP_BACKEND_API + "customer/register", {
             method: "post",
